@@ -39,5 +39,6 @@ int main() {
         }
         cout << endl << "enemy character: Name: " << enemyChar.getName() << ", HP: " << enemyChar.getHP() << ", MP: " << enemyChar.getMP() << ", Attack: " << enemyChar.getAttack() << ", defense: " << enemyChar.getDefense() << endl;
     }
+    cout << "ok?";
     return 0;
 }
