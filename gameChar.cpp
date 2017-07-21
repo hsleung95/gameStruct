@@ -10,6 +10,7 @@
 #include <stdlib.h>
 gameChar::gameChar(){
     hp=mp=attack=defense=0;
+    lv = 1;
 }
 
 gameChar::gameChar(string name, float hpVal,float mpVal,float att,float def){
@@ -18,6 +19,7 @@ gameChar::gameChar(string name, float hpVal,float mpVal,float att,float def){
     attack=att;
     defense=def;
     charName = name;
+    lv = 1;
 }
 
 
@@ -32,12 +34,13 @@ void gameChar::setMP(float val){mp = val;}
 void gameChar::setAttack(float val){attack=val;}
 void gameChar::setDefense(float val){defense=val;}
 void gameChar::setName(string name){charName=name;}
-void gameChar::setChar(string name, float charHP, float charMP, float charAtt,float charDef){
+void gameChar::setChar(string name, float charHP, float charMP, float charAtt,float charDef, int charLv){
     charName = name;
     hp=charHP;
     mp=charMP;
     attack = charAtt;
     defense = charDef;
+    lv = charLv;
 }
 
 void gameChar::randChar(int lv){
@@ -52,7 +55,7 @@ void gameChar::randChar(int lv){
 float gameChar::attackChar(gameChar &target){
     float ownAttack = getAttack();
     float targetDefense = target.getDefense();
-    float damage = ownAttack * 1.25 - targetDefense ;
+    float damage = (ownAttack  - targetDefense) * 1.25 ;
     if(damage<=0) damage = 1;
     float hpVal = target.getHP() - damage;
     target.setHP(hpVal);

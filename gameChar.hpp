@@ -15,7 +15,8 @@ using namespace std;
 
 #endif /* gameChar_hpp */
 class gameChar{
-    float hp,mp, attack, defense;
+    int lv;
+    float hp,mp, attack, defense, exp;
     string charName;
     
 public:
@@ -33,7 +34,7 @@ public:
     void setAttack(float val);
     void setDefense(float val);
     void setName(string name);
-    void setChar(string name, float charHP, float charMP, float charAtt, float charDef);
+    void setChar(string name, float charHP, float charMP, float charAtt, float charDef, int lv);
     void randChar(int lv);
     
     float attackChar(gameChar &target);
