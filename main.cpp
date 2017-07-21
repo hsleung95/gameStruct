@@ -18,6 +18,7 @@ int main() {
     string charName;
     string userInput;
     float charHP,charMP,charAtt,charDef;
+    int charLv;
     gameChar enemyChar;
     string option = "y";
     cout << "welcome to the RPG world, please enter the name and the value of your character:\n";
@@ -34,9 +35,9 @@ int main() {
         if(userInput.compare("y")==0){
             cout << "name: ";
             cin >> charName;
-            cout << endl << "HP, MP, attack, defense of your character: ";
-            cin >> charHP >> charMP >> charAtt >> charDef;
-            enemyChar.setChar(charName, charHP,charMP,charAtt,charDef);
+            cout << endl << "HP, MP, attack, defense, lv of your character: ";
+            cin >> charHP >> charMP >> charAtt >> charDef >> charLv;
+            enemyChar.setChar(charName, charHP,charMP,charAtt,charDef, charLv);
         }
         else if(userInput.compare("n")==0){
             enemyChar.setName("Enemy1");
@@ -74,6 +75,7 @@ int main() {
             }
             cout << "You defeated " << enemyChar.getName() << ", continue?(y/n)\n";
             cin >> option;
+            if(option.compare("n")==0) break;
         }
     }
     
