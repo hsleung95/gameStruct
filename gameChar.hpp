@@ -34,7 +34,8 @@ public:
     void setDefense(float val);
     void setName(string name);
     void setChar(string name, float charHP, float charMP, float charAtt, float charDef);
+    void randChar(int lv);
     
-    void attackChar(gameChar target);
+    float attackChar(gameChar &target);
 
 };

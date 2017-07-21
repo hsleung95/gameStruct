@@ -7,6 +7,7 @@
 //
 
 #include "gameChar.hpp"
+#include <stdlib.h>
 gameChar::gameChar(){
     hp=mp=attack=defense=0;
 }
@@ -26,7 +27,7 @@ float gameChar::getAttack(){return attack;}
 float gameChar::getDefense(){return defense;}
 string gameChar::getName(){return charName;}
     
-void gameChar::setHP(float val){hp = val;}
+void gameChar::setHP(float val){this->hp = val;}
 void gameChar::setMP(float val){mp = val;}
 void gameChar::setAttack(float val){attack=val;}
 void gameChar::setDefense(float val){defense=val;}
@@ -39,8 +40,21 @@ void gameChar::setChar(string name, float charHP, float charMP, float charAtt,fl
     defense = charDef;
 }
 
-void gameChar::attackChar(gameChar target){
+void gameChar::randChar(int lv){
+    if(lv <= 0) lv = 1;
+    srand(time(NULL));
+    hp=rand() % (lv * 100);
+    mp=rand() % (lv * 50);
+    attack=rand() % (lv * 10);
+    defense = rand() % (lv * 10);
+}
+
+float gameChar::attackChar(gameChar &target){
     float ownAttack = getAttack();
     float targetDefense = target.getDefense();
-    target.setHP(ownAttack-targetDefense);
+    float damage = ownAttack - targetDefense;
+    if(damage<=0) damage = 1;
+    float hpVal = target.getHP() - damage;
+    target.setHP(hpVal);
+    return damage;
 }

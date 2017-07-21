@@ -10,18 +10,22 @@
 #include "gameChar.hpp"
 #include <stdlib.h>
 
+void outPutCharVal(gameChar character){
+    cout << endl << "character: Name: " << character.getName() << ", HP: " << character.getHP() << ", MP: " << character.getMP() << ", Attack: " << character.getAttack() << ", defense: " << character.getDefense() << endl;
+}
+
 int main() {
     string charName;
     string userInput;
     float charHP,charMP,charAtt,charDef;
     gameChar enemyChar;
-    int option = 1;
+    string option = "y";
     cout << "welcome to the RPG world, please enter the name and the value of your character:\n";
     cout << "name: ";
     cin >> charName;
-    gameChar myChar(charName, 100,10,10,10);
-    cout << endl << "your character: Name: " << myChar.getName() << ", HP: " << myChar.getHP() << ", MP: " << myChar.getMP() << ", Attack: " << myChar.getAttack() << ", defense: " << myChar.getDefense() << endl;
-    while(option == 1){
+    gameChar myChar(charName, 100,50,10,10);
+    outPutCharVal(myChar);
+    while(option.compare("y")==0){
         while(userInput.compare("y")!=0&&userInput.compare("n")!=0){
             cout << "You want to create monsters by yourself or computer generate monsters for you?(y/n)" << endl;
             cin >> userInput;
@@ -35,11 +39,45 @@ int main() {
             enemyChar.setChar(charName, charHP,charMP,charAtt,charDef);
         }
         else if(userInput.compare("n")==0){
-            enemyChar.setChar("enemy1", rand()%100, rand()%10, rand()%10, rand()%10);
+            enemyChar.setName("Enemy1");
+            enemyChar.randChar(1);
         }
-        cout << endl << "enemy character: Name: " << enemyChar.getName() << ", HP: " << enemyChar.getHP() << ", MP: " << enemyChar.getMP() << ", Attack: " << enemyChar.getAttack() << ", defense: " << enemyChar.getDefense() << endl;
+        outPutCharVal(enemyChar);
+        cout << "are you sure to fight this monster?(y/n)" << endl;
+        cin >> userInput;
+        if(userInput.compare("y") == 0){
+            bool defensed = false;
+            float defVal = myChar.getDefense();
+            while(enemyChar.getHP()>0){
+                while(userInput.compare("a")!=0&&userInput.compare("b")!=0){
+                    cout << "What do you want to do?\n a. attack \n b. defense \n Please enter 'a' or 'b'. ";
+                    cin >> userInput;
+                }
+                if(userInput.compare("a")==0){
+                    float damage = myChar.attackChar(enemyChar);
+                    cout << "You have done " << damage << " damage to " << enemyChar.getName() << endl;
+                }
+                else if(userInput.compare("b")==0){
+                    defVal = myChar.getDefense();
+                    myChar.setDefense(defVal*2);
+                    defensed=true;
+                }
+                float enemyDamage = enemyChar.attackChar(myChar);
+                cout << enemyChar.getName() << " have  done " << enemyDamage << " damage to you" << endl;
+                if(defensed){
+                    myChar.setDefense(defVal);
+                }
+                userInput = "";
+                outPutCharVal(myChar);
+                outPutCharVal(enemyChar);
+                
+            }
+            cout << "You defeated " << enemyChar.getName() << ", continue?(y/n)\n";
+            cin >> option;
+        }
     }
-    cout << "are you sure to fight this monster?(y/n)" << endl;
-    cin >> userInput;
+    
     return 0;
 }
+
+
