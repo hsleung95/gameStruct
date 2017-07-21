@@ -74,6 +74,7 @@ int main() {
             }
             cout << "You defeated " << enemyChar.getName() << ", continue?(y/n)\n";
             cin >> option;
+            if(option.compare("n")==0) break;
         }
     }
     

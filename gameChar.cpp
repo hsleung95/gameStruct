@@ -52,7 +52,7 @@ void gameChar::randChar(int lv){
 float gameChar::attackChar(gameChar &target){
     float ownAttack = getAttack();
     float targetDefense = target.getDefense();
-    float damage = ownAttack - targetDefense;
+    float damage = ownAttack * 1.25 - targetDefense ;
     if(damage<=0) damage = 1;
     float hpVal = target.getHP() - damage;
     target.setHP(hpVal);
