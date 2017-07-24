@@ -29,7 +29,7 @@ float gameChar::getAttack(){return attack;}
 float gameChar::getDefense(){return defense;}
 string gameChar::getName(){return charName;}
     
-void gameChar::setHP(float val){this->hp = val;}
+void gameChar::setHP(float val){hp = val;}
 void gameChar::setMP(float val){mp = val;}
 void gameChar::setAttack(float val){attack=val;}
 void gameChar::setDefense(float val){defense=val;}
@@ -45,7 +45,7 @@ void gameChar::setChar(string name, float charHP, float charMP, float charAtt,fl
 
 void gameChar::randChar(int lv){
     if(lv <= 0) lv = 1;
-    srand(time(NULL));
+    srand((int)time(NULL));
     hp=rand() % (lv * 100);
     mp=rand() % (lv * 50);
     attack=rand() % (lv * 10);
@@ -53,7 +53,7 @@ void gameChar::randChar(int lv){
 }
 
 float gameChar::attackChar(gameChar &target){
-    float ownAttack = getAttack();
+    float ownAttack = this->getAttack();
     float targetDefense = target.getDefense();
     float damage = (ownAttack  - targetDefense) * 1.25 ;
     if(damage<=0) damage = 1;

@@ -26,7 +26,8 @@ int main() {
     cin >> charName;
     gameChar myChar(charName, 100,50,10,10);
     outPutCharVal(myChar);
-    while(option.compare("y")==0){
+    while(option.compare("y")==0){  //ask for input after finishing a monster or defeated by monster
+        /*
         while(userInput.compare("y")!=0&&userInput.compare("n")!=0){
             cout << "You want to create monsters by yourself or computer generate monsters for you?(y/n)" << endl;
             cin >> userInput;
@@ -39,13 +40,17 @@ int main() {
             cin >> charHP >> charMP >> charAtt >> charDef >> charLv;
             enemyChar.setChar(charName, charHP,charMP,charAtt,charDef, charLv);
         }
-        else if(userInput.compare("n")==0){
+        */
+        //else if(userInput.compare("n")==0){
+        //}
+        do{
             enemyChar.setName("Enemy1");
             enemyChar.randChar(1);
+            outPutCharVal(enemyChar);
+            cout << "are you sure to fight this monster?(y/n)" << endl;
+            cin >> userInput;
         }
-        outPutCharVal(enemyChar);
-        cout << "are you sure to fight this monster?(y/n)" << endl;
-        cin >> userInput;
+        while(userInput.compare("n")==0);
         if(userInput.compare("y") == 0){
             bool defensed = false;
             float defVal = myChar.getDefense();
@@ -58,11 +63,13 @@ int main() {
                     float damage = myChar.attackChar(enemyChar);
                     cout << "You have done " << damage << " damage to " << enemyChar.getName() << endl;
                 }
+                
                 else if(userInput.compare("b")==0){
                     defVal = myChar.getDefense();
                     myChar.setDefense(defVal*2);
-                    defensed=true;
+                    defensed = true;
                 }
+                
                 float enemyDamage = enemyChar.attackChar(myChar);
                 cout << enemyChar.getName() << " have  done " << enemyDamage << " damage to you" << endl;
                 if(defensed){
