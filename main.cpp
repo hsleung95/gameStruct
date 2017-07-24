@@ -27,24 +27,10 @@ int main() {
     gameChar myChar(charName, 100,50,10,10);
     outPutCharVal(myChar);
     while(option.compare("y")==0){  //ask for input after finishing a monster or defeated by monster
-        /*
-        while(userInput.compare("y")!=0&&userInput.compare("n")!=0){
-            cout << "You want to create monsters by yourself or computer generate monsters for you?(y/n)" << endl;
-            cin >> userInput;
-            cout << "Please enter 'y' if you want to create a monster by yourself or 'n' if you want computer generate them for you" << endl;
-        }
-        if(userInput.compare("y")==0){
-            cout << "name: ";
-            cin >> charName;
-            cout << endl << "HP, MP, attack, defense, lv of your character: ";
-            cin >> charHP >> charMP >> charAtt >> charDef >> charLv;
-            enemyChar.setChar(charName, charHP,charMP,charAtt,charDef, charLv);
-        }
-        */
-        //else if(userInput.compare("n")==0){
-        //}
         do{
-            enemyChar.setName("Enemy1");
+            string enemyName = "enemy";
+            enemyName = enemyName + (char)gameChar::getRandCount();
+            enemyChar.setName(enemyName);
             enemyChar.randChar(1);
             outPutCharVal(enemyChar);
             cout << "are you sure to fight this monster?(y/n)" << endl;
@@ -62,6 +48,7 @@ int main() {
                 if(userInput.compare("a")==0){
                     float damage = myChar.attackChar(enemyChar);
                     cout << "You have done " << damage << " damage to " << enemyChar.getName() << endl;
+                    if(enemyChar.getHP()<=0) break;
                 }
                 
                 else if(userInput.compare("b")==0){
@@ -72,6 +59,7 @@ int main() {
                 
                 float enemyDamage = enemyChar.attackChar(myChar);
                 cout << enemyChar.getName() << " have  done " << enemyDamage << " damage to you" << endl;
+                if(myChar.getHP()<=0) break;
                 if(defensed){
                     myChar.setDefense(defVal);
                 }

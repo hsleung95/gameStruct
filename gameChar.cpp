@@ -28,7 +28,11 @@ float gameChar::getMP(){return mp;}
 float gameChar::getAttack(){return attack;}
 float gameChar::getDefense(){return defense;}
 string gameChar::getName(){return charName;}
-    
+
+int gameChar::getRandCount(){
+    static int randCount;
+    return randCount++;
+}
 void gameChar::setHP(float val){hp = val;}
 void gameChar::setMP(float val){mp = val;}
 void gameChar::setAttack(float val){attack=val;}
@@ -48,8 +52,8 @@ void gameChar::randChar(int lv){
     srand((int)time(NULL));
     hp=rand() % (lv * 100);
     mp=rand() % (lv * 50);
-    attack=rand() % (lv * 10);
-    defense = rand() % (lv * 10);
+    attack=rand() % (lv * 20);
+    defense = rand() % (lv * 20);
 }
 
 float gameChar::attackChar(gameChar &target){
