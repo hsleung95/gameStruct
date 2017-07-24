@@ -54,7 +54,7 @@ int main() {
         if(userInput.compare("y") == 0){
             bool defensed = false;
             float defVal = myChar.getDefense();
-            while(enemyChar.getHP()>0){
+            while(enemyChar.getHP()>0 && myChar.getHP()>0){
                 while(userInput.compare("a")!=0&&userInput.compare("b")!=0){
                     cout << "What do you want to do?\n a. attack \n b. defense \n Please enter 'a' or 'b'. ";
                     cin >> userInput;
@@ -80,8 +80,14 @@ int main() {
                 outPutCharVal(enemyChar);
                 
             }
-            cout << "You defeated " << enemyChar.getName() << ", continue?(y/n)\n";
-            cin >> option;
+            if(enemyChar.getHP() <=0){
+                cout << "You defeated " << enemyChar.getName() << ", continue?(y/n)\n";
+                cin >> option;
+            }
+            else{
+                cout << "You defeated by " << enemyChar.getName() << ", continue?(y/n)\n";
+                cin >> option;
+            }
             if(option.compare("n")==0) break;
         }
     }
