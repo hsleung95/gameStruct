@@ -8,6 +8,7 @@
 
 #ifndef gameChar_hpp
 #define gameChar_hpp
+#pragma once
 
 #include <stdio.h>
 #include <string>
@@ -15,27 +16,33 @@ using namespace std;
 
 #endif /* gameChar_hpp */
 class gameChar{
+protected:
     int lv;
-    float hp,mp, attack, defense, exp;
+    float maxHP, currentHP, maxMP, currentMP, attack, defense;
     string charName;
     
 public:
     gameChar();
     gameChar(string name, float hpVal,float mpVal,float att,float def);
     
-    float getHP();
-    float getMP();
+    float getCurrentHP();
+    float getMaxHP();
+    float getCurrentMP();
+    float getMaxMP();
     float getAttack();
     float getDefense();
     string getName();
     
-    void setHP(float val);
-    void setMP(float val);
+    void setCurrentHP(float val);
+    void setMaxHP(float val);
+    void setCurrentMP(float val);
+    void setMaxMP(float val);
     void setAttack(float val);
     void setDefense(float val);
     void setName(string name);
     void setChar(string name, float charHP, float charMP, float charAtt, float charDef, int lv);
     void randChar(int lv);
+    
     
     float attackChar(gameChar &target);
     static int getRandCount();

@@ -7,11 +7,13 @@
 //
 
 #include <iostream>
-#include "gameChar.hpp"
+#include <string>
+#include "enemyChar.hpp"
+#include "mainChar.hpp"
 #include <stdlib.h>
 
 void outPutCharVal(gameChar character){
-    cout << endl << "character: Name: " << character.getName() << ", HP: " << character.getHP() << ", MP: " << character.getMP() << ", Attack: " << character.getAttack() << ", defense: " << character.getDefense() << endl;
+    cout << endl << "character: Name: " << character.getName() << ", HP: " << character.getMaxHP() << ", MP: " << character.getMaxMP() << ", Attack: " << character.getAttack() << ", defense: " << character.getDefense() << endl;
 }
 
 int main() {
@@ -19,17 +21,18 @@ int main() {
     string userInput;
     float charHP,charMP,charAtt,charDef;
     int charLv;
-    gameChar enemyChar;
+    //gameChar enemyChar;
+    enemyChar enemyChar;
     string option = "y";
     cout << "welcome to the RPG world, please enter the name and the value of your character:\n";
     cout << "name: ";
     cin >> charName;
-    gameChar myChar(charName, 100,50,10,10);
+    mainChar myChar(charName, 100,50,10,10);
     outPutCharVal(myChar);
     while(option.compare("y")==0){  //ask for input after finishing a monster or defeated by monster
         do{
             string enemyName = "enemy";
-            enemyName = enemyName + (char)gameChar::getRandCount();
+            enemyName = enemyName + std::to_string(gameChar::getRandCount());
             enemyChar.setName(enemyName);
             enemyChar.randChar(1);
             outPutCharVal(enemyChar);
@@ -40,7 +43,7 @@ int main() {
         if(userInput.compare("y") == 0){
             bool defensed = false;
             float defVal = myChar.getDefense();
-            while(enemyChar.getHP()>0 && myChar.getHP()>0){
+            while(enemyChar.getCurrentHP()>0 && myChar.getCurrentHP()>0){
                 while(userInput.compare("a")!=0&&userInput.compare("b")!=0){
                     cout << "What do you want to do?\n a. attack \n b. defense \n Please enter 'a' or 'b'. ";
                     cin >> userInput;
@@ -48,7 +51,7 @@ int main() {
                 if(userInput.compare("a")==0){
                     float damage = myChar.attackChar(enemyChar);
                     cout << "You have done " << damage << " damage to " << enemyChar.getName() << endl;
-                    if(enemyChar.getHP()<=0) break;
+                    if(enemyChar.getCurrentHP()<=0) break;
                 }
                 
                 else if(userInput.compare("b")==0){
@@ -59,7 +62,7 @@ int main() {
                 
                 float enemyDamage = enemyChar.attackChar(myChar);
                 cout << enemyChar.getName() << " have  done " << enemyDamage << " damage to you" << endl;
-                if(myChar.getHP()<=0) break;
+                if(myChar.getCurrentHP()<=0) break;
                 if(defensed){
                     myChar.setDefense(defVal);
                 }
@@ -68,7 +71,7 @@ int main() {
                 outPutCharVal(enemyChar);
                 
             }
-            if(enemyChar.getHP() <=0){
+            if(enemyChar.getCurrentHP() <=0){
                 cout << "You defeated " << enemyChar.getName() << ", continue?(y/n)\n";
                 cin >> option;
             }
