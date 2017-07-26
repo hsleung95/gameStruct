@@ -18,11 +18,13 @@ mainChar::mainChar(string name, float hpVal,float mpVal,float att,float def) : g
     expCap = lv * lv * 125;
 }
 
-void mainChar::addExp(float expAmount){
+bool mainChar::addExp(float expAmount){
     exp += expAmount;
     if(exp >= expCap){
         lvUp();
+        return true;
     }
+    return false;
 }
 
 void mainChar::lvUp(){
@@ -32,8 +34,3 @@ void mainChar::lvUp(){
     defense += 10;
     expCap += lv * lv * 125;
 }
-
-float mainChar::attackChar(gameChar &target){
-    float result = gameChar::attackChar(target);
-    return result;
-};

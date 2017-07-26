@@ -13,14 +13,14 @@
 #include <stdlib.h>
 
 void outPutCharVal(gameChar character){
-    cout << endl << "character: Name: " << character.getName() << ", HP: " << character.getMaxHP() << ", MP: " << character.getMaxMP() << ", Attack: " << character.getAttack() << ", defense: " << character.getDefense() << endl;
+    cout << endl << "character: Name: " << character.getName() << ", HP: " << character.getCurrentHP() << ", MP: " << character.getCurrentMP() << ", Attack: " << character.getAttack() << ", defense: " << character.getDefense() << endl;
 }
 
 int main() {
     string charName;
     string userInput;
-    float charHP,charMP,charAtt,charDef;
-    int charLv;
+    //float charHP,charMP,charAtt,charDef;
+    //int charLv;
     //gameChar enemyChar;
     enemyChar enemyChar;
     string option = "y";
@@ -35,6 +35,7 @@ int main() {
             enemyName = enemyName + std::to_string(gameChar::getRandCount());
             enemyChar.setName(enemyName);
             enemyChar.randChar(1);
+            enemyChar.setExpContain();
             outPutCharVal(enemyChar);
             cout << "are you sure to fight this monster?(y/n)" << endl;
             cin >> userInput;
@@ -43,6 +44,7 @@ int main() {
         if(userInput.compare("y") == 0){
             bool defensed = false;
             float defVal = myChar.getDefense();
+            if(myChar.getCurrentHP()<=0) myChar.setCurrentHP(myChar.getMaxHP());
             while(enemyChar.getCurrentHP()>0 && myChar.getCurrentHP()>0){
                 while(userInput.compare("a")!=0&&userInput.compare("b")!=0){
                     cout << "What do you want to do?\n a. attack \n b. defense \n Please enter 'a' or 'b'. ";
@@ -56,7 +58,7 @@ int main() {
                 
                 else if(userInput.compare("b")==0){
                     defVal = myChar.getDefense();
-                    myChar.setDefense(defVal*2);
+                    myChar.setDefense(defVal);
                     defensed = true;
                 }
                 
@@ -72,13 +74,18 @@ int main() {
                 
             }
             if(enemyChar.getCurrentHP() <=0){
-                cout << "You defeated " << enemyChar.getName() << ", continue?(y/n)\n";
-                cin >> option;
+                cout << "You defeated " << enemyChar.getName();
+                cout << ", getting " << enemyChar.getExpContain() << "exp.";
+                bool isLvUp = myChar.addExp(enemyChar.getExpContain());
+                if(isLvUp){
+                    cout << "You gained 1 lv!" << endl;
+                }
             }
             else{
-                cout << "You defeated by " << enemyChar.getName() << ", continue?(y/n)\n";
-                cin >> option;
+                cout << "You defeated by " << enemyChar.getName() << endl;
             }
+            cout << "continue?(y/n)\n";
+            cin >> option;
             if(option.compare("n")==0) break;
         }
     }

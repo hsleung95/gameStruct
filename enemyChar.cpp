@@ -12,7 +12,5 @@ enemyChar::enemyChar(){
     expContain = maxHP + maxMP + attack + defense;
 }
 
-float enemyChar::attackChar(gameChar &target){
-    float result = gameChar::attackChar(target);
-    return result;
-}
+float enemyChar::getExpContain(){ return expContain; }
+void enemyChar::setExpContain(){ expContain = maxHP + maxMP + attack + defense; }

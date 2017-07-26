@@ -19,6 +19,7 @@ protected:
     
 public:
     enemyChar();
-    float attackChar(gameChar &target);
+    float getExpContain();
+    void setExpContain();
 };
 #endif /* enemyChar_hpp */

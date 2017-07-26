@@ -72,7 +72,7 @@ void gameChar::randChar(int lv){
 }
 
 float gameChar::attackChar(gameChar &target){
-    float ownAttack = this->getAttack();
+    float ownAttack = getAttack();
     float targetDefense = target.getDefense();
     float damage = (ownAttack  - targetDefense) * 1.25 ;
     if(damage<=0) damage = 1;

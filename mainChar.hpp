@@ -21,8 +21,7 @@ public:
     mainChar();
     mainChar(string name, float hpVal,float mpVal,float att,float def);
     
-    void addExp(float expAmount);
+    bool addExp(float expAmount);
     void lvUp();
-    float attackChar(gameChar &target);
 };
 #endif /* mainChar_hpp */
