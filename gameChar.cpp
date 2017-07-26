@@ -33,6 +33,7 @@ float gameChar::getCurrentMP(){return currentMP;}
 float gameChar::getAttack(){return attack;}
 float gameChar::getDefense(){return defense;}
 string gameChar::getName(){return charName;}
+string gameChar::getType(){return "gameChar";}
 int gameChar::getLV(){ return lv; }
 
 int gameChar::getRandCount(){

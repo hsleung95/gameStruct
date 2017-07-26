@@ -46,3 +46,5 @@ void mainChar::printStat(){
     gameChar::printStat();
 	std::cout << " LV: " << lv << " Current EXP: " << exp << "/" << expCap << std::endl << endl;
 }
+
+string mainChar::getType(){ return "mainChar";}

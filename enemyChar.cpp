@@ -21,3 +21,5 @@ void enemyChar::printStat(){
     gameChar::printStat();
     std::cout << " exp: " << expContain << endl << endl;
 }
+
+string enemyChar::getType(){ return "enemyChar";}

@@ -33,6 +33,7 @@ public:
     float getDefense();
     int   getLV();
     string getName();
+	virtual string getType();
     static int getRandCount();
     
     void setCurrentHP(float val);
