@@ -9,6 +9,7 @@
 #include "gameChar.hpp"
 #include <iostream>
 #include <stdlib.h>
+
 gameChar::gameChar(){
     currentHP=maxHP=currentMP=maxMP=attack=defense=0;
     lv = 1;
@@ -32,10 +33,10 @@ float gameChar::getCurrentMP(){return currentMP;}
 float gameChar::getAttack(){return attack;}
 float gameChar::getDefense(){return defense;}
 string gameChar::getName(){return charName;}
+int gameChar::getLV(){ return lv; }
 
 int gameChar::getRandCount(){
     static int randCount;
-    std::cout << "randCount = " << randCount << std::endl;
     return (randCount++);
 }
 void gameChar::setMaxHP(float val){maxHP = val;}
@@ -56,17 +57,26 @@ void gameChar::setChar(string name, float charHP, float charMP, float charAtt,fl
     lv = charLv;
 }
 
+ void gameChar::printStat(){
+    cout << "name: " << charName;
+	 cout << " HP: " << (currentHP <= 0? 0 : currentHP) << "/" << maxHP;
+	 cout << " MP: " << (currentMP <= 0? 0 : currentMP) << "/" << maxMP;
+    cout << " Attack: " << attack;
+    cout << " Defense: " << defense;
+}
+
 float randValWithLV(int min, int max,int lv){
-    srand((int)time(NULL));
-    return (min * lv) + rand() % ( lv * max + 1 - min * lv);
+    srand((int)time(NULL) * (int)time(NULL));
+	for(int i=0;i<10;i++) rand();
+    return (min * lv) + rand() %  (lv * max);
 }
 
 void gameChar::randChar(int lv){
     if(lv <= 0) lv = 1;
-    maxHP= randValWithLV(10, 100, lv);   //val = min + rand  % max + 1 - min
+    maxHP= randValWithLV(10, 100, lv);   //val = min + rand  % max
     maxMP= randValWithLV(5, 50, lv);
-    attack=randValWithLV(2, 20, lv);
-    defense =randValWithLV(2, 20, lv);
+    attack=randValWithLV(1, 10, lv);
+    defense =randValWithLV(1, 10, lv);
     currentHP = maxHP;
     currentMP = maxMP;
 }
@@ -74,7 +84,7 @@ void gameChar::randChar(int lv){
 float gameChar::attackChar(gameChar &target){
     float ownAttack = getAttack();
     float targetDefense = target.getDefense();
-    float damage = (ownAttack  - targetDefense) * 1.25 ;
+    float damage = (ownAttack  - targetDefense) * 1.5 ;
     if(damage<=0) damage = 1;
     float hpVal = target.getCurrentHP() - damage;
     target.setCurrentHP(hpVal);

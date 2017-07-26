@@ -31,7 +31,9 @@ public:
     float getMaxMP();
     float getAttack();
     float getDefense();
+    int   getLV();
     string getName();
+    static int getRandCount();
     
     void setCurrentHP(float val);
     void setMaxHP(float val);
@@ -40,10 +42,11 @@ public:
     void setAttack(float val);
     void setDefense(float val);
     void setName(string name);
+    
+    virtual void printStat();
+    
     void setChar(string name, float charHP, float charMP, float charAtt, float charDef, int lv);
     void randChar(int lv);
     
-    
     float attackChar(gameChar &target);
-    static int getRandCount();
 };

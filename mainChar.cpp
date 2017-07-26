@@ -7,15 +7,16 @@
 //
 
 #include "mainChar.hpp"
+#include <iostream>
 
 mainChar::mainChar(){
     exp = 0;
-    expCap = lv * lv * 125;
+    expCap = setExpCap(1);
 }
 
 mainChar::mainChar(string name, float hpVal,float mpVal,float att,float def) : gameChar(name,hpVal,mpVal,att,def){
     exp = 0;
-    expCap = lv * lv * 125;
+    expCap = setExpCap(lv);		// expCap = (x^2)/2 + 125x
 }
 
 bool mainChar::addExp(float expAmount){
@@ -28,9 +29,20 @@ bool mainChar::addExp(float expAmount){
 }
 
 void mainChar::lvUp(){
+	lv += 1;
     maxHP += 100;
     maxMP += 50;
     attack += 10;
     defense += 10;
-    expCap += lv * lv * 125;
+    expCap += setExpCap(lv);
+}
+
+float mainChar::setExpCap(int lv){
+	return (lv * lv)/2 + (125 * lv);
+}
+
+void mainChar::printStat(){
+	cout << "Your character value: "<< endl;
+    gameChar::printStat();
+	std::cout << " LV: " << lv << " Current EXP: " << exp << "/" << expCap << std::endl << endl;
 }

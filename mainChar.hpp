@@ -23,5 +23,8 @@ public:
     
     bool addExp(float expAmount);
     void lvUp();
+	float setExpCap(int lv);
+    
+    virtual void printStat();
 };
 #endif /* mainChar_hpp */

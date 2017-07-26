@@ -21,5 +21,7 @@ public:
     enemyChar();
     float getExpContain();
     void setExpContain();
+    
+    virtual void printStat();
 };
 #endif /* enemyChar_hpp */

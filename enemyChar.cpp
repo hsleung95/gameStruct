@@ -7,10 +7,17 @@
 //
 
 #include "enemyChar.hpp"
+#include <iostream>
 
 enemyChar::enemyChar(){
-    expContain = maxHP + maxMP + attack + defense;
+    expContain = maxHP * 0.5 + maxMP * 0.1 + attack * 4 + defense * 4;
 }
 
 float enemyChar::getExpContain(){ return expContain; }
-void enemyChar::setExpContain(){ expContain = maxHP + maxMP + attack + defense; }
+void enemyChar::setExpContain(){ expContain = maxHP * 0.5 + maxMP * 0.1 + attack * 4 + defense * 4; }
+
+void enemyChar::printStat(){
+	std::cout << "Enemy character value: " << endl;
+    gameChar::printStat();
+    std::cout << " exp: " << expContain << endl << endl;
+}
