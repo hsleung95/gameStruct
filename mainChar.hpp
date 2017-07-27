@@ -19,7 +19,7 @@ class mainChar: public gameChar{
     
 public:
     mainChar();
-    mainChar(string name, float hpVal,float mpVal,float att,float def);
+    mainChar(string name, float hpVal,float mpVal,float att,float def,float intl);
     
     bool addExp(float expAmount);
     void lvUp();

@@ -10,15 +10,10 @@
 #include <string>
 #include "enemyChar.hpp"
 #include "mainChar.hpp"
+#include "equipment.hpp"
 #include <stdlib.h>
 #include <list>
 using namespace std;
-
-/*
-void outPutCharVal(gameChar character){
-    cout << endl << "character: Name: " << character.getName() << ", HP: " << character.getCurrentHP() << ", MP: " << character.getCurrentMP() << ", Attack: " << character.getAttack() << ", defense: " << character.getDefense() << endl;
-}
-*/
 
 enemyChar createEnemy(int lv){
 	enemyChar enemyChar;
@@ -40,11 +35,12 @@ int main() {
     cout << "welcome to the RPG world, please enter the name and the value of your character:\n";
     cout << "name: ";
     cin >> charName;
-    mainChar myChar(charName, 100,50,10,10);
+    mainChar myChar(charName, 100,50,10,10,10);
 	gameChar *myCharPtr = &myChar;
 	charList.push_back(myCharPtr);		//push player into list
+
 	
-    while(option.compare("y")==0){  //ask for input after killed or defeated by monster, first time no need input
+    while(option.compare("y")==0){  //ask for input after killed or defeated by monster, first time must be yes
 		myChar.printStat();	//print current player status
 		
         do{					//do while loop: keep generating monster until player agree to fight this one
@@ -53,7 +49,7 @@ int main() {
             cout << "are you sure to fight this monster?(y/n)" << endl;
             cin >> userInput;
         }
-        while(userInput.compare("n")==0);
+        while(userInput.compare("n")==0||userInput.compare("y")!=0);	//user entered n or not entering y
 		
 		gameChar *enemyCharPtr = &enemyChar;
 		charList.push_back(enemyCharPtr);		//push enemy into list
@@ -69,7 +65,6 @@ int main() {
 				if((*it)->getCurrentHP()<=0) break;
 				
 				string charType = (*it)->getType();
-				cout << charType << endl;
 
 				if(charType.compare("mainChar")==0){
 					
@@ -114,9 +109,9 @@ int main() {
                 userInput = "";		//reset input for the loop condition
 			
             }
-
 			
-            if(enemyChar.getCurrentHP() <=0){
+			
+            if(enemyChar.getCurrentHP() <= 0){
                 cout << "You defeated " << enemyChar.getName();
                 cout << ", getting " << enemyChar.getExpContain() << "exp.";
                 bool isLvUp = myChar.addExp(enemyChar.getExpContain());
@@ -124,7 +119,7 @@ int main() {
                     cout << "You gained 1 lv!" << endl;
                 }
             }
-            else{
+            else if(myChar.getCurrentHP()<=0){
                 cout << "You defeated by " << enemyChar.getName() << endl;
             }
 			cout << endl;
@@ -141,5 +136,4 @@ int main() {
     
     return 0;
 }
-
 

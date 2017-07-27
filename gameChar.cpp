@@ -11,15 +11,16 @@
 #include <stdlib.h>
 
 gameChar::gameChar(){
-    currentHP=maxHP=currentMP=maxMP=attack=defense=0;
+    currentHP=maxHP=currentMP=maxMP=attack=defense=intelligence=0;
     lv = 1;
 }
 
-gameChar::gameChar(string name, float hpVal,float mpVal,float att,float def){
+gameChar::gameChar(string name, float hpVal,float mpVal,float att,float def, float inti){
     maxHP = hpVal;
     maxMP = mpVal;
     attack=att;
     defense=def;
+	intelligence=inti;
     charName = name;
     lv = 1;
     currentMP = mpVal;
@@ -32,6 +33,7 @@ float gameChar::getCurrentHP(){return currentHP;}
 float gameChar::getCurrentMP(){return currentMP;}
 float gameChar::getAttack(){return attack;}
 float gameChar::getDefense(){return defense;}
+float gameChar::getIntelligence(){return intelligence;}
 string gameChar::getName(){return charName;}
 string gameChar::getType(){return "gameChar";}
 int gameChar::getLV(){ return lv; }
@@ -46,24 +48,27 @@ void gameChar::setMaxMP(float val){maxMP = val;}
 void gameChar::setCurrentMP(float val){currentMP = val;}
 void gameChar::setAttack(float val){attack=val;}
 void gameChar::setDefense(float val){defense=val;}
+void gameChar::setIntelligence(float val){intelligence=val;}
 void gameChar::setName(string name){charName=name;}
-void gameChar::setChar(string name, float charHP, float charMP, float charAtt,float charDef, int charLv){
+void gameChar::setChar(string name, float charHP, float charMP, float charAtt,float charDef,float charInt, int charLv){
     charName = name;
     maxHP=charHP;
     maxMP=charMP;
     attack = charAtt;
     defense = charDef;
+	intelligence = charInt;
     currentHP = maxHP;
     currentMP = maxMP;
     lv = charLv;
 }
 
  void gameChar::printStat(){
-    cout << "name: " << charName;
+     cout << "name: " << charName;
 	 cout << " HP: " << (currentHP <= 0? 0 : currentHP) << "/" << maxHP;
 	 cout << " MP: " << (currentMP <= 0? 0 : currentMP) << "/" << maxMP;
-    cout << " Attack: " << attack;
-    cout << " Defense: " << defense;
+     cout << " Attack: " << attack;
+     cout << " Defense: " << defense;
+	 cout << " Intelligence: " << intelligence;
 }
 
 float randValWithLV(int min, int max,int lv){
@@ -74,10 +79,11 @@ float randValWithLV(int min, int max,int lv){
 
 void gameChar::randChar(int lv){
     if(lv <= 0) lv = 1;
-    maxHP= randValWithLV(10, 100, lv);   //val = min + rand  % max
+    maxHP= randValWithLV(10, 20, lv);   //val = min + rand  % max
     maxMP= randValWithLV(5, 50, lv);
-    attack=randValWithLV(1, 10, lv);
-    defense =randValWithLV(1, 10, lv);
+    attack=randValWithLV(1, 5, lv);
+    defense =randValWithLV(1, 5, lv);
+	intelligence = randValWithLV(1, 5, lv);
     currentHP = maxHP;
     currentMP = maxMP;
 }

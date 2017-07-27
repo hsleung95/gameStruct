@@ -14,7 +14,7 @@ mainChar::mainChar(){
     expCap = setExpCap(1);
 }
 
-mainChar::mainChar(string name, float hpVal,float mpVal,float att,float def) : gameChar(name,hpVal,mpVal,att,def){
+mainChar::mainChar(string name, float hpVal,float mpVal,float att,float def,float intl) : gameChar(name,hpVal,mpVal,att,def, intl){
     exp = 0;
     expCap = setExpCap(lv);		// expCap = (x^2)/2 + 125x
 }
@@ -34,6 +34,7 @@ void mainChar::lvUp(){
     maxMP += 50;
     attack += 10;
     defense += 10;
+	intelligence += 10;
     expCap += setExpCap(lv);
 }
 

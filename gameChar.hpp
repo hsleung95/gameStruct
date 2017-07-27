@@ -18,12 +18,12 @@ using namespace std;
 class gameChar{
 protected:
     int lv;
-    float maxHP, currentHP, maxMP, currentMP, attack, defense;
+    float maxHP, currentHP, maxMP, currentMP, attack, defense, intelligence;
     string charName;
     
 public:
     gameChar();
-    gameChar(string name, float hpVal,float mpVal,float att,float def);
+    gameChar(string name, float hpVal,float mpVal,float att,float def, float intelligence);
     
     float getCurrentHP();
     float getMaxHP();
@@ -31,6 +31,7 @@ public:
     float getMaxMP();
     float getAttack();
     float getDefense();
+	float getIntelligence();
     int   getLV();
     string getName();
 	virtual string getType();
@@ -42,11 +43,12 @@ public:
     void setMaxMP(float val);
     void setAttack(float val);
     void setDefense(float val);
+	void setIntelligence(float val);
     void setName(string name);
     
     virtual void printStat();
     
-    void setChar(string name, float charHP, float charMP, float charAtt, float charDef, int lv);
+    void setChar(string name, float charHP, float charMP, float charAtt, float charDef,float charInt, int lv);
     void randChar(int lv);
     
     float attackChar(gameChar &target);
