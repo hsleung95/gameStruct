@@ -7,3 +7,16 @@
 //
 
 #include "equipment.hpp"
+
+equipment::equipment(){
+	eqName = "";
+	description = "";
+	effectingVal = 0;
+}
+
+equipment::equipment(string name, gameChar ownedBy, string eqDescription, int equipType, int effectingField, float effectVal){
+	eqName = name;
+	owner = ownedBy;
+	description = eqDescription;
+	effectingVal = effectVal;
+}

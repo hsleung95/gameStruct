@@ -12,10 +12,12 @@
 
 #include <stdio.h>
 #include "gameChar.hpp"
+#include "equipment.hpp"
 
 class mainChar: public gameChar{
     float exp;
     float expCap;
+	equipment equipment[7];
     
 public:
     mainChar();

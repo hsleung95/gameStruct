@@ -18,8 +18,8 @@
 #endif /* equipment_hpp */
 
 class equipment{
-	enum eqType {head, shoulders, left_hand, right_hand, body, legs, foots};	//7 parts
-	enum effectField {hp,mp, attack, defense, intelligence};
+	//enum eqType {head, shoulders, left_hand, right_hand, body, legs, foots};	//7 parts
+	//enum effectField {hp,mp, attack, defense, intelligence};
 	string eqName;
 	gameChar owner;
 	string description;
@@ -29,6 +29,4 @@ public:
 	equipment();
 	equipment(string name, gameChar ownedBy, string description, int equipType, int effectingField, float effectVal);
 	
-	void changeOwner(gameChar gamechar);
-	void increaseFieldByVal();
 };

@@ -25,8 +25,95 @@ enemyChar createEnemy(int lv){
 	return enemyChar;
 }
 
+void fightFunction(list<gameChar*> charList, mainChar &myChar){
+	if(myChar.getCurrentHP()<=0) myChar.setCurrentHP(myChar.getMaxHP());	//refill charater health if defeated
+	string userInput = "";
+	float defVal = myChar.getDefense();
+	bool defensed = false;
+	enemyChar enemyChar;
+	
+	myChar.printStat();	//print current player status
+	
+	do{					//do while loop: keep generating monster until player agree to fight this one
+		enemyChar = createEnemy(myChar.getLV());
+		enemyChar.printStat();
+		cout << "are you sure to fight this monster?(y/n)" << endl;
+		cin >> userInput;
+	}
+	while(userInput.compare("n")==0||userInput.compare("y")!=0);	//user entered n or not entering y
+	
+	gameChar *enemyCharPtr = &enemyChar;
+	charList.push_back(enemyCharPtr);		//push enemy into list
+	
+	for(list<gameChar*>::iterator it=charList.begin();it!=charList.end();it++){
+		if((*it)->getCurrentHP()<=0) break;
+	
+		string charType = (*it)->getType();
+	
+		if(charType.compare("mainChar")==0){
+		
+			while(userInput.compare("a")!=0&&userInput.compare("b")!=0){
+				cout << endl << "What do you want to do?\n a. attack \n b. defense ";
+				cin >> userInput;
+			}
+			if(userInput.compare("a")==0){
+				float damage = (*it)->attackChar(enemyChar);
+				enemyChar.setCurrentHP((enemyChar.getCurrentHP()-damage));
+				cout << "You have done " << damage << " damage to " << enemyChar.getName() << endl;
+				myChar.printStat();
+				enemyChar.printStat();
+				if(enemyChar.getCurrentHP()<=0) break;	//enemy defeated by player, break the loop
+			}
+			
+			else if(userInput.compare("b")==0){
+				defVal = myChar.getDefense();
+				myChar.setDefense(defVal*2);
+				defensed = true;
+			}
+			
+			//myCharPtr = &myChar;
+			charList.push_back((*it));
+		}
+			
+		else if(charType.compare("enemyChar")==0){
+			float enemyDamage = enemyChar.attackChar(myChar);
+			myChar.setCurrentHP((myChar.getCurrentHP()-enemyDamage));
+			cout << enemyChar.getName() << " have  done " << enemyDamage << " damage to you" << endl;
+				
+			//enemyCharPtr = &enemyChar;
+			charList.push_back((*it));
+		}
+			
+		myChar.printStat();
+		enemyChar.printStat();
+		
+		if(myChar.getCurrentHP()<=0) break;	//enemy defeated character, break the loop
+		
+		if(defensed){
+			myChar.setDefense(defVal);		//defend for one round
+		}
+		userInput = "";		//reset input for the loop condition
+			
+	}
+	
+	if(enemyChar.getCurrentHP() <= 0){
+		cout << "You defeated " << enemyChar.getName();
+		cout << ", getting " << enemyChar.getExpContain() << "exp.";
+		bool isLvUp = myChar.addExp(enemyChar.getExpContain());
+		if(isLvUp){
+			cout << "You gained 1 lv!" << endl;
+		}
+	}
+	else if(myChar.getCurrentHP()<=0){
+		cout << "You defeated by " << enemyChar.getName() << endl;
+	}
+	cout << endl;
+}
+
 int main() {
 	list<gameChar*> charList;		//list containing all characters
+	mainChar mainCharList[1];
+	enemyChar enemyCharList[1];
     string charName;
     string userInput;
 	
@@ -41,96 +128,15 @@ int main() {
 
 	
     while(option.compare("y")==0){  //ask for input after killed or defeated by monster, first time must be yes
-		myChar.printStat();	//print current player status
-		
-        do{					//do while loop: keep generating monster until player agree to fight this one
-			enemyChar = createEnemy(myChar.getLV());
-			enemyChar.printStat();
-            cout << "are you sure to fight this monster?(y/n)" << endl;
-            cin >> userInput;
-        }
-        while(userInput.compare("n")==0||userInput.compare("y")!=0);	//user entered n or not entering y
-		
-		gameChar *enemyCharPtr = &enemyChar;
-		charList.push_back(enemyCharPtr);		//push enemy into list
-		
-        if(userInput.compare("y") == 0){
-			
-            bool defensed = false;		//get character defense
-			float defVal = myChar.getDefense();
-			
-            if(myChar.getCurrentHP()<=0) myChar.setCurrentHP(myChar.getMaxHP());	//refill charater health if defeated
-			
-			for(list<gameChar*>::iterator it=charList.begin();it!=charList.end();it++){
-				if((*it)->getCurrentHP()<=0) break;
-				
-				string charType = (*it)->getType();
 
-				if(charType.compare("mainChar")==0){
-					
-					while(userInput.compare("a")!=0&&userInput.compare("b")!=0){
-						cout << endl << "What do you want to do?\n a. attack \n b. defense ";
-						cin >> userInput;
-					}
-					if(userInput.compare("a")==0){
-						float damage = myChar.attackChar(enemyChar);
-						cout << "You have done " << damage << " damage to " << enemyChar.getName() << endl;
-						myChar.printStat();
-						enemyChar.printStat();
-						if(enemyChar.getCurrentHP()<=0) break;	//enemy defeated by player, break the loop
-					}
-                
-					else if(userInput.compare("b")==0){
-						defVal = myChar.getDefense();
-						myChar.setDefense(defVal*2);
-						defensed = true;
-					}
-					
-					myCharPtr = &myChar;
-					charList.push_back(myCharPtr);
-				}
-				
-				else if(charType.compare("enemyChar")==0){
-					float enemyDamage = enemyChar.attackChar(myChar);
-					cout << enemyChar.getName() << " have  done " << enemyDamage << " damage to you" << endl;
-					
-					enemyCharPtr = &enemyChar;
-					charList.push_back(enemyCharPtr);
-				}
-				
-                myChar.printStat();
-                enemyChar.printStat();
-				
-                if(myChar.getCurrentHP()<=0) break;	//enemy defeated character, break the loop
-				
-                if(defensed){
-                    myChar.setDefense(defVal);		//defend for one round
-                }
-                userInput = "";		//reset input for the loop condition
+		fightFunction(charList, myChar);
 			
-            }
+		option = "";		//reset input for the loop condition
 			
-			
-            if(enemyChar.getCurrentHP() <= 0){
-                cout << "You defeated " << enemyChar.getName();
-                cout << ", getting " << enemyChar.getExpContain() << "exp.";
-                bool isLvUp = myChar.addExp(enemyChar.getExpContain());
-                if(isLvUp){
-                    cout << "You gained 1 lv!" << endl;
-                }
-            }
-            else if(myChar.getCurrentHP()<=0){
-                cout << "You defeated by " << enemyChar.getName() << endl;
-            }
-			cout << endl;
-			
-			option = "";		//reset input for the loop condition
-			
-            while(option.compare("y")!=0&&option.compare("n")!=0){
-                cout << "continue?(y/n)\n";
-                cin >> option;
-                if(option.compare("n")==0) break;
-            }
+		while(option.compare("y")!=0&&option.compare("n")!=0){
+			cout << "continue?(y/n)\n";
+			cin >> option;
+			if(option.compare("n")==0) break;
 		}
     }
     

@@ -51,5 +51,5 @@ public:
     void setChar(string name, float charHP, float charMP, float charAtt, float charDef,float charInt, int lv);
     void randChar(int lv);
     
-    float attackChar(gameChar &target);
+    float attackChar(gameChar target);
 };

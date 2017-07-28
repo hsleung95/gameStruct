@@ -88,12 +88,10 @@ void gameChar::randChar(int lv){
     currentMP = maxMP;
 }
 
-float gameChar::attackChar(gameChar &target){
+float gameChar::attackChar(gameChar target){
     float ownAttack = getAttack();
     float targetDefense = target.getDefense();
     float damage = (ownAttack  - targetDefense) * 1.5 ;
     if(damage<=0) damage = 1;
-    float hpVal = target.getCurrentHP() - damage;
-    target.setCurrentHP(hpVal);
     return damage;
 }
