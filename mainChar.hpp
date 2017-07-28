@@ -15,9 +15,13 @@
 #include "equipment.hpp"
 
 class mainChar: public gameChar{
+	const static int wearingNum = 8;
+	const static int ownedNum = 20;
     float exp;
     float expCap;
-	equipment equipment[7];
+	equipment wearing[wearingNum];
+	equipment owned[ownedNum];
+	
     
 public:
     mainChar();
@@ -29,5 +33,7 @@ public:
 
 	virtual string getType();
     virtual void printStat();
+	
+	void changeEquipment(equipment eq);
 };
 #endif /* mainChar_hpp */

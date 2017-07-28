@@ -49,3 +49,16 @@ void mainChar::printStat(){
 }
 
 string mainChar::getType(){ return "mainChar";}
+
+void mainChar::changeEquipment(equipment eq){
+	for(int i=0;i<ownedNum;i++){
+		if(owned[i]==eq){	//check equipment is in players owning
+			for(int j=0;j<wearingNum;j++){
+				if(eq.getEqType() == wearing[j].getEqType()){
+					equipment temp = wearing[j];
+					
+				}
+			}
+		}
+	}
+}

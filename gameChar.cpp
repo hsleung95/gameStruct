@@ -81,9 +81,9 @@ void gameChar::randChar(int lv){
     if(lv <= 0) lv = 1;
     maxHP= randValWithLV(10, 20, lv);   //val = min + rand  % max
     maxMP= randValWithLV(5, 50, lv);
-    attack=randValWithLV(1, 5, lv);
-    defense =randValWithLV(1, 5, lv);
-	intelligence = randValWithLV(1, 5, lv);
+    attack=randValWithLV(1, 10, lv);
+    defense =randValWithLV(1, 10, lv);
+	intelligence = randValWithLV(1, 10, lv);
     currentHP = maxHP;
     currentMP = maxMP;
 }

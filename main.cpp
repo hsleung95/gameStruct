@@ -25,12 +25,15 @@ enemyChar createEnemy(int lv){
 	return enemyChar;
 }
 
-void fightFunction(list<gameChar*> charList, mainChar &myChar){
+void fightFunction(mainChar &myChar){	//function handling fight, pass player character in main n generate monsters here
+	
 	if(myChar.getCurrentHP()<=0) myChar.setCurrentHP(myChar.getMaxHP());	//refill charater health if defeated
 	string userInput = "";
-	float defVal = myChar.getDefense();
-	bool defensed = false;
+
 	enemyChar enemyChar;
+	list<gameChar*> charList;		//list containing all characters
+	gameChar *myCharPtr = &myChar;
+	charList.push_back(myCharPtr);		//push player into list
 	
 	myChar.printStat();	//print current player status
 	
@@ -46,6 +49,8 @@ void fightFunction(list<gameChar*> charList, mainChar &myChar){
 	charList.push_back(enemyCharPtr);		//push enemy into list
 	
 	for(list<gameChar*>::iterator it=charList.begin();it!=charList.end();it++){
+		float defVal = myChar.getDefense();
+		bool defensed = false;
 		if((*it)->getCurrentHP()<=0) break;
 	
 		string charType = (*it)->getType();
@@ -53,7 +58,9 @@ void fightFunction(list<gameChar*> charList, mainChar &myChar){
 		if(charType.compare("mainChar")==0){
 		
 			while(userInput.compare("a")!=0&&userInput.compare("b")!=0){
-				cout << endl << "What do you want to do?\n a. attack \n b. defense ";
+				cout << endl << "What do you want to do?" << endl;
+				cout << "a. Attack" << endl;
+				cout << "b. Defense" << endl;
 				cin >> userInput;
 			}
 			if(userInput.compare("a")==0){
@@ -79,13 +86,11 @@ void fightFunction(list<gameChar*> charList, mainChar &myChar){
 			float enemyDamage = enemyChar.attackChar(myChar);
 			myChar.setCurrentHP((myChar.getCurrentHP()-enemyDamage));
 			cout << enemyChar.getName() << " have  done " << enemyDamage << " damage to you" << endl;
-				
+			myChar.printStat();
+			enemyChar.printStat();
 			//enemyCharPtr = &enemyChar;
 			charList.push_back((*it));
 		}
-			
-		myChar.printStat();
-		enemyChar.printStat();
 		
 		if(myChar.getCurrentHP()<=0) break;	//enemy defeated character, break the loop
 		
@@ -111,34 +116,45 @@ void fightFunction(list<gameChar*> charList, mainChar &myChar){
 }
 
 int main() {
-	list<gameChar*> charList;		//list containing all characters
-	mainChar mainCharList[1];
-	enemyChar enemyCharList[1];
     string charName;
     string userInput;
+	bool exit = false;
 	
-    enemyChar enemyChar;
     string option = "y";
     cout << "welcome to the RPG world, please enter the name and the value of your character:\n";
     cout << "name: ";
     cin >> charName;
     mainChar myChar(charName, 100,50,10,10,10);
-	gameChar *myCharPtr = &myChar;
-	charList.push_back(myCharPtr);		//push player into list
 
+	while(!exit){
+		cout << "What do you want to do?" << endl;
+		cout << "a. Fight enemy" << endl;
+		cout << "b. Check equipment" << endl;
+		cout << "c. Exit" << endl;
+		cin >> option;
 	
-    while(option.compare("y")==0){  //ask for input after killed or defeated by monster, first time must be yes
+		//while(option.compare("y")==0){  //ask for input after killed or defeated by monster, first time must be yes
+		if(option.compare("a")==0){
 
-		fightFunction(charList, myChar);
+			fightFunction(myChar);
+			option = "";		//reset input for the loop condition
 			
-		option = "";		//reset input for the loop condition
-			
-		while(option.compare("y")!=0&&option.compare("n")!=0){
-			cout << "continue?(y/n)\n";
-			cin >> option;
-			if(option.compare("n")==0) break;
+			while(option.compare("y")!=0&&option.compare("n")!=0){
+				cout << "continue or back to menu?" << endl;
+				cout << "y. Continue" << endl;
+				cout << "n. Back to menu" << endl;
+				cin >> option;
+				if(option.compare("n")==0) break;
+			}
 		}
-    }
+		else if(option.compare("b")==0){
+		
+		}
+		
+		else if(option.compare("c")==0) {
+			exit = true;
+		}
+	}
     
     return 0;
 }

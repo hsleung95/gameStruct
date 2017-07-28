@@ -52,4 +52,5 @@ public:
     void randChar(int lv);
     
     float attackChar(gameChar target);
+
 };
