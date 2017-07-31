@@ -28,12 +28,14 @@ public:
     mainChar(string name, float hpVal,float mpVal,float att,float def,float intl);
     
     bool addExp(float expAmount);
-    void lvUp();
+    bool lvUp();
 	float setExpCap(int lv);
 
 	virtual string getType();
     virtual void printStat();
 	
-	void changeEquipment(equipment eq);
+	bool changeEquipment(equipment eq);
+	bool addEquipment(equipment eq);
+	bool dropEquipment(equipment eq);
 };
 #endif /* mainChar_hpp */

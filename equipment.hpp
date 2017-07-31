@@ -20,7 +20,9 @@
 class equipment{
 protected:
 	enum eqType {head, shoulders, arms, body, legs, boots, leftHand, rightHand};	//8 types of eq
+	enum attribute {hp, mp, attack, defense, intelligence};
 	eqType eqType;
+	attribute attribute;
 	string eqName;
 	gameChar owner;
 	string description;
@@ -29,17 +31,23 @@ protected:
 	
 public:
 	equipment();
-	equipment(string name, gameChar ownedBy, string description, int lvCap, float effectVal, enum eqType equipType);
+	equipment(string name, gameChar ownedBy, string description, int lvCap, float effectVal, enum eqType equipType, enum attribute attribute);
 	
-	void setEquipment(string name, gameChar ownedBy, string description, int lvCap, float effectVal, enum eqType equipType);
+	void setEquipment(string name, gameChar ownedBy, string description, int lvCap, float effectVal, enum eqType equipType, enum attribute attribute);
 	
 	enum eqType getEqType();
+	enum attribute getAttribute();
 	string getEqName();
 	gameChar getOwner();
 	string getDescription();
 	float getEqVal();
 	int getLvCap();
 	
+	void printEq();
+	void equipChar(gameChar &equiped);
+	void unEquipChar(gameChar &equiped);
+	
+	bool isNull();
 	bool operator==(equipment &eq);
 };
 
