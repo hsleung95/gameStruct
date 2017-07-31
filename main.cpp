@@ -135,16 +135,18 @@ int main() {
 	
 		//while(option.compare("y")==0){  //ask for input after killed or defeated by monster, first time must be yes
 		if(option.compare("a")==0){
-
-			fightFunction(myChar);
-			option = "";		//reset input for the loop condition
+			option = "y";
+			while(option.compare("y")==0){
+				fightFunction(myChar);
+				option = "";		//reset input for the loop condition
 			
-			while(option.compare("y")!=0&&option.compare("n")!=0){
-				cout << "continue or back to menu?" << endl;
-				cout << "y. Continue" << endl;
-				cout << "n. Back to menu" << endl;
-				cin >> option;
-				if(option.compare("n")==0) break;
+				while(option.compare("y")!=0&&option.compare("n")!=0){
+					cout << "continue or back to menu?" << endl;
+					cout << "y. Continue" << endl;
+					cout << "n. Back to menu" << endl;
+					cin >> option;
+					if(option.compare("n")==0) break;
+				}
 			}
 		}
 		else if(option.compare("b")==0){
