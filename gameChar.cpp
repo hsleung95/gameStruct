@@ -64,6 +64,7 @@ void gameChar::setChar(string name, float charHP, float charMP, float charAtt,fl
 
  void gameChar::printStat(){
      cout << "name: " << charName;
+	 cout << " lv: " << lv;
 	 cout << " HP: " << (currentHP <= 0? 0 : currentHP) << "/" << maxHP;
 	 cout << " MP: " << (currentMP <= 0? 0 : currentMP) << "/" << maxMP;
      cout << " Attack: " << attack;
@@ -77,8 +78,10 @@ float randValWithLV(int min, int max,int lv){
     return (min * lv) + rand() %  (lv * max);
 }
 
-void gameChar::randChar(int lv){
-    if(lv <= 0) lv = 1;
+void gameChar::randChar(int charLv){
+	cout << "randing char with lv: " << charLv << endl;
+    if(charLv <= 0) charLv = 1;
+	lv = charLv;
     maxHP= randValWithLV(10, 20, lv);   //val = min + rand  % max
     maxMP= randValWithLV(5, 50, lv);
     attack=randValWithLV(1, 10, lv);

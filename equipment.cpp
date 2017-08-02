@@ -8,6 +8,9 @@
 
 #include "equipment.hpp"
 #include <iostream>
+#include <string>
+string equipment::eqTypeStr[8] = {"head","shoulders","arms","body","legs","boots","leftHand","rightHand"};
+string equipment::attrStr[5] = {"hp","mp","attack","defense","intelligence"};
 
 equipment::equipment(){
 	eqName = "";
@@ -34,12 +37,16 @@ string equipment::getDescription(){return description;}
 float equipment::getEqVal(){return effectingVal;}
 int equipment::getLvCap(){return lv;}
 
+bool equipment::setOwner(gameChar ch){
+	owner = ch;
+	return true;
+}
+
 void equipment::printEq(){
-	cout << "Equipment detail:" << endl;
-	cout << "Equip at: " << eqType << endl;
+	cout << "Equipment Type: " << equipment::eqTypeStr[eqType] << endl;
 	cout << "Name: " << eqName << endl;
-	cout << "Description" << description << endl;
-	cout << "+" << effectingVal << attribute << endl;
+	cout << "Description: " << description << endl;
+	cout << "+" << effectingVal  << " " << equipment::attrStr[attribute] << endl;
 	cout << "can be equiped after lv" << lv << endl;
 }
 
@@ -114,8 +121,7 @@ void equipment::unEquipChar(gameChar &equiped){
 }
 
 bool equipment::isNull(){
-	if(eqName=="" && description == "" && effectingVal == 0 && lv ==1) return true;
-	
+	if(eqName=="" && description == "" && effectingVal == 0 && lv == 1) return true;
 	return false;
 }
 

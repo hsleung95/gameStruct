@@ -12,16 +12,21 @@
 
 #include <stdio.h>
 #include "gameChar.hpp"
+#include "equipment.hpp"
 
 class enemyChar: public gameChar{
 protected:
     float expContain;
+	equipment eq;
     
 public:
     enemyChar();
     float getExpContain();
     void setExpContain();
+	equipment getEquipment();
+	void printEq();
 	virtual string getType();
+	void randChar(int lv);
     
     virtual void printStat();
 };

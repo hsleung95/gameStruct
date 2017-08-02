@@ -7,18 +7,24 @@
 //
 
 #include "mainChar.hpp"
+#include "equipment.hpp"
+#include <string>
 #include <iostream>
 
 mainChar::mainChar(){
     exp = 0;
     expCap = setExpCap(1);
+	
 }
 
 mainChar::mainChar(string name, float hpVal,float mpVal,float att,float def,float intl) : gameChar(name,hpVal,mpVal,att,def, intl){
     exp = 0;
     expCap = setExpCap(lv);		// expCap = (x^2)/2 + 125x
 	for(int i=0;i<wearingNum;i++){
-		wearing[i] = equipment();
+		enum equipment::eqType eqtype = static_cast<enum equipment::eqType>(i);
+		enum equipment::attribute attr = static_cast<enum equipment::attribute>(rand()%5);
+		equipment* temp = new equipment(equipment::eqTypeStr[i],*this, "First equipments of player",lv,5,eqtype,attr);
+		changeEquipment(*temp);
 	}
 	for(int i=0;i<ownedNum;i++){
 		owned[i] = equipment();
@@ -58,26 +64,20 @@ void mainChar::printStat(){
 string mainChar::getType(){ return "mainChar";}
 
 bool mainChar::changeEquipment(equipment eq){
-	if(lv < eq.getLvCap()){
+	if(lv < eq.getLvCap()){		//check if character has the lv to equip item
 		cout << "Not enough lv." << endl;
 		return false;
 	}
-	
-	for(int i=0;i<ownedNum;i++){
-		if(owned[i]==eq){	//check equipment is in players owning
-			for(int j=0;j<wearingNum;j++){
-				if(eq.getEqType() == wearing[j].getEqType()){
-					equipment temp = wearing[j];	//swap between the equiped one and the one in bag
-					wearing[j].unEquipChar(*this);
-					owned[i].equipChar(*this);
-					wearing[j] = owned[i];
-					owned[i] = temp;
-					return true;
-				}
-			}
+	for(int i=0;i<wearingNum;i++){
+		if(wearing[i].isNull() || eq.getEqType() == wearing[i].getEqType()){
+			equipment temp = wearing[i];
+			wearing[i].unEquipChar(*this);
+			eq.equipChar(*this);
+			this->wearing[i] = eq;
+			addEquipment(temp);
+			return true;
 		}
 	}
-	cout << "Equipment not exist in bag." << endl;
 	return false;
 }
 
@@ -93,6 +93,12 @@ bool mainChar::addEquipment(equipment eq){
 }
 
 bool mainChar::dropEquipment(equipment eq){
+	for(int i=0; i<wearingNum;i++){
+		if(wearing[i] == eq){
+			wearing[i] = equipment();
+			return true;
+		}
+	}
 	for(int i=0;i<ownedNum;i++){
 		if(owned[i] == eq){
 			owned[i] = equipment();
@@ -102,3 +108,6 @@ bool mainChar::dropEquipment(equipment eq){
 	cout << "cannot find equipment." << endl;
 	return false;
 }
+
+equipment* mainChar::getWearingArr(){return wearing;}
+equipment* mainChar::getOwnedArr(){return owned;}

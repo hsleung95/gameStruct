@@ -25,6 +25,8 @@ enemyChar createEnemy(int lv){
 	return enemyChar;
 }
 
+/************************************ start of fight function *******************************************************/
+
 void fightFunction(mainChar &myChar){	//function handling fight, pass player character in main n generate monsters here
 	
 	if(myChar.getCurrentHP()<=0) myChar.setCurrentHP(myChar.getMaxHP());	//refill charater health if defeated
@@ -40,6 +42,7 @@ void fightFunction(mainChar &myChar){	//function handling fight, pass player cha
 	do{					//do while loop: keep generating monster until player agree to fight this one
 		enemyChar = createEnemy(myChar.getLV());
 		enemyChar.printStat();
+		enemyChar.printEq();
 		cout << "are you sure to fight this monster?(y/n)" << endl;
 		cin >> userInput;
 	}
@@ -55,15 +58,15 @@ void fightFunction(mainChar &myChar){	//function handling fight, pass player cha
 	
 		string charType = (*it)->getType();
 	
-		if(charType.compare("mainChar")==0){
+		if(charType.compare("mainChar")==0){	//check current character type
 		
-			while(userInput.compare("a")!=0&&userInput.compare("b")!=0){
+			while(userInput.compare("a")!=0&&userInput.compare("b")!=0){	//turn of player
 				cout << endl << "What do you want to do?" << endl;
 				cout << "a. Attack" << endl;
 				cout << "b. Defense" << endl;
 				cin >> userInput;
 			}
-			if(userInput.compare("a")==0){
+			if(userInput.compare("a")==0){		//attack, deal basic damage to enemy, print, then check if enemy health is <=0
 				float damage = (*it)->attackChar(enemyChar);
 				enemyChar.setCurrentHP((enemyChar.getCurrentHP()-damage));
 				cout << "You have done " << damage << " damage to " << enemyChar.getName() << endl;
@@ -72,38 +75,45 @@ void fightFunction(mainChar &myChar){	//function handling fight, pass player cha
 				if(enemyChar.getCurrentHP()<=0) break;	//enemy defeated by player, break the loop
 			}
 			
-			else if(userInput.compare("b")==0){
+			else if(userInput.compare("b")==0){		//defense, get current defense, double it, raise the flag
 				defVal = myChar.getDefense();
 				myChar.setDefense(defVal*2);
 				defensed = true;
 			}
 			
 			//myCharPtr = &myChar;
-			charList.push_back((*it));
+			charList.push_back((*it));			//finished current move, push character to end of list
 		}
 			
-		else if(charType.compare("enemyChar")==0){
+		else if(charType.compare("enemyChar")==0){		//enemy's round, do basic attack to player, print data, push character to end of list
 			float enemyDamage = enemyChar.attackChar(myChar);
 			myChar.setCurrentHP((myChar.getCurrentHP()-enemyDamage));
 			cout << enemyChar.getName() << " have  done " << enemyDamage << " damage to you" << endl;
 			myChar.printStat();
 			enemyChar.printStat();
-			//enemyCharPtr = &enemyChar;
 			charList.push_back((*it));
 		}
 		
-		if(myChar.getCurrentHP()<=0) break;	//enemy defeated character, break the loop
+		if(myChar.getCurrentHP()<=0) break;		//enemy defeated character, break the loop
 		
 		if(defensed){
-			myChar.setDefense(defVal);		//defend for one round
+			myChar.setDefense(defVal);			//defend for one round
 		}
-		userInput = "";		//reset input for the loop condition
+		userInput = "";				//reset input for the loop condition
 			
 	}
 	
-	if(enemyChar.getCurrentHP() <= 0){
+	if(enemyChar.getCurrentHP() <= 0){		//enemy is defeated, get exp and equipment from enemy
 		cout << "You defeated " << enemyChar.getName();
 		cout << ", getting " << enemyChar.getExpContain() << "exp.";
+		if(!enemyChar.getEquipment().isNull()){
+			equipment treasure = enemyChar.getEquipment();
+			bool isGetItem = myChar.addEquipment(treasure);
+			if(isGetItem){
+				cout << "you get equipment from " << enemyChar.getName() << endl;
+				treasure.printEq();
+			}
+		}
 		bool isLvUp = myChar.addExp(enemyChar.getExpContain());
 		if(isLvUp){
 			cout << "You gained 1 lv!" << endl;
@@ -114,6 +124,74 @@ void fightFunction(mainChar &myChar){	//function handling fight, pass player cha
 	}
 	cout << endl;
 }
+
+/************************************ end of fight function *******************************************************/
+/************************************ start of equipment function *************************************************/
+
+
+void equipmentFunction(mainChar myChar){
+
+	string userInput;		//get userInput
+	int userInputNum = -1;	//input integer for equipment id
+	
+	while(userInput.compare("exit")!=0){	//main loop
+		equipment* ownedArr = myChar.getOwnedArr();		//get owned and wearing list from character
+		equipment* wearing = myChar.getWearingArr();
+		cout << "wearing: " << endl;
+		for(int i=0;i<myChar.wearingNum;i++){			// print equipments from wearing and then owned list
+			cout << i << ": " << "type:" << equipment::eqTypeStr[i] << ", name:" << wearing[i].getEqName() << endl;
+		}
+		cout << "owned: " << endl;
+		for(int i=0;i<myChar.ownedNum;i++){
+			cout << i+myChar.wearingNum << ": " << ownedArr[i].getEqName() << endl;
+		}
+		
+		do{			//do while loop of checking userInput, break the loop if user inputed 'exit' or number between 0 and wearingNum+ownedNum
+			cout << "Enter the equipment number for detail or enter 'exit' and back to menu: ";
+			cin >> userInput;
+			if(userInput.compare("exit")!=0)
+				userInputNum = stoi(userInput);
+		}
+		while(userInput.compare("exit")!=0 && (userInputNum < 0 || userInputNum > (myChar.wearingNum+myChar.ownedNum)) );
+		
+		if(userInput.compare("exit")==0){		//user entered "exit"
+			break;
+		}
+		
+		else{		//user entered number between 0 and wearingNum+ownedNum
+			if(userInputNum < myChar.wearingNum && !wearing[userInputNum].isNull()){	//wearing equipment id
+				wearing[userInputNum].printEq();
+				userInput = "";
+				do{
+					cout << "what do you want to do? " << endl;
+					cout << "a. unequip equipment" << endl;
+					cout << "b. drop equipment" << endl;
+					cout << "c. exit" << endl;
+					cin >> userInput;
+				}
+				while(userInput.compare("a")!=0&&userInput.compare("b")!=0&&userInput.compare("c")!=0);
+				if(userInput.compare("b")==0){
+					
+				}
+				else if(userInput.compare("b")==0){
+					
+				}
+				else if(userInput.compare("b")==0){
+					   
+				   }
+			}
+		
+			else if(userInputNum < (myChar.wearingNum+myChar.ownedNum) && !ownedArr[userInputNum - myChar.wearingNum].isNull()){	//owned equipment id
+				ownedArr[userInputNum - myChar.wearingNum].printEq();
+			}
+			else{	//no equipment in the slot
+				cout << "no equipment in this slot" << endl;
+			}
+		}
+	}
+}
+
+/************************************ end of equipment function ***************************************************/
 
 int main() {
     string charName;
@@ -150,7 +228,7 @@ int main() {
 			}
 		}
 		else if(option.compare("b")==0){
-		
+			equipmentFunction(myChar);
 		}
 		
 		else if(option.compare("c")==0) {

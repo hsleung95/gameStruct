@@ -18,9 +18,13 @@
 #endif /* equipment_hpp */
 
 class equipment{
+public:
+	enum eqType {head=0, shoulders, arms, body, legs, boots, leftHand, rightHand};	//8 types of eq
+	enum attribute {attack=0, hp, mp, defense, intelligence};	//5 atrributes
+	static string eqTypeStr[8];
+	static string attrStr[5];
+	
 protected:
-	enum eqType {head, shoulders, arms, body, legs, boots, leftHand, rightHand};	//8 types of eq
-	enum attribute {hp, mp, attack, defense, intelligence};
 	eqType eqType;
 	attribute attribute;
 	string eqName;
@@ -42,6 +46,8 @@ public:
 	string getDescription();
 	float getEqVal();
 	int getLvCap();
+	
+	bool setOwner(gameChar ch);
 	
 	void printEq();
 	void equipChar(gameChar &equiped);

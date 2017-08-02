@@ -15,8 +15,11 @@
 #include "equipment.hpp"
 
 class mainChar: public gameChar{
+public:
 	const static int wearingNum = 8;
-	const static int ownedNum = 20;
+	const static int ownedNum = 5;
+	
+protected:
     float exp;
     float expCap;
 	equipment wearing[wearingNum];
@@ -37,5 +40,8 @@ public:
 	bool changeEquipment(equipment eq);
 	bool addEquipment(equipment eq);
 	bool dropEquipment(equipment eq);
+	
+	equipment* getWearingArr();
+	equipment* getOwnedArr();
 };
 #endif /* mainChar_hpp */

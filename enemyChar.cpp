@@ -7,10 +7,14 @@
 //
 
 #include "enemyChar.hpp"
+#include <string>
 #include <iostream>
 
 enemyChar::enemyChar(){
-    expContain = maxHP * 0.5 + maxMP * 0.1 + attack * 4 + defense * 4;
+	enum equipment::eqType eqtype = static_cast<enum equipment::eqType>(rand()%8);
+	enum equipment::attribute attr = static_cast<enum equipment::attribute>(rand()%5);
+	expContain = maxHP * 0.5 + maxMP * 0.1 + attack * 4 + defense * 4;
+	eq = equipment("random "+equipment::eqTypeStr[eqtype], *this, "random equipment", lv, rand()%(5*lv), eqtype, attr);
 }
 
 float enemyChar::getExpContain(){ return expContain; }
@@ -19,7 +23,22 @@ void enemyChar::setExpContain(){ expContain = maxHP * 0.5 + maxMP * 0.1 + attack
 void enemyChar::printStat(){
 	std::cout << "Enemy character value: " << endl;
     gameChar::printStat();
-    std::cout << " exp: " << expContain << endl << endl;
+    std::cout << " exp: " << expContain << endl;
+	cout << endl;
+}
+
+void enemyChar::printEq(){
+	eq.printEq();
 }
 
 string enemyChar::getType(){ return "enemyChar";}
+
+equipment enemyChar::getEquipment(){return eq;}
+
+void enemyChar::randChar(int lv){
+	gameChar::randChar(lv);
+	enum equipment::eqType eqtype = static_cast<enum equipment::eqType>(rand()%8);
+	enum equipment::attribute attr = static_cast<enum equipment::attribute>(rand()%5);
+	expContain = maxHP * 0.5 + maxMP * 0.1 + attack * 4 + defense * 4;
+	eq = equipment("random "+equipment::eqTypeStr[eqtype], *this, "random equipment", lv, rand()%(5*lv), eqtype, attr);
+}
