@@ -18,14 +18,14 @@ mainChar::mainChar(){
 }
 
 mainChar::mainChar(string name, float hpVal,float mpVal,float att,float def,float intl) : gameChar(name,hpVal,mpVal,att,def, intl){
-	srand((int)time(NULL));
+	srand((int)time(NULL));		//set random seed as time
     exp = 0;
     expCap = setExpCap(lv);		// expCap = (x^2)/2 + 125x
-	for(int i=0;i<wearingNum;i++){
-		enum equipment::eqType eqtype = static_cast<enum equipment::eqType>(i);
-		enum equipment::attribute attr = static_cast<enum equipment::attribute>(rand()%5);
-		equipment* temp = new equipment(equipment::eqTypeStr[i],*this, "First equipments of player",lv,5,eqtype,attr);
-		changeEquipment(*temp);
+	for(int i=0;i<wearingNum;i++){		//for each wearing places in character
+		enum equipment::eqType eqtype = static_cast<enum equipment::eqType>(i);		//get type of the place
+		enum equipment::attribute attr = static_cast<enum equipment::attribute>(rand()%attrNum);	//random attribute(hp/mp/att/def/intl)
+		equipment* temp = new equipment(equipment::eqTypeStr[i],*this, "First equipments of player",lv,5,eqtype,attr);	//create new equipment
+		changeEquipment(*temp);		//equip the new equipment to character
 	}
 	for(int i=0;i<ownedNum;i++){
 		owned[i] = equipment();

@@ -50,8 +50,8 @@ public:
 	bool setOwner(gameChar ch);
 	
 	void printEq();
-	void equipChar(gameChar &equiped);
-	void unEquipChar(gameChar &equiped);
+	bool equipChar(gameChar &equiped);
+	bool unEquipChar(gameChar &equiped);
 	
 	bool isNull();
 	bool operator==(equipment &eq);
