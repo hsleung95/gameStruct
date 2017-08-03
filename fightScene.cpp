@@ -18,6 +18,15 @@ enemyChar fightScene::createEnemy(int lv){
 	return enemyChar;
 }
 
+bool fightScene::attackChar(gameChar &source, gameChar &target){
+	float damage = source.attackChar(target);
+	target.setCurrentHP((target.getCurrentHP()-damage));
+	cout << source.getName() << " have done " << damage << " damage to " << target.getName() << endl;
+	source.printStat();
+	target.printStat();
+	return false;
+}
+
 void fightScene::fightFunction(mainChar &myChar){	//function handling fight, pass player character in main n generate monsters here
 
 	bool exit = false;
@@ -62,11 +71,7 @@ void fightScene::fightFunction(mainChar &myChar){	//function handling fight, pas
 					cin >> userInput;
 				}
 				if(userInput=='a'){		//attack, deal basic damage to enemy, print, then check if enemy health is <=0
-					float damage = (*it)->attackChar(enemyChar);
-					enemyChar.setCurrentHP((enemyChar.getCurrentHP()-damage));
-					cout << "You have done " << damage << " damage to " << enemyChar.getName() << endl;
-					myChar.printStat();
-					enemyChar.printStat();
+					fightScene::attackChar(myChar, enemyChar);
 					if(enemyChar.getCurrentHP()<=0) break;	//enemy defeated by player, break the loop
 				}
 				
@@ -81,11 +86,9 @@ void fightScene::fightFunction(mainChar &myChar){	//function handling fight, pas
 			}
 			
 			else if(charType.compare("enemyChar")==0){		//enemy's round, do basic attack to player, print data, push character to end of list
-				float enemyDamage = enemyChar.attackChar(myChar);
-				myChar.setCurrentHP((myChar.getCurrentHP()-enemyDamage));
-				cout << enemyChar.getName() << " have  done " << enemyDamage << " damage to you" << endl;
-				myChar.printStat();
-				enemyChar.printStat();
+				fightScene::attackChar(enemyChar, myChar);
+				if(myChar.getCurrentHP()<=0) break;
+				
 				charList.push_back((*it));
 			}
 			

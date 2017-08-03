@@ -11,6 +11,7 @@
 #include <iostream>
 
 enemyChar::enemyChar(){
+	srand((int)time(NULL));
 	enum equipment::eqType eqtype = static_cast<enum equipment::eqType>(rand()%8);
 	enum equipment::attribute attr = static_cast<enum equipment::attribute>(rand()%5);
 	expContain = maxHP * 0.5 + maxMP * 0.1 + attack * 4 + defense * 4;

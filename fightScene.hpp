@@ -21,6 +21,7 @@ class fightScene{
 public:
 	static void fightFunction(mainChar &myChar);
 	static enemyChar createEnemy(int lv);
+	static bool attackChar(gameChar &source, gameChar &target);
 };
 
 

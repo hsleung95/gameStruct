@@ -18,6 +18,7 @@ mainChar::mainChar(){
 }
 
 mainChar::mainChar(string name, float hpVal,float mpVal,float att,float def,float intl) : gameChar(name,hpVal,mpVal,att,def, intl){
+	srand((int)time(NULL));
     exp = 0;
     expCap = setExpCap(lv);		// expCap = (x^2)/2 + 125x
 	for(int i=0;i<wearingNum;i++){
