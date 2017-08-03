@@ -17,7 +17,7 @@
 class mainChar: public gameChar{
 public:
 	const static int wearingNum = 8;
-	const static int ownedNum = 5;
+	const static int ownedNum = 10;
 	
 protected:
     float exp;

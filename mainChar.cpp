@@ -42,7 +42,7 @@ bool mainChar::addExp(float expAmount){
 
 bool mainChar::lvUp(){
 	lv += 1;
-    maxHP += 100;
+    maxHP += 50;
     maxMP += 50;
     attack += 10;
     defense += 10;

@@ -40,5 +40,5 @@ void enemyChar::randChar(int lv){
 	enum equipment::eqType eqtype = static_cast<enum equipment::eqType>(rand()%8);
 	enum equipment::attribute attr = static_cast<enum equipment::attribute>(rand()%5);
 	expContain = maxHP * 0.5 + maxMP * 0.1 + attack * 4 + defense * 4;
-	eq = equipment("random "+equipment::eqTypeStr[eqtype], *this, "random equipment", lv, rand()%(5*lv), eqtype, attr);
+	eq = equipment("random "+equipment::eqTypeStr[eqtype], *this, "random equipment", lv, lv + rand()%(5*lv), eqtype, attr);
 }
