@@ -30,6 +30,9 @@ mainChar::mainChar(string name, float hpVal,float mpVal,float att,float def,floa
 	for(int i=0;i<ownedNum;i++){
 		owned[i] = equipment();
 	}
+	
+	skillList.push_back(new restore_health());
+	skillList.push_back(new magic_attack());
 }
 
 bool mainChar::addExp(float expAmount){
@@ -112,3 +115,4 @@ bool mainChar::dropEquipment(equipment eq){
 
 equipment* mainChar::getWearingArr(){return wearing;}
 equipment* mainChar::getOwnedArr(){return owned;}
+list<skill*> mainChar::getSkillList(){return skillList;}

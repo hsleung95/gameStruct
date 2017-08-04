@@ -23,7 +23,7 @@ void equipmentScene::equipmentFunction(mainChar &myChar){
 			cout << "type:" << equipment::eqTypeStr[i];
 			if(!wearing[i].isNull()){
 				cout << ", name:" << wearing[i].getEqName();
-				cout << ", +" << wearing[i].getEqVal() << equipment::attrStr[(int)wearing[i].getAttribute()];
+				cout << ", +" << wearing[i].getEqVal() << gameChar::attrStr[(int)wearing[i].getAttribute()];
 			}
 			cout << endl;
 		}
@@ -33,7 +33,7 @@ void equipmentScene::equipmentFunction(mainChar &myChar){
 			if(!ownedArr[i].isNull()){
 				cout << "type:" << equipment::eqTypeStr[ownedArr[i].getEqType()];
 				cout << ", name:" << ownedArr[i].getEqName();
-				cout << ", +" << ownedArr[i].getEqVal() << equipment::attrStr[(int)ownedArr[i].getAttribute()];
+				cout << ", +" << ownedArr[i].getEqVal() << gameChar::attrStr[(int)ownedArr[i].getAttribute()];
 			}
 			cout << endl;
 		}

@@ -10,7 +10,6 @@
 #include <iostream>
 #include <string>
 string equipment::eqTypeStr[8] = {"head","shoulders","arms","body","legs","boots","leftHand","rightHand"};
-string equipment::attrStr[5] = {"hp","mp","attack","defense","intelligence"};
 
 equipment::equipment(){
 	eqName = "";
@@ -46,36 +45,36 @@ void equipment::printEq(){
 	cout << "Equipment Type: " << equipment::eqTypeStr[eqType] << endl;
 	cout << "Name: " << eqName << endl;
 	cout << "Description: " << description << endl;
-	cout << "+" << effectingVal  << " " << equipment::attrStr[(int)attribute] << endl;
+	cout << "+" << effectingVal  << " " << gameChar::attrStr[(int)attribute] << endl;
 	cout << "can be equiped after lv" << lv << endl;
 }
 
 bool equipment::equipChar(gameChar &equiped){
 	switch (this->attribute) {
-  case hp:{
+  case 0:{
 	float maxHP = equiped.getMaxHP();
 	float currentHP = equiped.getCurrentHP();
 	equiped.setMaxHP(maxHP+effectingVal);
 	equiped.setCurrentHP(currentHP+effectingVal);
 	break;
   }
-  case mp:{
+  case 1:{
 	float maxMP = equiped.getMaxMP();
 	float currentMP = equiped.getCurrentMP();
-	equiped.setMaxHP(maxMP+effectingVal);
-	equiped.setCurrentHP(currentMP+effectingVal);
+	equiped.setMaxMP(maxMP+effectingVal);
+	equiped.setCurrentMP(currentMP+effectingVal);
 	break;
   }
-  case attack:{
+  case 2:{
 	float attack = equiped.getAttack();
 	equiped.setAttack(attack+effectingVal);
 	break;
   }
-  case defense:{
+  case 3:{
 	  float defense = equiped.getDefense();
 	  equiped.setDefense(defense+effectingVal);
   }
-  case intelligence:{
+  case 4:{
 	  float intelligence = equiped.getIntelligence();
 	  equiped.setIntelligence(intelligence+effectingVal);
   }
@@ -87,41 +86,31 @@ bool equipment::equipChar(gameChar &equiped){
 }
 
 bool equipment::unEquipChar(gameChar &equiped){
-	cout << "attribute: " << this->attribute << endl;
 	switch (this->attribute) {
-  case hp:{
-	  cout << "before setting, max/current hp = " << equiped.getMaxHP() << "/" << equiped.getCurrentHP() << endl;
+  case 0:{
 	  equiped.setMaxHP(equiped.getMaxHP() - effectingVal);
 	  equiped.setCurrentHP(equiped.getCurrentHP() - effectingVal);
-	  cout << "after setting, max/current hp = " << equiped.getMaxHP() << "/" << equiped.getCurrentHP() << endl;
 	  return true;
 	  break;
   }
-  case mp:{
-	  cout << "before setting, max/current mp = " << equiped.getMaxMP() << "/" << equiped.getCurrentMP() << endl;
-	  equiped.setMaxHP(equiped.getMaxMP() - effectingVal);
-	  equiped.setCurrentHP(equiped.getCurrentMP() - effectingVal);
-	  cout << "after setting, max/current mp = " << equiped.getMaxMP() << "/" << equiped.getCurrentMP() << endl;
+  case 1:{
+	  equiped.setMaxMP(equiped.getMaxMP() - effectingVal);
+	  equiped.setCurrentMP(equiped.getCurrentMP() - effectingVal);
 	  return true;
 	  break;
   }
-  case attack:{
-	  cout << "before setting, attack = " << equiped.getAttack() << endl;
+  case 2:{
 	  equiped.setAttack(equiped.getAttack() - effectingVal);
-	  cout << "after setting, attack = " << equiped.getAttack() << endl;
 	  return true;
 	  break;
   }
-  case defense:{
-	  cout << "before setting, defense = " << equiped.getDefense() << endl;
+  case 3:{
 	  equiped.setDefense(equiped.getDefense() - effectingVal);
-	  cout << "after setting, defense = " << equiped.getDefense() << endl;
 	  return true;
 	  break;
   }
-  case intelligence:{
+  case 4:{
 	  equiped.setIntelligence(equiped.getIntelligence() - effectingVal);
-	  cout << "decreased " << effectingVal << endl;
 	  return true;
 	  break;
   }

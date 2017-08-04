@@ -16,6 +16,9 @@ using namespace std;
 
 #endif /* gameChar_hpp */
 class gameChar{
+public:
+	static string attrStr[5];
+	
 protected:
     int lv;
     float maxHP, currentHP, maxMP, currentMP, attack, defense, intelligence;

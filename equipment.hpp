@@ -19,10 +19,9 @@
 
 class equipment{
 public:
-	enum eqType {head=0, shoulders, arms, body, legs, boots, leftHand, rightHand};	//8 types of eq
-	enum attribute {attack=0, hp, mp, defense, intelligence};	//5 atrributes
+	enum eqType {head=0, shoulders=1, arms=2, body=3, legs=4, boots=5, leftHand=6, rightHand=7};	//8 types of eq
+	enum attribute {attack=0, hp=1, mp=2, defense=3, intelligence=4};	//5 atrributes
 	static string eqTypeStr[8];
-	static string attrStr[5];
 	
 protected:
 	eqType eqType;

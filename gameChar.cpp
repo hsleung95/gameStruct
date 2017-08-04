@@ -9,6 +9,7 @@
 #include "gameChar.hpp"
 #include <iostream>
 #include <stdlib.h>
+string gameChar::attrStr[5] = {"hp","mp","attack","defense","intelligence"};
 
 gameChar::gameChar(){
     currentHP=maxHP=currentMP=maxMP=attack=defense=intelligence=0;
@@ -84,9 +85,9 @@ void gameChar::randChar(int charLv){
 	lv = charLv;
     maxHP= randValWithLV(10, 20, lv);   //val = min + rand  % max
     maxMP= randValWithLV(5, 50, lv);
-    attack=randValWithLV(1, 10, lv);
-    defense =randValWithLV(1, 10, lv);
-	intelligence = randValWithLV(1, 10, lv);
+    attack=randValWithLV(5, 10, lv);
+    defense =randValWithLV(5, 10, lv);
+	intelligence = randValWithLV(5, 10, lv);
     currentHP = maxHP;
     currentMP = maxMP;
 }
