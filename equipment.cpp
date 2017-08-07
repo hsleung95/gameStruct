@@ -50,74 +50,77 @@ void equipment::printEq(){
 }
 
 bool equipment::equipChar(gameChar &equiped){
-	switch (this->attribute) {
-  case 0:{
-	float maxHP = equiped.getMaxHP();
-	float currentHP = equiped.getCurrentHP();
-	equiped.setMaxHP(maxHP+effectingVal);
-	equiped.setCurrentHP(currentHP+effectingVal);
-	break;
-  }
-  case 1:{
-	float maxMP = equiped.getMaxMP();
-	float currentMP = equiped.getCurrentMP();
-	equiped.setMaxMP(maxMP+effectingVal);
-	equiped.setCurrentMP(currentMP+effectingVal);
-	break;
-  }
-  case 2:{
-	float attack = equiped.getAttack();
-	equiped.setAttack(attack+effectingVal);
-	break;
-  }
-  case 3:{
-	  float defense = equiped.getDefense();
-	  equiped.setDefense(defense+effectingVal);
-  }
-  case 4:{
-	  float intelligence = equiped.getIntelligence();
-	  equiped.setIntelligence(intelligence+effectingVal);
-  }
-			
-  default:
-			break;
+  switch (this->attribute) {
+	case 0:{
+		equiped.setMaxHP(equiped.getMaxHP()+effectingVal);
+		equiped.setCurrentHP(equiped.getCurrentHP()+effectingVal);
+		return true;
+		break;
 	}
-	return true;
+	case 1:{
+		equiped.setMaxMP(equiped.getMaxMP()+effectingVal);
+		equiped.setCurrentMP(equiped.getCurrentMP()+effectingVal);
+		return true;
+		break;
+	}
+	case 2:{
+		equiped.setAttack(equiped.getAttack()+effectingVal);
+		return true;
+		break;
+	}
+	case 3:{
+		equiped.setDefense(equiped.getDefense()+effectingVal);
+		return true;
+		break;
+	}
+	case 4:{
+		equiped.setIntelligence(equiped.getIntelligence()+effectingVal);
+		return true;
+		break;
+	}
+			
+	default:{
+		return false;
+		break;
+	}
+  }
+  return false;
 }
 
 bool equipment::unEquipChar(gameChar &equiped){
 	switch (this->attribute) {
-  case 0:{
-	  equiped.setMaxHP(equiped.getMaxHP() - effectingVal);
-	  equiped.setCurrentHP(equiped.getCurrentHP() - effectingVal);
-	  return true;
-	  break;
-  }
-  case 1:{
-	  equiped.setMaxMP(equiped.getMaxMP() - effectingVal);
-	  equiped.setCurrentMP(equiped.getCurrentMP() - effectingVal);
-	  return true;
-	  break;
-  }
-  case 2:{
-	  equiped.setAttack(equiped.getAttack() - effectingVal);
-	  return true;
-	  break;
-  }
-  case 3:{
-	  equiped.setDefense(equiped.getDefense() - effectingVal);
-	  return true;
-	  break;
-  }
-  case 4:{
-	  equiped.setIntelligence(equiped.getIntelligence() - effectingVal);
-	  return true;
-	  break;
-  }
+		case 0:{
+			equiped.setMaxHP(equiped.getMaxHP() - effectingVal);
+			equiped.setCurrentHP(equiped.getCurrentHP() - effectingVal);
+			return true;
+			break;
+		}
+		case 1:{
+			equiped.setMaxMP(equiped.getMaxMP() - effectingVal);
+			equiped.setCurrentMP(equiped.getCurrentMP() - effectingVal);
+			return true;
+			break;
+		}
+		case 2:{
+			equiped.setAttack(equiped.getAttack() - effectingVal);
+			return true;
+			break;
+		}
+		case 3:{
+			equiped.setDefense(equiped.getDefense() - effectingVal);
+			return true;
+			break;
+		}
+		case 4:{
+			equiped.setIntelligence(equiped.getIntelligence() - effectingVal);
+			return true;
+			break;
+		}
 			
-  default:
+		default:{
 			return false;
 			break;
+		}
 	}
 	return false;
 }

@@ -48,5 +48,7 @@ public:
 	equipment* getWearingArr();
 	equipment* getOwnedArr();
 	list<skill*> getSkillList();
+	void printSkill();
+	bool checkMagicKey(char userInput);
 };
 #endif /* mainChar_hpp */

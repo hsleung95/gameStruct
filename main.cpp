@@ -23,7 +23,7 @@ int main() {
     cout << "welcome to the RPG world, please enter the name and the value of your character:\n";
     cout << "name: ";
     cin >> charName;
-    mainChar myChar(charName, 100,50,10,10,10);
+    mainChar myChar(charName, 100,50,8,8,8);
 
 	while(!exit){
 		cout << "What do you want to do?" << endl;

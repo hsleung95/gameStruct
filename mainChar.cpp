@@ -46,11 +46,11 @@ bool mainChar::addExp(float expAmount){
 
 bool mainChar::lvUp(){
 	lv += 1;
-    maxHP += 50;
-    maxMP += 50;
-    attack += 10;
-    defense += 10;
-	intelligence += 10;
+    maxHP += 10;
+    maxMP += 5;
+    attack += 5;
+    defense += 5;
+	intelligence += 5;
     expCap += setExpCap(lv);
 	return true;
 }
@@ -116,3 +116,21 @@ bool mainChar::dropEquipment(equipment eq){
 equipment* mainChar::getWearingArr(){return wearing;}
 equipment* mainChar::getOwnedArr(){return owned;}
 list<skill*> mainChar::getSkillList(){return skillList;}
+
+void mainChar::printSkill(){
+	for(list<skill*>::iterator it=skillList.begin();it!=skillList.end();it++){
+		cout << "skill key: " << (*it)->getKey();
+		cout << ", skill name: " << (*it)->skillName();
+		cout << ", skill cost: " << (*it)->getCost();
+		cout << " , description: " << (*it)->getDescription();
+		cout << endl;
+	}
+}
+
+bool mainChar::checkMagicKey(char userInput){
+	for(list<skill*>::iterator it=skillList.begin();it!=skillList.end();it++){
+		if(userInput == (*it)->getKey()) return true;
+	}
+	return false;
+}
+

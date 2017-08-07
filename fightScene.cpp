@@ -38,6 +38,7 @@ void fightScene::fightFunction(mainChar &myChar){	//function handling fight, pas
 		list<gameChar*> charList;		//list containing all characters
 		gameChar *myCharPtr = &myChar;
 		charList.push_back(myCharPtr);		//push player into list
+		list<skill*> skillList = myChar.getSkillList();
 		
 		myChar.printStat();	//print current player status
 		
@@ -58,29 +59,62 @@ void fightScene::fightFunction(mainChar &myChar){	//function handling fight, pas
 		for(list<gameChar*>::iterator it=charList.begin();it!=charList.end();it++){
 			float defVal = myChar.getDefense();
 			bool defensed = false;
+			bool isMoved = false;
 			if((*it)->getCurrentHP()<=0) break;
 			
 			string charType = (*it)->getType();
 			
 			if(charType.compare("mainChar")==0){	//check current character type
+				while(isMoved == false){
+					if(userInput!='a'&&userInput!='b'&&userInput!='c'){	//turn of player
+						cout << endl << "What do you want to do?" << endl;
+						cout << "a. Attack" << endl;
+						cout << "b. Defense" << endl;
+						cout << "c. Cast Magic" << endl;
+						cin >> userInput;
+					}
+					if(userInput=='a'){		//attack, deal basic damage to enemy, print, then check if enemy health is <=0
+						fightScene::attackChar(myChar, enemyChar);
+						isMoved = true;
+						if(enemyChar.getCurrentHP()<=0) break;	//enemy defeated by player, break the loop
+					}
+					else if(userInput=='b'){		//defense, get current defense, double it, raise the flag
+						defVal = myChar.getDefense();
+						myChar.setDefense(defVal*2);
+						defensed = true;
+						isMoved = true;
+					}
 				
-				while(userInput!='a'&&userInput!='b'){	//turn of player
-					cout << endl << "What do you want to do?" << endl;
-					cout << "a. Attack" << endl;
-					cout << "b. Defense" << endl;
-					cin >> userInput;
+					else if(userInput=='c'){
+						myChar.printSkill();
+						char userCast = '0';
+						do{
+							cout << "Enter the key to cast the magic or 'x' to choose other action: " << endl;
+							cin >> userCast;
+						}
+						while(myChar.checkMagicKey(userCast) == false && userCast != 'x');
+						if(userCast == 'x'){
+							isMoved = false;
+							continue;
+						}
+						else{
+							float amount = 0;
+							for(list<skill*>::iterator it=skillList.begin();it!=skillList.end();it++){
+								if(userCast == (*it)->getKey()){
+									cout << "cast on self(s) or cast on enemy(e)? " << endl;
+									cin >> userCast;
+									if(userCast == 's'){
+										amount = (*it)->cast(myChar, myChar);
+									}
+									else{
+										amount = (*it)->cast(myChar, enemyChar);
+									}
+								}
+							}
+							isMoved = true;
+						}
+					}
 				}
-				if(userInput=='a'){		//attack, deal basic damage to enemy, print, then check if enemy health is <=0
-					fightScene::attackChar(myChar, enemyChar);
-					if(enemyChar.getCurrentHP()<=0) break;	//enemy defeated by player, break the loop
-				}
-				
-				else if(userInput=='b'){		//defense, get current defense, double it, raise the flag
-					defVal = myChar.getDefense();
-					myChar.setDefense(defVal*2);
-					defensed = true;
-				}
-				
 				//myCharPtr = &myChar;
 				charList.push_back((*it));			//finished current move, push character to end of list
 			}
