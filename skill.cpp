@@ -42,8 +42,6 @@ string restore_health::getDescription(){return description;}
 float restore_health::getCost(){return cost;}
 float restore_health::cast(gameChar &source, gameChar &target){
 	float result =  skill::castSkill(source, target, effectVal);
-	cout << "You restored " << result << " points to " << target.getName();
-	cout << endl;
 	return result;
 }
 
@@ -59,7 +57,5 @@ string magic_attack::getDescription(){return description;}
 float magic_attack::getCost(){return cost;}
 float magic_attack::cast(gameChar &source, gameChar &target){
 	float result =  skill::castSkill(source, target, effectVal);
-	cout << "You have done " << result << " damage to " << target.getName();
-	cout << endl;
 	return result;
 }

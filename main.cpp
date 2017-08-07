@@ -24,7 +24,8 @@ int main() {
     cout << "name: ";
     cin >> charName;
     mainChar myChar(charName, 100,50,8,8,8);
-
+	myChar.printStat();
+	myChar.printSkill();
 	while(!exit){
 		cout << "What do you want to do?" << endl;
 		cout << "a. Fight enemy" << endl;

@@ -131,13 +131,5 @@ bool equipment::isNull(){
 }
 
 bool equipment::operator==(equipment &eq){
-	/*
-	if(this->getEqType()==eq.getEqType() &&
-	   this->getEqName().compare(eq.getEqName())==0 &&
-	   this->getEqVal() == eq.getEqVal() &&
-	   this->getDescription().compare(eq.getDescription())==0 &&
-	   this->getLvCap() == eq.getLvCap()
-	   )
-	 */
 	return (this == &eq ? true : false);
 }

@@ -65,7 +65,7 @@ void fightScene::fightFunction(mainChar &myChar){	//function handling fight, pas
 			string charType = (*it)->getType();
 			
 			if(charType.compare("mainChar")==0){	//check current character type
-				while(isMoved == false){
+				while(isMoved!=true){
 					if(userInput!='a'&&userInput!='b'&&userInput!='c'){	//turn of player
 						cout << endl << "What do you want to do?" << endl;
 						cout << "a. Attack" << endl;
@@ -85,23 +85,25 @@ void fightScene::fightFunction(mainChar &myChar){	//function handling fight, pas
 						isMoved = true;
 					}
 				
-					else if(userInput=='c'){
+					else if(userInput=='c'){		//magic menu, list all skill and ask for user input
 						myChar.printSkill();
-						char userCast = '0';
+						char userCast = '0';		//user input, default '0'
 						do{
 							cout << "Enter the key to cast the magic or 'x' to choose other action: " << endl;
 							cin >> userCast;
 						}
-						while(myChar.checkMagicKey(userCast) == false && userCast != 'x');
-						if(userCast == 'x'){
+						while(myChar.checkMagicKey(userCast) == false && userCast != 'x');	//if no match magic key and not back to action menu
+						
+						if(userCast == 'x'){		//user entered 'x', clear userInput and back to action menu
 							isMoved = false;
+							userInput = '0';
 							continue;
 						}
-						else{
+						else{						//user entered a magic key, loop through the list and cast the magic
 							float amount = 0;
 							for(list<skill*>::iterator it=skillList.begin();it!=skillList.end();it++){
 								if(userCast == (*it)->getKey()){
-									cout << "cast on self(s) or cast on enemy(e)? " << endl;
+									cout << "cast on self(s) or cast on enemy(e)? " << endl;	//ask for target, either player or enemy
 									cin >> userCast;
 									if(userCast == 's'){
 										amount = (*it)->cast(myChar, myChar);
@@ -111,7 +113,6 @@ void fightScene::fightFunction(mainChar &myChar){	//function handling fight, pas
 									}
 								}
 							}
-							isMoved = true;
 						}
 					}
 				}
@@ -132,7 +133,6 @@ void fightScene::fightFunction(mainChar &myChar){	//function handling fight, pas
 				myChar.setDefense(defVal);			//defend for one round
 			}
 			userInput = 'x';				//reset input for the loop condition
-			
 		}
 		
 		if(enemyChar.getCurrentHP() <= 0){		//enemy is defeated, get exp and equipment from enemy
@@ -159,6 +159,7 @@ void fightScene::fightFunction(mainChar &myChar){	//function handling fight, pas
 		cout << endl;
 		
 		while(userInput != 'y' && userInput != 'n'){
+			userInput = '0';
 			cout << "continue or back to menu?" << endl;
 			cout << "y. Continue" << endl;
 			cout << "n. Back to menu" << endl;
@@ -166,5 +167,4 @@ void fightScene::fightFunction(mainChar &myChar){	//function handling fight, pas
 		}
 		if(userInput == 'n') break;
 	}
-
 }

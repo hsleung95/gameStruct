@@ -80,7 +80,6 @@ float randValWithLV(int min, int max,int lv){
 }
 
 void gameChar::randChar(int charLv){
-	cout << "randing char with lv: " << charLv << endl;
     if(charLv <= 0) charLv = 1;
 	lv = charLv;
     maxHP= randValWithLV(10, 20, lv);   //val = min + rand  % max
