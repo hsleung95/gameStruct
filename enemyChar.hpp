@@ -26,7 +26,7 @@ public:
 	equipment getEquipment();
 	void printEq();
 	virtual string getType();
-	void randChar(int lv);
+	void randChar(string enemyName, int lv);
     
     virtual void printStat();
 };

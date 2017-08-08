@@ -76,7 +76,7 @@ void gameChar::setChar(string name, float charHP, float charMP, float charAtt,fl
 float randValWithLV(int min, int max,int lv){
     srand((int)time(NULL) * (int)time(NULL));
 	for(int i=0;i<10;i++) rand();
-    return (min * lv) + rand() %  (lv * max);
+    return (min * lv) + rand() %  (max * lv);
 }
 
 void gameChar::randChar(int charLv){

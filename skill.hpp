@@ -30,7 +30,7 @@ public:
 	virtual string skillName();
 	virtual string getDescription();
 	virtual float cast(gameChar &source, gameChar &target);
-	virtual float getCost();
+	float getCost();
 	float castSkill(gameChar &source, gameChar &target, float val);
 };
 
@@ -40,7 +40,7 @@ public:
 	char getKey();
 	string skillName();
 	string getDescription();
-	float getCost();
+	//float getCost();
 	float cast(gameChar &source, gameChar &target);
 
 };
@@ -51,7 +51,7 @@ public:
 	char getKey();
 	string skillName();
 	string getDescription();
-	float getCost();
+	//float getCost();
 	float cast(gameChar &source, gameChar & target);
 };
 

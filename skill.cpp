@@ -23,9 +23,9 @@ float skill::castSkill(gameChar &source, gameChar &target, float val){
 	float magicDef = target.getIntelligence();
 	if(effectVal > 1) magicDef = 0;
 	float amount = effectVal*source.getIntelligence()*0.5 + magicDef;
-	float effectingVal = target.getCurrentHP() + amount;
+	float effectingVal = amount;
 	if(effectingVal > target.getMaxHP()) effectingVal = target.getMaxHP() - target.getCurrentHP();	//restoring health n amount > maxHP, set difference = maxHP - currentHP
-	else if(effectingVal <= 0) effectingVal = -(target.getCurrentHP());	//dealing damage n value > current health, set difference = currentHP (currentHP - currentHP = 0)
+	else if(fabsf(effectingVal) >= target.getCurrentHP()) effectingVal = -(target.getCurrentHP());	//dealing damage n value > current health, set difference = currentHP (currentHP - currentHP = 0)
 	target.setCurrentHP(target.getCurrentHP() + effectingVal);
 	return fabsf(effectingVal);
 }
@@ -39,7 +39,7 @@ restore_health::restore_health(){
 char restore_health::getKey(){return key;}
 string restore_health::skillName(){return "restore health";}
 string restore_health::getDescription(){return description;}
-float restore_health::getCost(){return cost;}
+//float restore_health::getCost(){return cost;}
 float restore_health::cast(gameChar &source, gameChar &target){
 	float result =  skill::castSkill(source, target, effectVal);
 	return result;
@@ -54,7 +54,7 @@ magic_attack::magic_attack(){
 char magic_attack::getKey(){return key;}
 string magic_attack::skillName(){return "magic attack";}
 string magic_attack::getDescription(){return description;}
-float magic_attack::getCost(){return cost;}
+//float magic_attack::getCost(){return cost;}
 float magic_attack::cast(gameChar &source, gameChar &target){
 	float result =  skill::castSkill(source, target, effectVal);
 	return result;

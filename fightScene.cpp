@@ -12,9 +12,7 @@ enemyChar fightScene::createEnemy(int lv){
 	enemyChar enemyChar;
 	string enemyName = "enemy";
 	enemyName = enemyName + to_string(gameChar::getRandCount());
-	enemyChar.setName(enemyName);
-	enemyChar.randChar(lv);
-	enemyChar.setExpContain();
+	enemyChar.randChar(enemyName, lv);
 	return enemyChar;
 }
 
@@ -24,12 +22,36 @@ bool fightScene::attackChar(gameChar &source, gameChar &target){
 	cout << source.getName() << " have done " << damage << " damage to " << target.getName() << endl;
 	source.printStat();
 	target.printStat();
-	return false;
+	return true;
 }
+
+gameChar& fightScene::selectTarget(list<gameChar*> charList){		//loop through charList and ask user for target
+	gameChar* target = new gameChar();
+	int charCount = 0;
+	char targetCount = 'x';
+	cout << "choose a target: " << endl;
+	for(list<gameChar*>::iterator charIt=charList.begin();charIt!=charList.end();charIt++,charCount++){
+		cout << charCount << "." << (*charIt)->getName() << endl;	//loop through character list
+	}
+	while((targetCount-'0') < 0 || (targetCount-'0') > charCount){
+		cout << "please enter the id of character" << endl;
+		cin >> targetCount;	//ask for target
+	}
+	int userTarget = targetCount-'0';
+	int charNum = 0;
+	for(list<gameChar*>::iterator charIt=charList.begin();charIt!=charList.end();charIt++,charNum++){
+		if(charNum == userTarget){
+			target = (*charIt);
+		}
+	}
+	return *target;
+}
+
 
 void fightScene::fightFunction(mainChar &myChar){	//function handling fight, pass player character in main n generate monsters here
 
 	bool exit = false;
+
 	while(!exit){
 		if(myChar.getCurrentHP()<=0) myChar.setCurrentHP(myChar.getMaxHP());	//refill charater health if defeated
 		char userInput = 'x';
@@ -39,6 +61,10 @@ void fightScene::fightFunction(mainChar &myChar){	//function handling fight, pas
 		gameChar *myCharPtr = &myChar;
 		charList.push_back(myCharPtr);		//push player into list
 		list<skill*> skillList = myChar.getSkillList();
+		int roundCount = 0;
+		int defensedRound = -1;
+		float lastDef = 0;
+		float defVal = 0;
 		
 		myChar.printStat();	//print current player status
 		
@@ -55,18 +81,23 @@ void fightScene::fightFunction(mainChar &myChar){	//function handling fight, pas
 		
 		gameChar *enemyCharPtr = &enemyChar;
 		charList.push_back(enemyCharPtr);		//push enemy into list
-		
-		for(list<gameChar*>::iterator it=charList.begin();it!=charList.end();it++){
-			float defVal = myChar.getDefense();
-			bool defensed = false;
+		bool defensed = false;
+		for(list<gameChar*>::iterator it=charList.begin();it!=charList.end();it++,roundCount++){
+			cout << "round:" << roundCount << endl;
+			cout << "defensedRound:" << defensedRound << endl;
+			lastDef = defVal;
+			defVal = myChar.getDefense();
+			if(defensed&&(defensedRound-roundCount==2)){
+				myChar.setDefense(lastDef);			//defend for one round
+			}
 			bool isMoved = false;
 			if((*it)->getCurrentHP()<=0) break;
 			
 			string charType = (*it)->getType();
 			
 			if(charType.compare("mainChar")==0){	//check current character type
-				while(isMoved!=true){
-					if(userInput!='a'&&userInput!='b'&&userInput!='c'){	//turn of player
+				while(isMoved!=true){	//turn of player, set moved flag as false allowing player change option
+					if(userInput!='a'&&userInput!='b'&&userInput!='c'){
 						cout << endl << "What do you want to do?" << endl;
 						cout << "a. Attack" << endl;
 						cout << "b. Defense" << endl;
@@ -81,6 +112,7 @@ void fightScene::fightFunction(mainChar &myChar){	//function handling fight, pas
 					else if(userInput=='b'){		//defense, get current defense, double it, raise the flag
 						defVal = myChar.getDefense();
 						myChar.setDefense(defVal*2);
+						defensedRound = roundCount;
 						defensed = true;
 						isMoved = true;
 					}
@@ -102,16 +134,29 @@ void fightScene::fightFunction(mainChar &myChar){	//function handling fight, pas
 						else{						//user entered a magic key, loop through the list and cast the magic
 							float amount = 0;
 							for(list<skill*>::iterator it=skillList.begin();it!=skillList.end();it++){
-								if(userCast == (*it)->getKey()){
-									cout << "cast on self(s) or cast on enemy(e)? " << endl;	//ask for target, either player or enemy
-									cin >> userCast;
-									if(userCast == 's'){
-										amount = (*it)->cast(myChar, myChar);
+								if(userCast == (*it)->getKey()){		//match the key, get the target
+									gameChar& target = fightScene::selectTarget(charList);
+									amount = (*it)->cast(myChar, target);
+									cout << "You casted " << (*it)->skillName() << " on " << target.getName() << ", dealing " << amount << " points." << endl;
+									/*
+									int charCount = 0;
+									char targetCount = 'x';
+									cout << "choose a target: " << endl;
+									for(list<gameChar*>::iterator charIt=charList.begin();charIt!=charList.end();charIt++,charCount++){
+										cout << charCount << "." << (*charIt)->getName() << endl;	//loop through character list
 									}
-									else{
-										amount = (*it)->cast(myChar, enemyChar);
+									while((targetCount-'0') < 0 || (targetCount-'0') > charCount) cin >> targetCount;	//ask for target
+									int userTarget = targetCount-'0';
+									int charNum = 0;
+									for(list<gameChar*>::iterator charIt=charList.begin();charIt!=charList.end();charIt++,charNum++){
+										if(charNum == userTarget){
+											amount = (*it)->cast(myChar, *(*charIt));
+											cout << "You casted " << (*it)->skillName() << " on " << (*charIt)->getName() << ", dealing " << amount << " points. " << endl;
+										}
 									}
+									*/
 								}
+								isMoved = true;
 							}
 						}
 					}
@@ -121,6 +166,7 @@ void fightScene::fightFunction(mainChar &myChar){	//function handling fight, pas
 			}
 			
 			else if(charType.compare("enemyChar")==0){		//enemy's round, do basic attack to player, print data, push character to end of list
+				
 				fightScene::attackChar(enemyChar, myChar);
 				if(myChar.getCurrentHP()<=0) break;
 				
@@ -129,10 +175,8 @@ void fightScene::fightFunction(mainChar &myChar){	//function handling fight, pas
 			
 			if(myChar.getCurrentHP()<=0) break;		//enemy defeated character, break the loop
 			
-			if(defensed){
-				myChar.setDefense(defVal);			//defend for one round
-			}
 			userInput = 'x';				//reset input for the loop condition
+			charList.pop_front();
 		}
 		
 		if(enemyChar.getCurrentHP() <= 0){		//enemy is defeated, get exp and equipment from enemy
