@@ -23,6 +23,7 @@ public:
 	static enemyChar createEnemy(int lv);
 	static bool attackChar(gameChar &source, gameChar &target);
 	static gameChar& selectTarget(list<gameChar*> charlist);
+	static void printDefense(gameChar gamechar);
 };
 
 

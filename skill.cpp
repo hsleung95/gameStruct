@@ -22,7 +22,7 @@ float skill::castSkill(gameChar &source, gameChar &target, float val){
 	
 	float magicDef = target.getIntelligence();
 	if(effectVal > 1) magicDef = 0;
-	float amount = effectVal*source.getIntelligence()*0.5 + magicDef;
+	float amount = effectVal * source.getIntelligence()* 1 + magicDef;	//value = -(spellAmount * intelligence - targetIntelligence)
 	float effectingVal = amount;
 	if(effectingVal > target.getMaxHP()) effectingVal = target.getMaxHP() - target.getCurrentHP();	//restoring health n amount > maxHP, set difference = maxHP - currentHP
 	else if(fabsf(effectingVal) >= target.getCurrentHP()) effectingVal = -(target.getCurrentHP());	//dealing damage n value > current health, set difference = currentHP (currentHP - currentHP = 0)

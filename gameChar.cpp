@@ -14,9 +14,11 @@ string gameChar::attrStr[5] = {"hp","mp","attack","defense","intelligence"};
 gameChar::gameChar(){
     currentHP=maxHP=currentMP=maxMP=attack=defense=intelligence=0;
     lv = 1;
+	defenseRound = -1;
 }
 
 gameChar::gameChar(string name, float hpVal,float mpVal,float att,float def, float inti){
+	defenseRound = -1;
     maxHP = hpVal;
     maxMP = mpVal;
     attack=att;
@@ -97,4 +99,18 @@ float gameChar::attackChar(gameChar target){
     float damage = (ownAttack  - targetDefense) * 1.5 ;
     if(damage<=0) damage = 1;
     return damage;
+}
+
+bool gameChar::defenseAction(int currentRound){
+	defenseRound = currentRound;
+	beforeDef = getDefense();
+	setDefense(beforeDef*2);
+	defensed = true;
+	return true;
+}
+
+bool gameChar::stopDefense(){
+	setDefense(beforeDef);
+	defensed = false;
+	return true;
 }

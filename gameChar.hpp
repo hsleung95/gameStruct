@@ -17,11 +17,13 @@ using namespace std;
 #endif /* gameChar_hpp */
 class gameChar{
 public:
+	bool defensed;
 	static string attrStr[5];
 	
 protected:
     int lv;
     float maxHP, currentHP, maxMP, currentMP, attack, defense, intelligence;
+	int defenseRound; float beforeDef;	//	value for defense action
     string charName;
     
 public:
@@ -55,5 +57,7 @@ public:
     void randChar(int lv);
     
     float attackChar(gameChar target);
+	bool defenseAction(int currentRound);
+	bool stopDefense();
 
 };
