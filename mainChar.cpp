@@ -69,11 +69,13 @@ bool mainChar::addExp(float expAmount){
 
 bool mainChar::lvUp(){
 	lv += 1;
+	/*
     maxHP += 10;
     maxMP += 5;
     attack += 5;
     defense += 5;
 	intelligence += 5;
+	*/
     expCap += setExpCap(lv);
 	return true;
 }
