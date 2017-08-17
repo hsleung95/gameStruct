@@ -51,7 +51,8 @@ void fightScene::printDefense(gameChar gamechar){
 	cout << endl;
 }
 
-void fightScene::fightFunction(mainChar &myChar){	//function handling fight, pass player character in main n generate monsters here
+void fightScene::fightFunction(career &myChar){	//function handling fight, pass player character in main n generate monsters here
+	cout << myChar.getCareer() << endl;
 	bool exit = false;
 	while(!exit){
 		if(myChar.getCurrentHP()<=0) myChar.setCurrentHP(myChar.getMaxHP());	//refill charater health if defeated
@@ -80,14 +81,19 @@ void fightScene::fightFunction(mainChar &myChar){	//function handling fight, pas
 		gameChar *enemyCharPtr = &enemyChar;
 		charList.push_back(enemyCharPtr);		//push enemy into list
 		for(list<gameChar*>::iterator it=charList.begin();it!=charList.end();it++,roundCount++){
-			bool isMoved = false;
+			if((*it)->getCurrentHP() <= 0 ){
+				charList.pop_front();
+				break;
+			}
+			if((*it)->defensed){
+				(*it)->stopDefense();
+			}
 			
+			bool isMoved = false;
 			string charType = (*it)->getType();
 			
 			if(charType.compare("mainChar")==0){	//check current character type
-				if(myChar.defensed){
-					myChar.stopDefense();
-				}
+				cout << myChar.getCareer() << endl;
 				while(isMoved!=true){	//turn of player, set moved flag as false allowing player change option
 					if(userInput!='a'&&userInput!='b'&&userInput!='c'){
 						cout << endl << "What do you want to do?" << endl;

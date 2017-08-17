@@ -23,7 +23,7 @@ public:
 protected:
     int lv;
     float maxHP, currentHP, maxMP, currentMP, attack, defense, intelligence;
-	int defenseRound; float beforeDef;	//	value for defense action
+	int defenseRound; float defVal;	//	value for defense action
     string charName;
     
 public:
@@ -37,6 +37,7 @@ public:
     float getAttack();
     float getDefense();
 	float getIntelligence();
+	float getDefVal();
     int   getLV();
     string getName();
 	virtual string getType();

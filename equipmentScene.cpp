@@ -7,7 +7,7 @@
 //
 
 #include "equipmentScene.hpp"
-void equipmentScene::equipmentFunction(mainChar &myChar){
+void equipmentScene::equipmentFunction(career &myChar){
 	//char userInput = 'x';		//get userInput
 	string userInput = "";
 	int userInputNum = -1;	//input integer for equipment id

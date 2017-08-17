@@ -13,14 +13,14 @@
 #include <iostream>
 #include <string>
 #include "enemyChar.hpp"
-#include "mainChar.hpp"
+#include "career.hpp"
 #include "equipment.hpp"
 #include <stdlib.h>
 #include <list>
 
 class equipmentScene{
 public:
-	static void equipmentFunction(mainChar &myChar);
+	static void equipmentFunction(career &myChar);
 };
 
 #endif /* equipmentScene_hpp */

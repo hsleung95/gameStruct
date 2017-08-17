@@ -12,7 +12,7 @@
 string gameChar::attrStr[5] = {"hp","mp","attack","defense","intelligence"};
 
 gameChar::gameChar(){
-    currentHP=maxHP=currentMP=maxMP=attack=defense=intelligence=0;
+    currentHP=maxHP=currentMP=maxMP=attack=defense=defVal=intelligence=0;
     lv = 1;
 	defenseRound = -1;
 }
@@ -23,6 +23,7 @@ gameChar::gameChar(string name, float hpVal,float mpVal,float att,float def, flo
     maxMP = mpVal;
     attack=att;
     defense=def;
+	defVal=def;
 	intelligence=inti;
     charName = name;
     lv = 1;
@@ -37,6 +38,7 @@ float gameChar::getCurrentMP(){return currentMP;}
 float gameChar::getAttack(){return attack;}
 float gameChar::getDefense(){return defense;}
 float gameChar::getIntelligence(){return intelligence;}
+float gameChar::getDefVal(){return defVal;}
 string gameChar::getName(){return charName;}
 string gameChar::getType(){return "gameChar";}
 int gameChar::getLV(){ return lv; }
@@ -88,6 +90,7 @@ void gameChar::randChar(int charLv){
     maxMP= randValWithLV(5, 50, lv);
     attack=randValWithLV(5, 10, lv);
     defense =randValWithLV(5, 10, lv);
+	defVal = defense;
 	intelligence = randValWithLV(5, 10, lv);
     currentHP = maxHP;
     currentMP = maxMP;
@@ -95,7 +98,8 @@ void gameChar::randChar(int charLv){
 
 float gameChar::attackChar(gameChar target){
     float ownAttack = getAttack();
-    float targetDefense = target.getDefense();
+    float targetDefense = target.getDefVal();
+	cout << target.getName() << " " << target.getDefense() << " " << targetDefense << endl;
     float damage = (ownAttack  - targetDefense) * 1.5 ;
     if(damage<=0) damage = 1;
     return damage;
@@ -103,14 +107,13 @@ float gameChar::attackChar(gameChar target){
 
 bool gameChar::defenseAction(int currentRound){
 	defenseRound = currentRound;
-	beforeDef = getDefense();
-	setDefense(beforeDef*2);
+	defVal = getDefense() * 2;
 	defensed = true;
 	return true;
 }
 
 bool gameChar::stopDefense(){
-	setDefense(beforeDef);
+	defVal = getDefense();
 	defensed = false;
 	return true;
 }

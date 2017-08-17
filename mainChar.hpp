@@ -34,7 +34,7 @@ public:
     mainChar();
     mainChar(string name, float hpVal,float mpVal,float att,float def,float intl);
     
-    bool addExp(float expAmount);
+    virtual bool addExp(float expAmount);
     bool lvUp();
 	float setExpCap(int lv);
 

@@ -13,11 +13,30 @@ adventurer::adventurer(string name, float hpVal,float mpVal,float att,float def,
 magician::magician(string name, float hpVal,float mpVal,float att,float def,float intl) : career(name,hpVal,mpVal,att,def,intl){}
 fighter::fighter(string name, float hpVal,float mpVal,float att,float def,float intl) : career(name,hpVal,mpVal,att,def,intl){}
 
+bool career::addExp(float expAmount){
+	if(mainChar::addExp(expAmount)){
+		lvUp();
+		return true;
+	}
+	return false;
+}
+
+bool career::lvUp(){
+	mainChar::lvUp();
+	return true;
+}
 string career::getCareer(){return "career";}
 
+bool adventurer::addExp(float expAmount){
+	if(career::addExp(expAmount)){
+		lvUp();
+		return true;
+	}
+	return false;
+}
 string adventurer::getCareer(){return "adventurer";}
 bool adventurer::lvUp(){
-	mainChar::lvUp();
+	career::lvUp();
 	maxHP += 10;
 	maxMP +=5;
 	attack += 3;
@@ -27,9 +46,16 @@ bool adventurer::lvUp(){
 	return true;
 }
 
+bool magician::addExp(float expAmount){
+	if(career::addExp(expAmount)){
+		lvUp();
+		return true;
+	}
+	return false;
+}
 string magician::getCareer(){return "magician";}
 bool magician::lvUp(){
-	mainChar::lvUp();
+	career::lvUp();
 	maxHP += 5;
 	maxMP +=10;
 	attack += 2;
@@ -38,9 +64,16 @@ bool magician::lvUp(){
 	return true;
 }
 
+bool fighter::addExp(float expAmount){
+	if(career::addExp(expAmount)){
+		lvUp();
+		return true;
+	}
+	return false;
+}
 string fighter::getCareer(){return "fighter";}
 bool fighter::lvUp(){
-	mainChar::lvUp();
+	career::lvUp();
 	maxHP += 15;
 	maxMP +=5;
 	attack += 5;

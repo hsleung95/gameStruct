@@ -59,9 +59,9 @@ mainChar::mainChar(string name, float hpVal,float mpVal,float att,float def,floa
 }
 
 bool mainChar::addExp(float expAmount){
+	cout << "mainChar::addExp called" << endl;
     exp += expAmount;
     if(exp >= expCap){
-        lvUp();
         return true;
     }
     return false;

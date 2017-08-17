@@ -12,14 +12,14 @@
 #include <iostream>
 #include <string>
 #include "enemyChar.hpp"
-#include "mainChar.hpp"
+#include "career.hpp"
 #include "equipment.hpp"
 #include <stdlib.h>
 #include <list>
 
 class fightScene{
 public:
-	static void fightFunction(mainChar &myChar);
+	static void fightFunction(career &myChar);
 	static enemyChar createEnemy(int lv);
 	static bool attackChar(gameChar &source, gameChar &target);
 	static gameChar& selectTarget(list<gameChar*> charlist);
