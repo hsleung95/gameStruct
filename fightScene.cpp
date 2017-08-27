@@ -62,7 +62,7 @@ void fightScene::fightFunction(career &myChar){	//function handling fight, pass 
 		list<gameChar*> charList;		//list containing all characters
 		gameChar *myCharPtr = &myChar;
 		charList.push_back(myCharPtr);		//push player into list
-		list<skill*> skillList = myChar.getSkillList();
+		list<skill> skillList = myChar.getSkillList();
 		int roundCount = 0;
 		
 		myChar.printStat();	//print current player status
@@ -74,7 +74,7 @@ void fightScene::fightFunction(career &myChar){	//function handling fight, pass 
 			cout << "are you sure to fight this monster?(y/n), or exit(e)?" << endl;
 			cin >> userInput;
 		}
-		while(userInput=='n'|| (userInput!='y' && userInput!='e'));	//user entered n or not entering y
+		while(userInput=='n'|| (userInput!='y' && userInput!='e'));	//user entered n or not entering (y/e)
 		
 		if(userInput == 'e') break;
 		
@@ -130,11 +130,11 @@ void fightScene::fightFunction(career &myChar){	//function handling fight, pass 
 						}
 						else{						//user entered a magic key, loop through the list and cast the magic
 							float amount = 0;
-							for(list<skill*>::iterator it=skillList.begin();it!=skillList.end();it++){
-								if(userCast == (*it)->getKey()){		//match the key, get the target
+							for(list<skill>::iterator it=skillList.begin();it!=skillList.end();it++){
+								if(userCast == it->getKey()){		//match the key, get the target
 									gameChar& target = fightScene::selectTarget(charList);
-									amount = (*it)->cast(myChar, target);
-									cout << "You casted " << (*it)->skillName() << " on " << target.getName() << ", dealing " << amount << " points." << endl;
+									amount = it->cast(myChar, target);
+									cout << "You casted " << it->getSkillName() << " on " << target.getName() << ", dealing " << amount << " points." << endl;
 								}
 								isMoved = true;
 							}
@@ -179,7 +179,7 @@ void fightScene::fightFunction(career &myChar){	//function handling fight, pass 
 				}
 			}
 			bool isLvUp = myChar.addExp(enemyChar.getExpContain());
-			if(isLvUp){
+			if(isLvUp==true){
 				cout << "You gained 1 lv!" << endl;
 			}
 		}

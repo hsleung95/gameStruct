@@ -20,8 +20,8 @@ void equipmentScene::equipmentFunction(career &myChar){
 		cout << "wearing: " << endl;
 		for(int i=0;i<myChar.wearingNum;i++){			// print equipments from wearing and then owned list
 			cout << i << ": ";
-			cout << "type:" << equipment::eqTypeStr[i];
-			if(!wearing[i].isNull()){
+			cout << "type:" << equipment::eqTypeStr[i];	// type of the slot
+			if(!wearing[i].isNull()){					// if have equipment, print the eq details
 				cout << ", name:" << wearing[i].getEqName();
 				cout << ", +" << wearing[i].getEqVal() << gameChar::attrStr[(int)wearing[i].getAttribute()];
 			}
@@ -93,8 +93,7 @@ void equipmentScene::equipmentFunction(career &myChar){
 					ownedArr[index] = equipment();
 				}
 				else if(eqInput == 'b'){
-					wearing[userInputNum].unEquipChar(myChar);
-					wearing[userInputNum] = equipment();
+					ownedArr[userInputNum] = equipment();
 				}
 				else if(eqInput == 'c'){
 					

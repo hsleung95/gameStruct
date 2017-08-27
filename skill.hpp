@@ -19,6 +19,8 @@
 
 class skill{
 protected:
+	int skillLv;
+	string skillName;
 	float cost;
 	float effectVal;
 	char key;
@@ -26,33 +28,25 @@ protected:
 	
 public:
 	skill();
-	virtual char getKey();
-	virtual string skillName();
-	virtual string getDescription();
-	virtual float cast(gameChar &source, gameChar &target);
+	skill(string name, float skillCost, float skillVal, char skillKey, string skillDes);
+	char getKey();
+	string getSkillName();
+	string getDescription();
 	float getCost();
+	int getSKillLv();
+	float cast(gameChar &source, gameChar &target);
 	float castSkill(gameChar &source, gameChar &target, float val);
 };
 
-class restore_health : public skill{
+class skillNode{
+protected:
+	int unlockLv;
+	skill root;
+	skill left;
+	skill right;
+	
 public:
-	restore_health();
-	char getKey();
-	string skillName();
-	string getDescription();
-	//float getCost();
-	float cast(gameChar &source, gameChar &target);
-
+	skillNode();
+	void learnSkill(int charLv);
 };
-
-class magic_attack : public skill{
-public:
-	magic_attack();
-	char getKey();
-	string skillName();
-	string getDescription();
-	//float getCost();
-	float cast(gameChar &source, gameChar & target);
-};
-
 #endif /* skill_hpp */

@@ -27,15 +27,16 @@ protected:
     float expCap;
 	equipment wearing[wearingNum];
 	equipment owned[ownedNum];
-	list<skill*> skillList;
+	list<skill> skillList;
 	
     
 public:
     mainChar();
+	~mainChar();
     mainChar(string name, float hpVal,float mpVal,float att,float def,float intl);
     
     virtual bool addExp(float expAmount);
-    bool lvUp();
+    virtual bool lvUp();
 	float setExpCap(int lv);
 
 	virtual string getType();
@@ -47,7 +48,7 @@ public:
 	
 	equipment* getWearingArr();
 	equipment* getOwnedArr();
-	list<skill*> getSkillList();
+	list<skill> getSkillList();
 	void printSkill();
 	bool checkMagicKey(char userInput);
 };

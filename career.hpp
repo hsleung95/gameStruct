@@ -17,32 +17,36 @@ class career : public mainChar{
 public:
 	career();
 	career(string name, float hpVal,float mpVal,float att,float def,float intl);
+	virtual string getCareer();
 	virtual bool addExp(float expAmount);
 	virtual bool lvUp();
-	virtual string getCareer();
+	virtual void generateEq();
 };
 
 class adventurer : public career{
 public:
 	adventurer(string name, float hpVal,float mpVal,float att,float def,float intl);
+	virtual string getCareer();
 	virtual bool addExp(float expAmount);
 	virtual bool lvUp();
-	virtual string getCareer();
+	virtual void generateEq();
 };
 
 class magician : public career{
 public:
 	magician(string name, float hpVal,float mpVal,float att,float def,float intl);
+	virtual string getCareer();
 	virtual bool addExp(float expAmount);
 	virtual bool lvUp();
-	virtual string getCareer();
+	virtual void generateEq();
 };
 
 class fighter : public career{
 public:
 	fighter(string name, float hpVal,float mpVal,float att,float def,float intl);
+	virtual string getCareer();
 	virtual bool addExp(float expAmount);
 	virtual bool lvUp();
-	virtual string getCareer();
+	virtual void generateEq();
 };
 #endif /* career_hpp */

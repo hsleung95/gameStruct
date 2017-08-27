@@ -18,6 +18,14 @@ equipment::equipment(){
 	lv = 1;
 }
 
+equipment::equipment(enum eqType equipType){
+	eqType = equipType;
+	eqName = "";
+	description = "";
+	effectingVal = 0;
+	lv = 1;
+}
+
 equipment::equipment(string name, gameChar ownedBy, string eqDescription, int lvCap, float effectVal, enum eqType equipType, enum attribute attr){
 	eqType = equipType;
 	attribute = attr;

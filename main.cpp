@@ -34,9 +34,9 @@ int main() {
 		cout << "enter your option. " << endl;
 		cin >> careerOption;
 	}
-	if(careerOption == '2') myChar = new magician(charName, 60,80,5,5,10);
-	else if(careerOption == '3') myChar = new fighter(charName, 120,50,10,10,5);
-	else myChar = new adventurer(charName, 80,50,8,8,6);
+	if(careerOption == '2') myChar = new magician(charName, 75,100,5,5,20);
+	else if(careerOption == '3') myChar = new fighter(charName, 120,20,15,15,15);
+	else myChar = new adventurer(charName, 85,80,10,10,10);
 	
 	myChar->printStat();
 	myChar->printSkill();

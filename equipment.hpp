@@ -34,6 +34,7 @@ protected:
 	
 public:
 	equipment();
+	equipment(enum eqType equipType);
 	equipment(string name, gameChar ownedBy, string description, int lvCap, float effectVal, enum eqType equipType, enum attribute attribute);
 	
 	void setEquipment(string name, gameChar ownedBy, string description, int lvCap, float effectVal, enum eqType equipType, enum attribute attribute);

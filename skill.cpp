@@ -9,12 +9,23 @@
 #include "skill.hpp"
 
 skill::skill(){}
+skill::skill(string name, float skillCost, float skillVal, char skillKey, string skillDes){
+	skillName = name;
+	cost = skillCost;
+	effectVal = skillVal;
+	key = skillKey;
+	description = skillDes;
+	skillLv = 1;
+}
 
-char skill::getKey(){return 's';}
-string skill::skillName(){return "skill";}
-string skill::getDescription(){return "skill description";}
-float skill::cast(gameChar &source, gameChar &target){return 0;}
+char skill::getKey(){return key;}
+string skill::getSkillName(){return skillName;}
+string skill::getDescription(){return description;}
 float skill::getCost(){return cost;}
+int skill::getSKillLv(){return skillLv;}
+
+float skill::cast(gameChar &source, gameChar &target){return castSkill(source, target, effectVal);}
+
 float skill::castSkill(gameChar &source, gameChar &target, float val){
 	float sourceMP = source.getCurrentMP();
 	if(sourceMP < cost) return -1;
@@ -28,34 +39,4 @@ float skill::castSkill(gameChar &source, gameChar &target, float val){
 	else if(fabsf(effectingVal) >= target.getCurrentHP()) effectingVal = -(target.getCurrentHP());	//dealing damage n value > current health, set difference = currentHP (currentHP - currentHP = 0)
 	target.setCurrentHP(target.getCurrentHP() + effectingVal);
 	return fabsf(effectingVal);
-}
-
-restore_health::restore_health(){
-	cost = 6;
-	effectVal = 2;
-	key = 'r';
-	description = "Restore health based on intelligence";
-}
-char restore_health::getKey(){return key;}
-string restore_health::skillName(){return "restore health";}
-string restore_health::getDescription(){return description;}
-//float restore_health::getCost(){return cost;}
-float restore_health::cast(gameChar &source, gameChar &target){
-	float result =  skill::castSkill(source, target, effectVal);
-	return result;
-}
-
-magic_attack::magic_attack(){
-	cost = 5;
-	effectVal = -2;
-	key = 'm';
-	description = "Damage enemy for based on intelligence";
-}
-char magic_attack::getKey(){return key;}
-string magic_attack::skillName(){return "magic attack";}
-string magic_attack::getDescription(){return description;}
-//float magic_attack::getCost(){return cost;}
-float magic_attack::cast(gameChar &source, gameChar &target){
-	float result =  skill::castSkill(source, target, effectVal);
-	return result;
 }
