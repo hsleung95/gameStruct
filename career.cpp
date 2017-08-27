@@ -73,7 +73,7 @@ void adventurer::generateEq(){
 
 magician::magician(string name, float hpVal,float mpVal,float att,float def,float intl) : career(name,hpVal,mpVal,att,def,intl){
 	generateEq();
-	skill* ma = new skill("magic attack",10,-2,'m',"Damage enemy for based on intelligence");
+	skill ma = skill("magic attack",10,-2,'m',"Damage enemy for based on intelligence");
 	skillList.push_back(ma);
 }
 
