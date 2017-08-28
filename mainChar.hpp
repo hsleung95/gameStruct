@@ -17,10 +17,6 @@
 #include "skill.hpp"
 
 class mainChar: public gameChar{
-public:
-	const static int wearingNum = 8;
-	const static int ownedNum = 10;
-	const static int attrNum = 5;
 	
 protected:
     float exp;

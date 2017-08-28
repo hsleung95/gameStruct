@@ -17,6 +17,9 @@ using namespace std;
 #endif /* gameChar_hpp */
 class gameChar{
 public:
+	const static int wearingNum = 8;
+	const static int ownedNum = 10;
+	const static int attrNum = 5;
 	bool defensed;
 	static string attrStr[5];
 	
