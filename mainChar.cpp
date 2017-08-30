@@ -47,7 +47,7 @@ mainChar::mainChar(string name, float hpVal,float mpVal,float att,float def,floa
 		equipment temp = equipment(eqtype);		//create new equipment
 		changeEquipment(temp);		//equip the new equipment to character
 	}
-	skillList.push_back(skill("restore health",6,-2,'r',"Restore health based on intelligence"));	//push the default skill to skill list
+	skillList.push_back(skill("restore health",6,-2,'r',"Restore health based on intelligence",0));	//push the default skill to skill list
 }
 
 mainChar::~mainChar(){

@@ -9,13 +9,14 @@
 #include "skill.hpp"
 
 skill::skill(){}
-skill::skill(string name, float skillCost, float skillVal, char skillKey, string skillDes){
+skill::skill(string name, float skillCost, float skillVal, char skillKey, string skillDes, int type){
 	skillName = name;
 	cost = skillCost;
 	effectVal = skillVal;
 	key = skillKey;
 	description = skillDes;
 	skillLv = 1;
+	skillType = type;
 }
 
 char skill::getKey(){return key;}
@@ -39,4 +40,47 @@ float skill::castSkill(gameChar &source, gameChar &target, float val){
 	else if(fabsf(effectingVal) >= target.getCurrentHP()) effectingVal = -(target.getCurrentHP());	//dealing damage n value > current health, set difference = currentHP (currentHP - currentHP = 0)
 	target.setCurrentHP(target.getCurrentHP() + effectingVal);
 	return fabsf(effectingVal);
+}
+
+/************************ code for skillNode(skill tree node) *****************/
+
+skillNode::skillNode(){
+	root = NULL;
+	next = NULL;
+}
+
+skillNode::skillNode(int lv, skill s, skillNode* nextSkill, skillNode* rootSkill){
+	unlockLv = lv;
+	containSkill = s;
+	next = nextSkill;
+	root = rootSkill;
+}
+
+skillNode::~skillNode(){
+	destroySkillNode(root);
+}
+
+int skillNode::getUnlockLv(){return unlockLv;}
+skill skillNode::getContainSkill(){return containSkill;}
+skillNode* skillNode::getNext(){
+	if(next != NULL) return next;
+	return NULL;
+}
+
+void skillNode::destroySkillNode(skillNode *nextSkill){
+	if(nextSkill!=NULL) destroySkillNode(nextSkill);
+	delete nextSkill;
+}
+
+void skillNode::insertSkill(int lv,skill in){
+	if(next != NULL) insertSkill(lv, in);
+	else{
+		next = new skillNode(lv,in, NULL, this);
+	}
+}
+
+skill skillNode::searchSkill(int lv){
+	if(unlockLv == lv) return containSkill;
+	else if(next!=NULL) searchSkill(lv);
+	return skill();
 }

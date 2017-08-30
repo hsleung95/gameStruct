@@ -14,9 +14,12 @@
 #include "mainChar.hpp"
 
 class career : public mainChar{
+protected:
+	skillNode skillTree;
 public:
 	career();
 	career(string name, float hpVal,float mpVal,float att,float def,float intl);
+	void learnSkill();
 	virtual string getCareer();
 	virtual bool addExp(float expAmount);
 	virtual bool lvUp();
@@ -26,27 +29,28 @@ public:
 class adventurer : public career{
 public:
 	adventurer(string name, float hpVal,float mpVal,float att,float def,float intl);
-	virtual string getCareer();
-	virtual bool addExp(float expAmount);
-	virtual bool lvUp();
-	virtual void generateEq();
+	string getCareer() override;
+	bool addExp(float expAmount) override;
+	bool lvUp() override;
+	void generateEq() override;
 };
 
 class magician : public career{
 public:
 	magician(string name, float hpVal,float mpVal,float att,float def,float intl);
-	virtual string getCareer();
-	virtual bool addExp(float expAmount);
-	virtual bool lvUp();
-	virtual void generateEq();
+	string getCareer() override;
+	bool addExp(float expAmount) override;
+	bool lvUp() override;
+	void generateEq() override;
 };
 
 class fighter : public career{
 public:
 	fighter(string name, float hpVal,float mpVal,float att,float def,float intl);
-	virtual string getCareer();
-	virtual bool addExp(float expAmount);
-	virtual bool lvUp();
-	virtual void generateEq();
+	string getCareer() override;
+	bool addExp(float expAmount)override;
+	bool lvUp() override;
+	void generateEq() override;
+	//void learnSkill() override;
 };
 #endif /* career_hpp */

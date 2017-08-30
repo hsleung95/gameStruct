@@ -25,10 +25,11 @@ protected:
 	float effectVal;
 	char key;
 	string description;
+	int skillType;
 	
 public:
 	skill();
-	skill(string name, float skillCost, float skillVal, char skillKey, string skillDes);
+	skill(string name, float skillCost, float skillVal, char skillKey, string skillDes, int skillType);
 	char getKey();
 	string getSkillName();
 	string getDescription();
@@ -41,12 +42,19 @@ public:
 class skillNode{
 protected:
 	int unlockLv;
-	skill root;
-	skill left;
-	skill right;
+	skill containSkill;
+	skillNode* next;
+	skillNode* root;
 	
 public:
 	skillNode();
-	void learnSkill(int charLv);
+	skillNode(int lv, skill s, skillNode* nextSkill, skillNode* rootSkill);
+	~skillNode();
+	int getUnlockLv();
+	skill getContainSkill();
+	skillNode* getNext();
+	void destroySkillNode(skillNode* nextSkill);
+	void insertSkill(int lv,skill in);
+	skill searchSkill(int lv);
 };
 #endif /* skill_hpp */

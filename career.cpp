@@ -9,7 +9,15 @@
 #include "career.hpp"
 /* ------   career function -------- */
 career::career(){}
-career::career(string name, float hpVal,float mpVal,float att,float def,float intl) : mainChar(name,hpVal,mpVal,att,def,intl){
+career::career(string name, float hpVal,float mpVal,float att,float def,float intl) : mainChar(name,hpVal,mpVal,att,def,intl){}
+
+void career::learnSkill(){
+	if(lv >= skillTree.getUnlockLv()){
+		skill current = skillTree.getContainSkill();
+		skillList.push_back(current);
+		skillNode* nextPtr = skillTree.getNext();
+		if(nextPtr != NULL) skillTree = *nextPtr;
+	}
 }
 
 string career::getCareer(){return "career";}
@@ -38,6 +46,11 @@ void career::generateEq(){}
 
 adventurer::adventurer(string name, float hpVal,float mpVal,float att,float def,float intl) : career(name,hpVal,mpVal,att,def,intl){
 	generateEq();
+	skill specialAttack = skill("special attack", 0, 2, 's', "a special attack that may deal double damage or no damage", 1);
+	skill quickAttack = skill("quick attack", 5, 2, 'q', "quick attack dealing double damage", 1);
+	skillTree = skillNode(1, specialAttack, NULL, NULL);
+	skillTree.insertSkill(3, quickAttack);
+	learnSkill();
 }
 
 string adventurer::getCareer(){return "adventurer";}
@@ -53,6 +66,7 @@ bool adventurer::lvUp(){
 	if(expCap < exp){
 		expCap= exp + 100;
 	}
+	learnSkill();
 	return true;
 }
 void adventurer::generateEq(){
@@ -73,8 +87,9 @@ void adventurer::generateEq(){
 
 magician::magician(string name, float hpVal,float mpVal,float att,float def,float intl) : career(name,hpVal,mpVal,att,def,intl){
 	generateEq();
-	skill ma = skill("magic attack",10,-2,'m',"Damage enemy for based on intelligence");
-	skillList.push_back(ma);
+	skill ma = skill("magic attack",10,-2,'m',"Damage enemy for based on intelligence", 0);
+	skillTree = skillNode(1, ma, NULL, NULL);
+	learnSkill();
 }
 
 string magician::getCareer(){return "magician";}
