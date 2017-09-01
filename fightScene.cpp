@@ -56,6 +56,9 @@ void fightScene::fightFunction(career &myChar){	//function handling fight, pass 
 	bool exit = false;
 	while(!exit){
 		if(myChar.getCurrentHP()<=0) myChar.setCurrentHP(myChar.getMaxHP());	//refill charater health if defeated
+		myChar.setAttVal(myChar.getAttack());
+		myChar.setDefVal(myChar.getDefense());
+		myChar.setIntelligence(myChar.getIntelligence());
 		char userInput = 'x';
 		
 		enemyChar enemyChar;

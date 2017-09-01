@@ -25,8 +25,11 @@ public:
 	
 protected:
     int lv;
-    float maxHP, currentHP, maxMP, currentMP, attack, defense, intelligence;
-	int defenseRound; float defVal;	//	value for defense action
+	float maxHP, currentHP;
+	float maxMP, currentMP;
+	float attack, attVal;
+	float defense; int defenseRound; float defVal;	//	value for defense action
+	float intelligence, intVal;
     string charName;
     
 public:
@@ -41,6 +44,8 @@ public:
     float getDefense();
 	float getIntelligence();
 	float getDefVal();
+	float getAttVal();
+	float getIntVal();
     int   getLV();
     string getName();
 	virtual string getType();
@@ -53,6 +58,9 @@ public:
     void setAttack(float val);
     void setDefense(float val);
 	void setIntelligence(float val);
+	void setAttVal(float val);
+	void setDefVal(float val);
+	void setIntVal(float val);
     void setName(string name);
     
     virtual void printStat();

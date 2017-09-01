@@ -8,15 +8,17 @@
 
 #include "skill.hpp"
 
+const string skill::skillTypeArr[skillTypeNum] = {"damage","healing","modifier"};
+
 skill::skill(){}
-skill::skill(string name, float skillCost, float skillVal, char skillKey, string skillDes, int type){
+skill::skill(string name, float skillCost, float skillVal, char skillKey, string skillDes, int type, int field){
 	skillName = name;
 	cost = skillCost;
 	effectVal = skillVal;
 	key = skillKey;
 	description = skillDes;
-	skillLv = 1;
 	skillType = type;
+	skillField = field;
 }
 
 char skill::getKey(){return key;}
@@ -25,21 +27,29 @@ string skill::getDescription(){return description;}
 float skill::getCost(){return cost;}
 int skill::getSKillLv(){return skillLv;}
 
-float skill::cast(gameChar &source, gameChar &target){return castSkill(source, target, effectVal);}
+//float skill::cast(gameChar &source, gameChar &target){return castSkill(source, target, effectVal);}
 
-float skill::castSkill(gameChar &source, gameChar &target, float val){
+float skill::cast(gameChar &source, gameChar &target){
 	float sourceMP = source.getCurrentMP();
 	if(sourceMP < cost) return -1;
 	source.setCurrentMP(sourceMP - cost);
+	float effectingVal = 0;
 	
-	float magicDef = target.getIntelligence();
-	if(effectVal > 1) magicDef = 0;
-	float amount = effectVal * source.getIntelligence()* 1 + magicDef;	//value = -(spellAmount * intelligence - targetIntelligence)
-	float effectingVal = amount;
-	if(effectingVal > target.getMaxHP()) effectingVal = target.getMaxHP() - target.getCurrentHP();	//restoring health n amount > maxHP, set difference = maxHP - currentHP
-	else if(fabsf(effectingVal) >= target.getCurrentHP()) effectingVal = -(target.getCurrentHP());	//dealing damage n value > current health, set difference = currentHP (currentHP - currentHP = 0)
-	target.setCurrentHP(target.getCurrentHP() + effectingVal);
-	return fabsf(effectingVal);
+	if(skillType == 0){
+		float magicDef = target.getIntelligence();
+		//if(effectVal > 1) magicDef = 0;
+		effectingVal = -(effectVal * source.getIntelligence()* 1 + magicDef);	//value = -(spellAmount * intelligence - targetIntelligence)
+		//float effectingVal = amount;
+		if(fabsf(effectingVal) >= target.getCurrentHP()) effectingVal = -(target.getCurrentHP());	//dealing damage n value > current health, set difference = currentHP (currentHP - currentHP = 0)
+		target.setCurrentHP(target.getCurrentHP() + effectingVal);
+		return -(effectingVal);
+	}
+	else if(skillType == 1){
+		effectingVal = effectVal * source.getIntelligence() * 1;
+		if(effectingVal > target.getMaxHP()) effectingVal = target.getMaxHP() - target.getCurrentHP();	//restoring health n amount > maxHP, set difference = maxHP - currentHP
+		target.setCurrentHP(target.getCurrentHP()+effectingVal);
+	}
+	return effectingVal;
 }
 
 /************************ code for skillNode(skill tree node) *****************/

@@ -18,25 +18,28 @@
 #include <iostream>
 
 class skill{
+public:
+	const static int skillTypeNum = 3;
+	const static string skillTypeArr[skillTypeNum];
+
 protected:
-	int skillLv;
 	string skillName;
 	float cost;
 	float effectVal;
 	char key;
 	string description;
 	int skillType;
+	int skillField;
 	
 public:
 	skill();
-	skill(string name, float skillCost, float skillVal, char skillKey, string skillDes, int skillType);
+	skill(string name, float skillCost, float skillVal, char skillKey, string skillDes, int skillType, int skillField);
 	char getKey();
 	string getSkillName();
 	string getDescription();
 	float getCost();
 	int getSKillLv();
 	float cast(gameChar &source, gameChar &target);
-	float castSkill(gameChar &source, gameChar &target, float val);
 };
 
 class skillNode{

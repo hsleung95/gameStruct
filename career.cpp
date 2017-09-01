@@ -7,9 +7,23 @@
 //
 
 #include "career.hpp"
+
+/*-- skill list for all classes--*/
+//skill(string name, float skillCost, float skillVal, char skillKey, string skillDes, int skillType)
+//skill type are 0:"damage",1:"healing",2:"modifier"
+skill restore_health = skill("restore health",6,-2,'r',"Restore health based on intelligence",1,0);	//root skill of all class
+skill specialAttack = skill("special attack", 0, 2, 's', "a special attack that may deal double damage or no damage", 0,0);
+skill quickAttack = skill("quick attack", 5, 2, 'q', "quick attack dealing double damage", 0,0);
+skill piercing_ball = skill("piercing ball",10,2,'m',"Damaging enemy using magic", 0,0);
+skill heavyAttack = skill("heavy attack", 20, 4, 'h', "heavy attack dealing a lot of damage", 0,0);
+
+
 /* ------   career function -------- */
+
 career::career(){}
-career::career(string name, float hpVal,float mpVal,float att,float def,float intl) : mainChar(name,hpVal,mpVal,att,def,intl){}
+career::career(string name, float hpVal,float mpVal,float att,float def,float intl) : mainChar(name,hpVal,mpVal,att,def,intl){
+	skillTree = skillNode(1, restore_health, NULL, NULL);
+}
 
 bool career::learnSkill(){
 	if(lv >= skillTree.getUnlockLv()){
@@ -51,12 +65,8 @@ void career::generateEq(){}
 
 adventurer::adventurer(string name, float hpVal,float mpVal,float att,float def,float intl) : career(name,hpVal,mpVal,att,def,intl){
 	generateEq();
-	skill specialAttack = skill("special attack", 0, 2, 's', "a special attack that may deal double damage or no damage", 1);
-	skill quickAttack = skill("quick attack", 5, 2, 'q', "quick attack dealing double damage", 1);
-	skill heavyAttack = skill("heavy attack", 20, 4, 'h', "heavy attack dealing a lot of damage", 1);
-	skillTree = skillNode(1, specialAttack, NULL, NULL);
-	skillTree.insertSkill(1, quickAttack);
-	skillTree.insertSkill(2, heavyAttack);
+	skillTree.insertSkill(1, specialAttack);
+	skillTree.insertSkill(3, quickAttack);
 	learnSkill();
 }
 
@@ -94,8 +104,7 @@ void adventurer::generateEq(){
 
 magician::magician(string name, float hpVal,float mpVal,float att,float def,float intl) : career(name,hpVal,mpVal,att,def,intl){
 	generateEq();
-	skill ma = skill("magic attack",10,-2,'m',"Damage enemy for based on intelligence", 0);
-	skillTree = skillNode(1, ma, NULL, NULL);
+	skillTree.insertSkill(1, piercing_ball);
 	learnSkill();
 }
 
@@ -138,6 +147,8 @@ void magician::generateEq(){
 
 fighter::fighter(string name, float hpVal,float mpVal,float att,float def,float intl) : career(name,hpVal,mpVal,att,def,intl){
 	generateEq();
+	skillTree.insertSkill(1, heavyAttack);
+	learnSkill();
 }
 
 bool fighter::addExp(float expAmount){

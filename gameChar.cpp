@@ -12,7 +12,7 @@
 string gameChar::attrStr[5] = {"hp","mp","attack","defense","intelligence"};
 
 gameChar::gameChar(){
-    currentHP=maxHP=currentMP=maxMP=attack=defense=defVal=intelligence=0;
+    currentHP=maxHP=currentMP=maxMP=attack=attVal=defense=defVal=intelligence=intVal=0;
     lv = 1;
 	defenseRound = -1;
 }
@@ -22,9 +22,11 @@ gameChar::gameChar(string name, float hpVal,float mpVal,float att,float def, flo
     maxHP = hpVal;
     maxMP = mpVal;
     attack=att;
+	attVal=att;
     defense=def;
 	defVal=def;
 	intelligence=inti;
+	intVal=inti;
     charName = name;
     lv = 1;
     currentMP = mpVal;
@@ -38,7 +40,9 @@ float gameChar::getCurrentMP(){return currentMP;}
 float gameChar::getAttack(){return attack;}
 float gameChar::getDefense(){return defense;}
 float gameChar::getIntelligence(){return intelligence;}
+float gameChar::getAttVal(){return attVal;}
 float gameChar::getDefVal(){return defVal;}
+float gameChar::getIntVal(){return intVal;}
 string gameChar::getName(){return charName;}
 string gameChar::getType(){return "gameChar";}
 int gameChar::getLV(){ return lv; }
@@ -54,14 +58,20 @@ void gameChar::setCurrentMP(float val){currentMP = val;}
 void gameChar::setAttack(float val){attack=val;}
 void gameChar::setDefense(float val){defense=val;}
 void gameChar::setIntelligence(float val){intelligence=val;}
+void gameChar::setAttVal(float val){attVal=val;}
+void gameChar::setDefVal(float val){defVal=val;}
+void gameChar::setIntVal(float val){intVal=val;}
 void gameChar::setName(string name){charName=name;}
 void gameChar::setChar(string name, float charHP, float charMP, float charAtt,float charDef,float charInt, int charLv){
     charName = name;
     maxHP=charHP;
     maxMP=charMP;
     attack = charAtt;
+	attVal = charAtt;
     defense = charDef;
+	defVal = charDef;
 	intelligence = charInt;
+	intVal = charInt;
     currentHP = maxHP;
     currentMP = maxMP;
     lv = charLv;
@@ -89,17 +99,18 @@ void gameChar::randChar(int charLv){
     maxHP= randValWithLV(10, 20, lv);   //val = min + rand  % max
     maxMP= randValWithLV(5, 50, lv);
     attack=randValWithLV(5, 10, lv);
+	attVal = attack;
     defense =randValWithLV(5, 10, lv);
 	defVal = defense;
 	intelligence = randValWithLV(5, 10, lv);
+	intVal = intelligence;
     currentHP = maxHP;
     currentMP = maxMP;
 }
 
 float gameChar::attackChar(gameChar target){
-    float ownAttack = getAttack();
+    float ownAttack = getAttVal();
     float targetDefense = target.getDefVal();
-	cout << target.getName() << " " << target.getDefense() << " " << targetDefense << endl;
     float damage = (ownAttack  - targetDefense) * 1.5 ;
     if(damage<=0) damage = 1;
     return damage;
