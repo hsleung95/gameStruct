@@ -73,7 +73,7 @@ void skillNode::destroySkillNode(skillNode *nextSkill){
 }
 
 void skillNode::insertSkill(int lv,skill in){
-	if(next != NULL) insertSkill(lv, in);
+	if(next != NULL) next->insertSkill(lv, in);
 	else{
 		next = new skillNode(lv,in, NULL, this);
 	}

@@ -19,7 +19,7 @@ protected:
 public:
 	career();
 	career(string name, float hpVal,float mpVal,float att,float def,float intl);
-	void learnSkill();
+	bool learnSkill();
 	virtual string getCareer();
 	virtual bool addExp(float expAmount);
 	virtual bool lvUp();
