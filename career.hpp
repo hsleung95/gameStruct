@@ -15,7 +15,7 @@
 
 class career : public mainChar{
 protected:
-	skillNode skillTree;
+	list<skillNode> skillTree;
 public:
 	career();
 	career(string name, float hpVal,float mpVal,float att,float def,float intl);

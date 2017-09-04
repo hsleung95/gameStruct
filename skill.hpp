@@ -38,26 +38,19 @@ public:
 	string getSkillName();
 	string getDescription();
 	float getCost();
-	int getSKillLv();
 	float cast(gameChar &source, gameChar &target);
+	void setTargetParam(gameChar &target, int field, int effectVal);
 };
 
 class skillNode{
-protected:
-	int unlockLv;
 	skill containSkill;
-	skillNode* next;
-	skillNode* root;
+	int unlockLv;
 	
 public:
 	skillNode();
-	skillNode(int lv, skill s, skillNode* nextSkill, skillNode* rootSkill);
-	~skillNode();
+	skillNode(int lv, skill in);
+	
 	int getUnlockLv();
-	skill getContainSkill();
-	skillNode* getNext();
-	void destroySkillNode(skillNode* nextSkill);
-	void insertSkill(int lv,skill in);
-	skill searchSkill(int lv);
+	skill getSkill();
 };
 #endif /* skill_hpp */

@@ -27,20 +27,20 @@ skill heavyAttack = skill("heavy attack", 5, 4, 'h', "heavy attack dealing a lot
 
 career::career(){}
 career::career(string name, float hpVal,float mpVal,float att,float def,float intl) : mainChar(name,hpVal,mpVal,att,def,intl){
-	skillTree = skillNode(1,&restore_health);
+	skillNode first = skillNode(1, restore_health);
+	skillTree.push_back(first);
 }
 
 bool career::learnSkill(){
-	if(lv >= skillTree.getUnlockLv()){
-		skill current = skillTree.getContainSkill();
-		cout << "learning " << current.getSkillName() << current.getDescription() << endl;
-		skillList.push_back(current);
-		skillNode* nextPtr = skillTree.getNext();
-		if(nextPtr != NULL){
-			skillTree = *nextPtr;
+	if(!skillTree.empty()){
+		skillNode first = *skillTree.begin();
+		if(lv >= first.getUnlockLv()){
+			skill learning = first.getSkill();
+			skillList.push_back(learning);
+			skillTree.pop_front();
 			learnSkill();
+			return true;
 		}
-		return true;
 	}
 	return false;
 }
@@ -72,10 +72,10 @@ void career::generateEq(){}
 
 adventurer::adventurer(string name, float hpVal,float mpVal,float att,float def,float intl) : career(name,hpVal,mpVal,att,def,intl){
 	generateEq();
-	skillTree.insertSkill(1, doubleAttack);
-	skillTree.insertSkill(1, trippleAttack);
-	skillTree.insertSkill(1, piercing_ball);
-	learnSkill();
+	skillTree.push_back(skillNode(1, doubleAttack));
+	skillTree.push_back(skillNode(1, trippleAttack));
+	skillTree.push_back(skillNode(1, piercing_ball));
+	cout << learnSkill();
 }
 
 string adventurer::getCareer(){return "adventurer";}
@@ -159,7 +159,7 @@ void magician::generateEq(){
 
 fighter::fighter(string name, float hpVal,float mpVal,float att,float def,float intl) : career(name,hpVal,mpVal,att,def,intl){
 	generateEq();
-	skillTree.insertSkill(1, heavyAttack);
+	skillTree.push_back(skillNode(1, heavyAttack));
 	learnSkill();
 }
 

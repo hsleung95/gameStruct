@@ -25,7 +25,6 @@ char skill::getKey(){return key;}
 string skill::getSkillName(){return skillName;}
 string skill::getDescription(){return description;}
 float skill::getCost(){return cost;}
-int skill::getSKillLv(){return skillLv;}
 
 //float skill::cast(gameChar &source, gameChar &target){return castSkill(source, target, effectVal);}
 
@@ -37,11 +36,9 @@ float skill::cast(gameChar &source, gameChar &target){
 	
 	if(skillType == 0){
 		float magicDef = target.getIntelligence();
-		//if(effectVal > 1) magicDef = 0;
 		effectingVal = -(effectVal * source.getIntelligence()* 1 + magicDef);	//value = -(spellAmount * intelligence - targetIntelligence)
-		//float effectingVal = amount;
 		if(fabsf(effectingVal) >= target.getCurrentHP()) effectingVal = -(target.getCurrentHP());	//dealing damage n value > current health, set difference = currentHP (currentHP - currentHP = 0)
-		target.setCurrentHP(target.getCurrentHP() + effectingVal);
+		setTargetParam(target, skillField, effectingVal);
 		return -(effectingVal);
 	}
 	else if(skillType == 1){
@@ -52,45 +49,22 @@ float skill::cast(gameChar &source, gameChar &target){
 	return effectingVal;
 }
 
+void skill::setTargetParam(gameChar &target, int field, int effectVal){
+	switch(field){
+		case 0: target.setCurrentHP(target.getCurrentHP() + effectVal); break;
+		case 1: target.setCurrentMP(target.getCurrentMP() + effectVal); break;
+		case 2: target.setAttVal(target.getAttVal() + effectVal); break;
+		case 3: target.setDefVal(target.getDefVal() + effectVal); break;
+		case 4: target.setIntVal(target.getIntVal() + effectVal); break;
+	}
+}
 /************************ code for skillNode(skill tree node) *****************/
 
-skillNode::skillNode(){
-	root = NULL;
-	next = NULL;
-}
-
-skillNode::skillNode(int lv, skill s, skillNode* nextSkill, skillNode* rootSkill){
+skillNode::skillNode(){}
+skillNode::skillNode(int lv, skill in){
 	unlockLv = lv;
-	containSkill = s;
-	next = nextSkill;
-	root = rootSkill;
-}
-
-skillNode::~skillNode(){
-	destroySkillNode(root);
+	containSkill = in;
 }
 
 int skillNode::getUnlockLv(){return unlockLv;}
-skill skillNode::getContainSkill(){return containSkill;}
-skillNode* skillNode::getNext(){
-	if(next != NULL) return next;
-	return NULL;
-}
-
-void skillNode::destroySkillNode(skillNode *nextSkill){
-	if(nextSkill!=NULL) destroySkillNode(nextSkill);
-	delete nextSkill;
-}
-
-void skillNode::insertSkill(int lv,skill in){
-	if(next != NULL) next->insertSkill(lv, in);
-	else{
-		next = new skillNode(lv,in, NULL, this);
-	}
-}
-
-skill skillNode::searchSkill(int lv){
-	if(unlockLv == lv) return containSkill;
-	else if(next!=NULL) searchSkill(lv);
-	return skill();
-}
+skill skillNode::getSkill(){return containSkill;}
