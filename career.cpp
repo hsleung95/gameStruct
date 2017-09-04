@@ -9,25 +9,31 @@
 #include "career.hpp"
 
 /*-- skill list for all classes--*/
-//skill(string name, float skillCost, float skillVal, char skillKey, string skillDes, int skillType)
-//skill type are 0:"damage",1:"healing",2:"modifier"
-skill restore_health = skill("restore health",6,-2,'r',"Restore health based on intelligence",1,0);	//root skill of all class
-skill specialAttack = skill("special attack", 0, 2, 's', "a special attack that may deal double damage or no damage", 0,0);
-skill quickAttack = skill("quick attack", 5, 2, 'q', "quick attack dealing double damage", 0,0);
+//skill(string name, float skillCost, float skillVal, char skillKey, string skillDes, int skillType,int skillField)
+//skill type are 0:damage, 1:healing, 2:modifier
+//skill fields are 0:currentHP, 1: currentMP, 2:attVal, 3:defVal, 4:intVal
+
+skill restore_health = skill("restore health",6,2,'r',"Restore health based on intelligence",1,1);	//root skill of all class
+
+skill doubleAttack = skill("double attack", 5, 2, 'd', "attack dealing double damage", 0,0);
+skill trippleAttack = skill("tripple attack", 10, 3, 't', "attack dealing tripple damage", 0,0);
+
 skill piercing_ball = skill("piercing ball",10,2,'m',"Damaging enemy using magic", 0,0);
-skill heavyAttack = skill("heavy attack", 20, 4, 'h', "heavy attack dealing a lot of damage", 0,0);
+
+skill heavyAttack = skill("heavy attack", 5, 4, 'h', "heavy attack dealing a lot of damage", 0,0);
 
 
 /* ------   career function -------- */
 
 career::career(){}
 career::career(string name, float hpVal,float mpVal,float att,float def,float intl) : mainChar(name,hpVal,mpVal,att,def,intl){
-	skillTree = skillNode(1, restore_health, NULL, NULL);
+	skillTree = skillNode(1,&restore_health);
 }
 
 bool career::learnSkill(){
 	if(lv >= skillTree.getUnlockLv()){
 		skill current = skillTree.getContainSkill();
+		cout << "learning " << current.getSkillName() << current.getDescription() << endl;
 		skillList.push_back(current);
 		skillNode* nextPtr = skillTree.getNext();
 		if(nextPtr != NULL){
@@ -61,12 +67,14 @@ bool adventurer::addExp(float expAmount){
 }
 
 void career::generateEq(){}
+
 /* ----------------   adventurer function ------------------ */
 
 adventurer::adventurer(string name, float hpVal,float mpVal,float att,float def,float intl) : career(name,hpVal,mpVal,att,def,intl){
 	generateEq();
-	skillTree.insertSkill(1, specialAttack);
-	skillTree.insertSkill(3, quickAttack);
+	skillTree.insertSkill(1, doubleAttack);
+	skillTree.insertSkill(1, trippleAttack);
+	skillTree.insertSkill(1, piercing_ball);
 	learnSkill();
 }
 
@@ -75,10 +83,12 @@ bool adventurer::lvUp(){
 	lv += 1;
 	expCap += setExpCap(lv);
 	maxHP += 10;
+	currentHP += 10;
 	maxMP +=5;
+	currentMP += 5;
 	attack += 3;
 	defense += 3;
-	intelligence += 1;
+	intelligence += 3;
 	expCap -= 50*lv*lv;
 	if(expCap < exp){
 		expCap= exp + 100;
@@ -104,7 +114,7 @@ void adventurer::generateEq(){
 
 magician::magician(string name, float hpVal,float mpVal,float att,float def,float intl) : career(name,hpVal,mpVal,att,def,intl){
 	generateEq();
-	skillTree.insertSkill(1, piercing_ball);
+	//skillTree.insertSkill(1, piercing_ball);
 	learnSkill();
 }
 
@@ -120,7 +130,9 @@ bool magician::lvUp(){
 	lv += 1;
 	expCap += setExpCap(lv);
 	maxHP += 5;
+	currentHP += 5;
 	maxMP +=10;
+	maxMP += 10;
 	attack += 2;
 	defense += 2;
 	intelligence += 5;
@@ -162,7 +174,9 @@ bool fighter::lvUp(){
 	lv += 1;
 	expCap += setExpCap(lv);
 	maxHP += 15;
-	maxMP +=5;
+	currentHP += 15;
+	maxMP +=5 ;
+	currentMP += 5;
 	attack += 5;
 	defense += 5;
 	intelligence += 1;

@@ -14,6 +14,7 @@
 #include "enemyChar.hpp"
 #include "career.hpp"
 #include "equipment.hpp"
+#include "skill.hpp"
 #include <stdlib.h>
 #include <list>
 
@@ -22,6 +23,7 @@ public:
 	static void fightFunction(career &myChar);
 	static enemyChar createEnemy(int lv);
 	static bool attackChar(gameChar &source, gameChar &target);
+	static bool castSkillOnChar(gameChar &source, gameChar &target, skill cast);
 	static gameChar& selectTarget(list<gameChar*> charlist);
 	static void printDefense(gameChar gamechar);
 };

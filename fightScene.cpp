@@ -45,6 +45,14 @@ gameChar& fightScene::selectTarget(list<gameChar*> charList){		//loop through ch
 	return *target;
 }
 
+bool fightScene::castSkillOnChar(gameChar &source, gameChar &target, skill cast){
+	float amount = cast.cast(source, target);
+	cout << "You casted " << cast.getSkillName() << " on " << target.getName() << ", dealing " << amount << " points." << endl;
+	source.printStat();
+	target.printStat();
+	return true;
+}
+
 void fightScene::printDefense(gameChar gamechar){
 	cout << gamechar.getName() << " is defensing." << endl;
 	gamechar.printStat();
@@ -132,12 +140,10 @@ void fightScene::fightFunction(career &myChar){	//function handling fight, pass 
 							continue;
 						}
 						else{						//user entered a magic key, loop through the list and cast the magic
-							float amount = 0;
-							for(list<skill>::iterator it=skillList.begin();it!=skillList.end();it++){
-								if(userCast == it->getKey()){		//match the key, get the target
+							for(list<skill>::iterator skillIt=skillList.begin();skillIt!=skillList.end();skillIt++){
+								if(userCast == skillIt->getKey()){		//match the key, get the target
 									gameChar& target = fightScene::selectTarget(charList);
-									amount = it->cast(myChar, target);
-									cout << "You casted " << it->getSkillName() << " on " << target.getName() << ", dealing " << amount << " points." << endl;
+									castSkillOnChar(*(*it), target, *skillIt);
 								}
 								isMoved = true;
 							}

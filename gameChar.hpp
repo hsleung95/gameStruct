@@ -10,11 +10,12 @@
 #define gameChar_hpp
 #pragma once
 
+#include <list>
 #include <stdio.h>
 #include <string>
+
 using namespace std;
 
-#endif /* gameChar_hpp */
 class gameChar{
 public:
 	const static int wearingNum = 8;
@@ -71,5 +72,6 @@ public:
     float attackChar(gameChar target);
 	bool defenseAction(int currentRound);
 	bool stopDefense();
-
 };
+
+#endif /* gameChar_hpp */

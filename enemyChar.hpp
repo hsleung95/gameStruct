@@ -13,11 +13,13 @@
 #include <stdio.h>
 #include "gameChar.hpp"
 #include "equipment.hpp"
+#include "skill.hpp"
 
 class enemyChar: public gameChar{
 protected:
     float expContain;
 	equipment eq;
+	skill skillArr[4];
     
 public:
     enemyChar();

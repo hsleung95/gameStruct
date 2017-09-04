@@ -14,8 +14,7 @@
 #include <stdio.h>
 #include "gameChar.hpp"
 #include <string>
-
-#endif /* equipment_hpp */
+using namespace std;
 
 class equipment{
 public:
@@ -68,3 +67,7 @@ class legs : public equipment{};
 class boots : public equipment{};
 class hand : public equipment{};
 */
+
+
+#endif /* equipment_hpp */
+
