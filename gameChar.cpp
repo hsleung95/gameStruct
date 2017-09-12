@@ -12,25 +12,22 @@
 string gameChar::attrStr[5] = {"hp","mp","attack","defense","intelligence"};
 
 gameChar::gameChar(){
-    currentHP=maxHP=currentMP=maxMP=attack=attVal=defense=defVal=intelligence=intVal=0;
+    currentHP=maxHP=currentMP=maxMP=attack=attVal=defense=defVal=intelligence=intVal=attMod=defMod=intMod=0;
     lv = 1;
-	defenseRound = -1;
+	decreasedAttRound=decreasedDefRound=decreasedIntRound=defenseRound = -1;
+	decreasedAtt=decreasedDef=decreasedInt=false;
 }
 
 gameChar::gameChar(string name, float hpVal,float mpVal,float att,float def, float inti){
 	defenseRound = -1;
-    maxHP = hpVal;
-    maxMP = mpVal;
-    attack=att;
-	attVal=att;
-    defense=def;
-	defVal=def;
-	intelligence=inti;
-	intVal=inti;
+    maxHP = currentHP = hpVal;
+    maxMP = currentMP = mpVal;
+    attack=attVal=att;
+    defense=defVal=def;
+	intelligence=intVal=inti;
     charName = name;
-    lv = 1;
-    currentMP = mpVal;
-    currentHP = hpVal;
+	lv = 1;
+	attMod=defMod=intMod=0;
 }
 
 float gameChar::getMaxHP(){return maxHP;}
@@ -43,6 +40,9 @@ float gameChar::getIntelligence(){return intelligence;}
 float gameChar::getAttVal(){return attVal;}
 float gameChar::getDefVal(){return defVal;}
 float gameChar::getIntVal(){return intVal;}
+float gameChar::getAttMod(){return attMod;}
+float gameChar::getDefMod(){return defMod;}
+float gameChar::getIntMod(){return intMod;}
 string gameChar::getName(){return charName;}
 string gameChar::getType(){return "gameChar";}
 int gameChar::getLV(){ return lv; }
@@ -61,6 +61,9 @@ void gameChar::setIntelligence(float val){intelligence=val;}
 void gameChar::setAttVal(float val){attVal=val;}
 void gameChar::setDefVal(float val){defVal=val;}
 void gameChar::setIntVal(float val){intVal=val;}
+void gameChar::setAttMod(float val){attMod=val;}
+void gameChar::setDefMod(float val){defMod=val;}
+void gameChar::setIntMod(float val){intMod=val;}
 void gameChar::setName(string name){charName=name;}
 void gameChar::setChar(string name, float charHP, float charMP, float charAtt,float charDef,float charInt, int charLv){
     charName = name;
@@ -75,6 +78,7 @@ void gameChar::setChar(string name, float charHP, float charMP, float charAtt,fl
     currentHP = maxHP;
     currentMP = maxMP;
     lv = charLv;
+	attMod = defMod = intMod = 0;
 }
 
  void gameChar::printStat(){
@@ -82,9 +86,9 @@ void gameChar::setChar(string name, float charHP, float charMP, float charAtt,fl
 	 cout << " lv: " << lv;
 	 cout << " HP: " << (currentHP <= 0? 0 : currentHP) << "/" << maxHP;
 	 cout << " MP: " << (currentMP <= 0? 0 : currentMP) << "/" << maxMP;
-     cout << " Attack: " << attack;
-     cout << " Defense: " << defense;
-	 cout << " Intelligence: " << intelligence;
+     cout << " Attack: " << attVal + attMod;
+     cout << " Defense: " << defVal + defMod;
+	 cout << " Intelligence: " << intVal + intMod;
 }
 
 float randValWithLV(int min, int max,int lv){
@@ -100,17 +104,20 @@ void gameChar::randChar(int charLv){
     maxMP= randValWithLV(5, 50, lv);
     attack=randValWithLV(5, 10, lv);
 	attVal = attack;
+	attMod = 0;
     defense =randValWithLV(5, 10, lv);
 	defVal = defense;
+	defMod = 0;
 	intelligence = randValWithLV(5, 10, lv);
 	intVal = intelligence;
+	intMod = 0;
     currentHP = maxHP;
     currentMP = maxMP;
 }
 
 float gameChar::attackChar(gameChar target){
-    float ownAttack = getAttVal();
-    float targetDefense = target.getDefVal();
+    float ownAttack = getAttVal() + attMod;
+    float targetDefense = target.getDefVal() + target.getDefMod();
     float damage = (ownAttack  - targetDefense) * 1.5 ;
     if(damage<=0) damage = 1;
     return damage;
@@ -127,4 +134,50 @@ bool gameChar::stopDefense(){
 	defVal = getDefense();
 	defensed = false;
 	return true;
+}
+
+void gameChar::decreaseAttr(int attribute, float effectVal, int currentRound){
+switch (attribute) {
+	case 2:{
+		attMod = effectVal;
+		decreasedAttRound = currentRound;
+		decreasedAtt = true;
+		break;
+	}
+	case 3:{
+		defMod = effectVal;
+		decreasedDefRound = currentRound;
+		decreasedDef = true;
+		break;
+	}
+	case 4:{
+		intMod = effectVal;
+		decreasedIntRound = currentRound;
+		decreasedInt = true;
+		break;
+	}
+	default:
+		break;
+	}
+}
+
+void gameChar::checkRoundStat(int currentRound){
+	if(decreasedAtt){
+		if(decreasedAttRound + 7 == currentRound){
+			attMod = 0;
+			decreasedAtt = false;
+		}
+	}
+	if(decreasedDef){
+		if(decreasedDefRound + 7 == currentRound){
+			defMod = 0;
+			decreasedDef = false;
+		}
+	}
+	if(decreasedInt){
+		if(decreasedIntRound + 7 == currentRound){
+			intMod = 0;
+			decreasedInt = false;
+		}
+	}
 }

@@ -23,7 +23,7 @@ public:
 	static void fightFunction(career &myChar);
 	static enemyChar createEnemy(int lv);
 	static bool attackChar(gameChar &source, gameChar &target);
-	static bool castSkillOnChar(gameChar &source, gameChar &target, skill cast);
+	static bool castSkillOnChar(gameChar &source, gameChar &target, skill* cast, int currentRound);
 	static gameChar& selectTarget(list<gameChar*> charlist);
 	static void printDefense(gameChar gamechar);
 };

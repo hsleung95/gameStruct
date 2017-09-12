@@ -24,10 +24,10 @@ public:
 	
 protected:
 	eqType eqType;
-	attribute attribute;
 	string eqName;
 	gameChar owner;
 	string description;
+	attribute attribute;
 	float effectingVal;
 	int lv;
 	

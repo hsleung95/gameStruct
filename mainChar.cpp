@@ -101,21 +101,21 @@ bool mainChar::dropEquipment(equipment eq){
 
 equipment* mainChar::getWearingArr(){return wearing;}
 equipment* mainChar::getOwnedArr(){return owned;}
-list<skill> mainChar::getSkillList(){return skillList;}
+list<skill*> mainChar::getSkillList(){return skillList;}
 
 void mainChar::printSkill(){
-	for(list<skill>::iterator it=skillList.begin();it!=skillList.end();it++){
-		cout << "skill key: " << it->getKey();
-		cout << ", skill name: " << it->getSkillName();
-		cout << ", skill cost: " << it->getCost();
-		cout << " , description: " << it->getDescription();
+	for(list<skill*>::iterator it=skillList.begin();it!=skillList.end();it++){
+		cout << "skill key: " << (*it)->getKey();
+		cout << ", skill name: " << (*it)->getSkillName();
+		cout << ", skill cost: " << (*it)->getCost();
+		cout << " , description: " << (*it)->getDescription();
 		cout << endl;
 	}
 }
 
 bool mainChar::checkMagicKey(char userInput){
-	for(list<skill>::iterator it=skillList.begin();it!=skillList.end();it++){
-		if(userInput == it->getKey()) return true;		//check if userInput match any skill key in user skill list
+	for(list<skill*>::iterator it=skillList.begin();it!=skillList.end();it++){
+		if(userInput == (*it)->getKey()) return true;		//check if userInput match any skill key in user skill list
 	}
 	return false;
 }

@@ -9,25 +9,25 @@
 #include "career.hpp"
 
 /*-- skill list for all classes--*/
-//skill(string name, float skillCost, float skillVal, char skillKey, string skillDes, int skillType,int skillField)
-//skill type are 0:damage, 1:healing, 2:modifier
-//skill fields are 0:currentHP, 1: currentMP, 2:attVal, 3:defVal, 4:intVal
+//skill(string name, float skillCost, float skillVal, char skillKey, string skillDes)
+//attribute_modifier(string name, float skillCost, float skillVal, char skillKey, string skillDes, int skillField)
+//skill fields are 2:attMod, 3:defMod, 4:intMod
 
-skill restore_health = skill("restore health",6,2,'r',"Restore health based on intelligence",1,1);	//root skill of all class
+skill* restoration = new restore_health("restore health",6,2,'r',"Restore health based on intelligence");	//root skill of all class
 
-skill doubleAttack = skill("double attack", 5, 2, 'd', "attack dealing double damage", 0,0);
-skill trippleAttack = skill("tripple attack", 10, 3, 't', "attack dealing tripple damage", 0,0);
+skill* doubleAttack = new physical_skill("double attack", 5, 2, 'd', "attack dealing double damage");
+skill* trippleAttack = new physical_skill("tripple attack", 10, 3, 't', "attack dealing tripple damage");
 
-skill piercing_ball = skill("piercing ball",10,2,'m',"Damaging enemy using magic", 0,0);
+skill* piercing_ball = new magic("piercing ball",10,2,'m',"Damaging enemy using magic");
 
-skill heavyAttack = skill("heavy attack", 5, 4, 'h', "heavy attack dealing a lot of damage", 0,0);
+skill* heavyAttack = new physical_skill("heavy attack", 5, 4, 'h', "heavy attack dealing a lot of damage");
 
-
+skill* decreaseDef = new attribute_modifier("decrease defense", 10, -10,'d', "decrease enemy defense",3);
 /* ------   career function -------- */
 
 career::career(){}
 career::career(string name, float hpVal,float mpVal,float att,float def,float intl) : mainChar(name,hpVal,mpVal,att,def,intl){
-	skillNode first = skillNode(1, restore_health);
+	skillNode first = skillNode(1, restoration);
 	skillTree.push_back(first);
 }
 
@@ -35,7 +35,7 @@ bool career::learnSkill(){
 	if(!skillTree.empty()){
 		skillNode first = *skillTree.begin();
 		if(lv >= first.getUnlockLv()){
-			skill learning = first.getSkill();
+			skill* learning = first.getSkill();
 			skillList.push_back(learning);
 			skillTree.pop_front();
 			learnSkill();
@@ -114,7 +114,8 @@ void adventurer::generateEq(){
 
 magician::magician(string name, float hpVal,float mpVal,float att,float def,float intl) : career(name,hpVal,mpVal,att,def,intl){
 	generateEq();
-	//skillTree.insertSkill(1, piercing_ball);
+	skillTree.push_back(skillNode(1, piercing_ball));
+	skillTree.push_back(skillNode(1, decreaseDef));
 	learnSkill();
 }
 

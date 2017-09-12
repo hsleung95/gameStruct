@@ -23,7 +23,7 @@ protected:
     float expCap;
 	equipment wearing[wearingNum];
 	equipment owned[ownedNum];
-	list<skill> skillList;
+	list<skill*> skillList;
 	
     
 public:
@@ -44,7 +44,7 @@ public:
 	
 	equipment* getWearingArr();
 	equipment* getOwnedArr();
-	list<skill> getSkillList();
+	list<skill*> getSkillList();
 	void printSkill();
 	bool checkMagicKey(char userInput);
 };

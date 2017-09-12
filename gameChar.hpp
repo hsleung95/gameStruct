@@ -28,9 +28,9 @@ protected:
     int lv;
 	float maxHP, currentHP;
 	float maxMP, currentMP;
-	float attack, attVal;
-	float defense; int defenseRound; float defVal;	//	value for defense action
-	float intelligence, intVal;
+	float attack, attVal, attMod;	int decreasedAttRound; bool decreasedAtt;
+	float defense, defVal, defMod; int defenseRound, decreasedDefRound;	bool decreasedDef;	//	value for defense action
+	float intelligence, intVal, intMod; int decreasedIntRound;	bool decreasedInt;
     string charName;
     
 public:
@@ -47,6 +47,9 @@ public:
 	float getDefVal();
 	float getAttVal();
 	float getIntVal();
+	float getAttMod();
+	float getDefMod();
+	float getIntMod();
     int   getLV();
     string getName();
 	virtual string getType();
@@ -62,8 +65,13 @@ public:
 	void setAttVal(float val);
 	void setDefVal(float val);
 	void setIntVal(float val);
+	void setAttMod(float val);
+	void setDefMod(float val);
+	void setIntMod(float val);
     void setName(string name);
-    
+	void decreaseAttr(int attribute, float effectVal, int currentRound);
+	void checkRoundStat(int currentRound);
+	
     virtual void printStat();
     
     void setChar(string name, float charHP, float charMP, float charAtt, float charDef,float charInt, int lv);
