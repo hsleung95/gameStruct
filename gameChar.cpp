@@ -55,9 +55,18 @@ void gameChar::setMaxHP(float val){maxHP = val;}
 void gameChar::setCurrentHP(float val){currentHP = val;}
 void gameChar::setMaxMP(float val){maxMP = val;}
 void gameChar::setCurrentMP(float val){currentMP = val;}
-void gameChar::setAttack(float val){attack=val;}
-void gameChar::setDefense(float val){defense=val;}
-void gameChar::setIntelligence(float val){intelligence=val;}
+void gameChar::setAttack(float val){
+	attack=val;
+	attVal = attack;
+}
+void gameChar::setDefense(float val){
+	defense=val;
+	defVal = defense;
+}
+void gameChar::setIntelligence(float val){
+	intelligence=val;
+	intVal = intelligence;
+}
 void gameChar::setAttVal(float val){attVal=val;}
 void gameChar::setDefVal(float val){defVal=val;}
 void gameChar::setIntVal(float val){intVal=val;}

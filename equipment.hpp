@@ -14,6 +14,8 @@
 #include <stdio.h>
 #include "gameChar.hpp"
 #include <string>
+#include <iostream>
+#include <utility>
 using namespace std;
 
 class equipment{
@@ -27,24 +29,27 @@ protected:
 	string eqName;
 	gameChar owner;
 	string description;
-	attribute attribute;
-	float effectingVal;
+	pair<attribute, float> attributePair[4];
 	int lv;
+	int rank;
 	
 public:
 	equipment();
 	equipment(enum eqType equipType);
-	equipment(string name, gameChar ownedBy, string description, int lvCap, float effectVal, enum eqType equipType, enum attribute attribute);
+	equipment(string name, gameChar ownedBy, string description, int lvCap, enum eqType equipType, int rank, pair<attribute, float> attrPair[4]);
 	
-	void setEquipment(string name, gameChar ownedBy, string description, int lvCap, float effectVal, enum eqType equipType, enum attribute attribute);
+	void setEquipment(string name, gameChar ownedBy, string description, int lvCap, enum eqType equipType, int eqRank, pair<attribute, float> attrPair[4]);
+	
+	void randomEquipment(int lv, gameChar owner);
 	
 	enum eqType getEqType();
-	enum attribute getAttribute();
 	string getEqName();
 	gameChar getOwner();
 	string getDescription();
-	float getEqVal();
+	enum attribute getAttribute(int index);
+	float getEqVal(int index);
 	int getLvCap();
+	int getRank();
 	
 	bool setOwner(gameChar ch);
 	

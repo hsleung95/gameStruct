@@ -101,7 +101,9 @@ void adventurer::generateEq(){
 	for(int i=0;i<wearingNum;i++){		//for each wearing places in character
 		enum equipment::eqType eqtype = static_cast<enum equipment::eqType>(i);		//get type of the place
 		enum equipment::attribute attr = static_cast<enum equipment::attribute>(rand()%attrNum);	//random attribute(hp/mp/att/def/intl)
-		equipment temp = equipment(("adventurer " + equipment::eqTypeStr[i]),*this, "First equipments of player",lv,5,eqtype,attr);		//create new equipment
+		pair<equipment::attribute, float> attrPair[1];
+		attrPair[0] = pair<equipment::attribute, float>(attr,5);
+		equipment temp = equipment(("adventurer " + equipment::eqTypeStr[i]),*this, "First equipments of player",lv,eqtype,1,attrPair);		//create new equipment
 		changeEquipment(temp);		//equip the new equipment to character
 	}
 	
@@ -148,7 +150,10 @@ void magician::generateEq(){
 		randAttrNum = (randAttrNum < 2 ? 1 : 4);
 		enum equipment::eqType eqtype = static_cast<enum equipment::eqType>(i);		//get type of the place
 		enum equipment::attribute attr = static_cast<enum equipment::attribute>(randAttrNum);	//random attribute(hp/mp/att/def/intl)
-		equipment temp = equipment(("adventurer " + equipment::eqTypeStr[i]),*this, "First equipments of player",lv,5,eqtype,attr);		//create new equipment
+		pair<equipment::attribute, float> attrPair[1];
+		attrPair[0] = pair<equipment::attribute, float>(attr,5);
+		equipment temp = equipment(("magician " + equipment::eqTypeStr[i]),*this, "First equipments of player",lv,eqtype,1,attrPair);		//create new equipment
+
 		changeEquipment(temp);		//equip the new equipment to character
 	}
 	
@@ -193,7 +198,9 @@ void fighter::generateEq(){
 		else if(randAttrNum == 4){randAttrNum = 2;}
 		enum equipment::eqType eqtype = static_cast<enum equipment::eqType>(i);		//get type of the place
 		enum equipment::attribute attr = static_cast<enum equipment::attribute>(randAttrNum);	//random attribute(hp/mp/att/def/intl)
-		equipment temp = equipment(("adventurer " + equipment::eqTypeStr[i]),*this, "First equipments of player",lv,5,eqtype,attr);		//create new equipment
+		pair<equipment::attribute, float> attrPair[1];
+		attrPair[0] = pair<equipment::attribute, float>(attr,5);
+		equipment temp = equipment(("fighter " + equipment::eqTypeStr[i]),*this, "First equipments of player",lv,eqtype,1,attrPair);		//create new equipment
 		changeEquipment(temp);		//equip the new equipment to character
 	}
 	

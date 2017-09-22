@@ -22,8 +22,7 @@ void equipmentScene::equipmentFunction(career &myChar){
 			cout << i << ": ";
 			cout << "type:" << equipment::eqTypeStr[i];	// type of the slot
 			if(!wearing[i].isNull()){					// if have equipment, print the eq details
-				cout << ", name:" << wearing[i].getEqName();
-				cout << ", +" << wearing[i].getEqVal() << gameChar::attrStr[(int)wearing[i].getAttribute()];
+				cout << ", name:" << wearing[i].getEqName() << ", rank:" << wearing[i].getRank() << endl;
 			}
 			cout << endl;
 		}
@@ -32,8 +31,7 @@ void equipmentScene::equipmentFunction(career &myChar){
 			cout << i+myChar.wearingNum << ": ";
 			if(!ownedArr[i].isNull()){
 				cout << "type:" << equipment::eqTypeStr[ownedArr[i].getEqType()];
-				cout << ", name:" << ownedArr[i].getEqName();
-				cout << ", +" << ownedArr[i].getEqVal() << gameChar::attrStr[(int)ownedArr[i].getAttribute()];
+				cout << ", name:" << wearing[i].getEqName() << ", rank:" << ownedArr[i].getRank() << endl;
 			}
 			cout << endl;
 		}
