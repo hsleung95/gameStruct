@@ -14,7 +14,6 @@
 #include "career.hpp"
 using namespace std;
 
-
 int main() {
 	career* myChar;
     string charName;
@@ -61,4 +60,3 @@ int main() {
 	
     return 0;
 }
-
