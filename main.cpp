@@ -7,37 +7,56 @@
 //
 
 #include <iostream>
-#include "gameChar.hpp"
-#include <stdlib.h>
+#include <string>
+#include "fightScene.hpp"
+#include "equipmentScene.hpp"
+#include "mainChar.hpp"
+#include "career.hpp"
+using namespace std;
 
 int main() {
+	career* myChar;
     string charName;
     string userInput;
-    float charHP,charMP,charAtt,charDef;
-    gameChar enemyChar;
-    int option = 1;
+	char careerOption = 'x';
+	bool exit = false;
+	
+    char option = 'x';
     cout << "welcome to the RPG world, please enter the name and the value of your character:\n";
     cout << "name: ";
     cin >> charName;
-    gameChar myChar(charName, 100,10,10,10);
-    cout << endl << "your character: Name: " << myChar.getName() << ", HP: " << myChar.getHP() << ", MP: " << myChar.getMP() << ", Attack: " << myChar.getAttack() << ", defense: " << myChar.getDefense() << endl;
-    while(option == 1){
-        while(userInput.compare("y")!=0&&userInput.compare("n")!=0){
-            cout << "You want to create monsters by yourself or computer generate monsters for you?(y/n)" << endl;
-            cin >> userInput;
-            cout << "Please enter 'y' if you want to create a monster by yourself or 'n' if you want computer generate them for you" << endl;
-        }
-        if(userInput.compare("y")==0){
-            cout << "name: ";
-            cin >> charName;
-            cout << endl << "HP, MP, attack, defense of your character: ";
-            cin >> charHP >> charMP >> charAtt >> charDef;
-            enemyChar.setChar(charName, charHP,charMP,charAtt,charDef);
-        }
-        else if(userInput.compare("n")==0){
-            enemyChar.setChar("enemy1", rand()%100, rand()%10, rand()%10, rand()%10);
-        }
-        cout << endl << "enemy character: Name: " << enemyChar.getName() << ", HP: " << enemyChar.getHP() << ", MP: " << enemyChar.getMP() << ", Attack: " << enemyChar.getAttack() << ", defense: " << enemyChar.getDefense() << endl;
-    }
+	cout << "choose a career:" << endl;
+	cout << "1. adventurer, lower stat but can level up faster than others." << endl;
+	cout << "2. magician, more mp and intelligence but lower hp, attack and defense." << endl;
+	cout << "3. fighter, solve everything with brute force, may suffer from magic attack" << endl;
+	while(careerOption != '1' && careerOption != '2' && careerOption !='3'){
+		cout << "enter your option. " << endl;
+		cin >> careerOption;
+	}
+	if(careerOption == '2') myChar = new magician(charName, 75,100,5,5,20);
+	else if(careerOption == '3') myChar = new fighter(charName, 120,20,15,15,15);
+	else myChar = new adventurer(charName, 85,80,10,10,10);
+	
+	myChar->printStat();
+	myChar->printSkill();
+	while(!exit){
+		cout << "What do you want to do?" << endl;
+		cout << "a. Fight enemy" << endl;
+		cout << "b. Check equipment" << endl;
+		cout << "c. Exit" << endl;
+		cin >> option;
+
+		if(option == 'a'){
+			fightScene::fightFunction(*myChar);
+		}
+		else if(option == 'b'){
+			equipmentScene::equipmentFunction(*myChar);
+		}
+		
+		else if(option == 'c') {
+			exit = true;
+		}
+	}
+	
     return 0;
 }
