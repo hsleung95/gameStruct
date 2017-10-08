@@ -26,6 +26,8 @@ public:
 	static bool castSkillOnChar(gameChar &source, gameChar &target, skill* cast, int currentRound);
 	static gameChar& selectTarget(list<gameChar*> charlist);
 	static void printDefense(gameChar gamechar);
+	static void resetChar(gameChar gamechar);
+	static void fightRound(list<gameChar*> &charList, mainChar &myChar, enemyChar &enemyChar, list<skill*> skillList);
 };
 
 

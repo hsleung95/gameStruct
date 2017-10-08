@@ -60,22 +60,118 @@ void fightScene::printDefense(gameChar gamechar){
 	cout << endl;
 }
 
+void fightScene::resetChar(gameChar myChar){
+	if(myChar.getCurrentHP()<=0) myChar.setCurrentHP(myChar.getMaxHP());	//refill charater health if defeated
+	myChar.setAttVal(myChar.getAttack());
+	myChar.setDefVal(myChar.getDefense());
+	myChar.setIntelligence(myChar.getIntelligence());
+}
+
+void fightScene::fightRound(list<gameChar *> &charList, mainChar &myChar, enemyChar &enemyChar, list<skill *> skillList){
+	int roundCount = 0;
+	char userInput = 'x';
+	for(list<gameChar*>::iterator it=charList.begin();it!=charList.end();it++,roundCount++){
+		if((*it)->getCurrentHP() <= 0 ){
+			charList.pop_front();
+			break;
+		}
+		if((*it)->defensed){
+			(*it)->stopDefense();
+		}
+		
+		bool isMoved = false;
+		string charType = (*it)->getType();
+		
+		if(charType.compare("mainChar")==0){	//check current character type
+			while(isMoved!=true){	//turn of player, set moved flag as false allowing player change option
+				if(userInput!='a'&&userInput!='b'&&userInput!='c'){
+					cout << endl << "What do you want to do?" << endl;
+					cout << "a. Attack" << endl;
+					cout << "b. Defense" << endl;
+					cout << "c. Cast Magic" << endl;
+					cin >> userInput;
+				}
+				if(userInput=='a'){		//attack, deal basic damage to enemy, print, then check if enemy health is <=0
+					gameChar& target = selectTarget(charList);
+					fightScene::attackChar(*(*it), target);
+					isMoved = true;
+					if(target.getCurrentHP()<=0) break;	//enemy defeated by player, break the loop
+				}
+				else if(userInput=='b'){		//defense, get current defense, double it, raise the flag
+					(*it)->defenseAction(roundCount);
+					fightScene::printDefense(*(*it));
+					isMoved = true;
+				}
+				
+				else if(userInput=='c'){		//magic menu, list all skill and ask for user input
+					myChar.printSkill();
+					char userCast = '0';		//user input, default '0'
+					do{
+						cout << "Enter the key to cast the magic or 'x' to choose other action: " << endl;
+						cin >> userCast;
+					}
+					while(myChar.checkMagicKey(userCast) == false && userCast != 'x');	//if no match magic key and not back to action menu
+					
+					if(userCast == 'x'){		//user entered 'x', clear userInput and back to action menu
+						isMoved = false;
+						userInput = '0';
+						continue;
+					}
+					else{						//user entered a magic key, loop through the list and cast the magic
+						for(list<skill*>::iterator skillIt=skillList.begin();skillIt!=skillList.end();skillIt++){
+							if(userCast == (*skillIt)->getKey()){		//match the key, get the target
+								gameChar& target = fightScene::selectTarget(charList);
+								skill* selected = (*skillIt);
+								cout << selected->getSkillClass() << endl;
+								castSkillOnChar(*(*it), target, (*skillIt), roundCount);
+								break;
+							}
+						}
+						isMoved = true;
+						continue;
+					}
+				}
+			}
+			charList.push_back((*it));			//finished current move, push character to end of list
+		}
+		
+		else if(charType.compare("enemyChar")==0){	//enemy's round, do basic attack to player, print data, push character to end of list
+			if((*it)->defensed) (*it)->stopDefense();
+			srand((int)time(NULL));
+			int enemyAction = rand()%10;
+			if((*it)->getCurrentHP() <= (*it)->getMaxHP()/2){	//if health <= 50%, higher probability to defense
+				enemyAction+=2;
+			}
+			if(enemyAction < 5){
+				fightScene::attackChar(*(*it), myChar);
+				if(myChar.getCurrentHP()<=0) break;
+			}
+			else{
+				(*it)->defenseAction(roundCount);
+				fightScene::printDefense(*(*it));
+			}
+			charList.push_back((*it));
+		}
+		
+		if(myChar.getCurrentHP()<=0) break;		//enemy defeated character, break the loop
+		
+		userInput = 'x';				//reset input for the loop condition
+		charList.pop_front();
+	}
+}
+
 void fightScene::fightFunction(career &myChar){	//function handling fight, pass player character in main n generate monsters here
 	cout << myChar.getCareer() << endl;
 	bool exit = false;
 	while(!exit){
-		if(myChar.getCurrentHP()<=0) myChar.setCurrentHP(myChar.getMaxHP());	//refill charater health if defeated
-		myChar.setAttVal(myChar.getAttack());
-		myChar.setDefVal(myChar.getDefense());
-		myChar.setIntelligence(myChar.getIntelligence());
+		resetChar(myChar);
 		char userInput = 'x';
-		
+
 		enemyChar enemyChar;
 		list<gameChar*> charList;		//list containing all characters
 		gameChar *myCharPtr = &myChar;
 		charList.push_back(myCharPtr);		//push player into list
 		list<skill*> skillList = myChar.getSkillList();
-		int roundCount = 0;
 		
 		myChar.printStat();	//print current player status
 		
@@ -92,6 +188,11 @@ void fightScene::fightFunction(career &myChar){	//function handling fight, pass 
 		
 		gameChar *enemyCharPtr = &enemyChar;
 		charList.push_back(enemyCharPtr);		//push enemy into list
+		
+		fightRound(charList, myChar, enemyChar, skillList);
+		
+		/*
+		int roundCount = 0;
 		for(list<gameChar*>::iterator it=charList.begin();it!=charList.end();it++,roundCount++){
 			if((*it)->getCurrentHP() <= 0 ){
 				charList.pop_front();
@@ -180,6 +281,7 @@ void fightScene::fightFunction(career &myChar){	//function handling fight, pass 
 			userInput = 'x';				//reset input for the loop condition
 			charList.pop_front();
 		}
+		*/
 		
 		if(enemyChar.getCurrentHP() <= 0){		//enemy is defeated, get exp and equipment from enemy
 			cout << "You defeated " << enemyChar.getName();
@@ -190,6 +292,9 @@ void fightScene::fightFunction(career &myChar){	//function handling fight, pass 
 					cout << "you get equipment from " << enemyChar.getName() << endl;
 					enemyChar.getEquipment().printEq();
 				}
+				else{
+					cout << "you have no slot for new equipment" << endl;
+				}
 			}
 			bool isLvUp = myChar.addExp(enemyChar.getExpContain());
 			if(isLvUp==true){
@@ -199,6 +304,11 @@ void fightScene::fightFunction(career &myChar){	//function handling fight, pass 
 		
 		else if(myChar.getCurrentHP()<=0){
 			cout << "You defeated by " << enemyChar.getName() << endl;
+		}
+		
+		else{
+			cout << "error occured" << endl;
+			return;
 		}
 		
 		cout << endl;

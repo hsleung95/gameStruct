@@ -65,13 +65,13 @@ float equipment::getEqVal(int index){return attributePair[index].second;}
 int equipment::getLvCap(){return lv;}
 int equipment::getRank(){return rank;}
 
-void equipment::randomEquipment(int lvCap, gameChar ownedChar){
+void equipment::randomEquipment(int lvCap, gameChar ownedChar){		//random setter with known lv and owner
 	eqName = "random equipment";
 	description = "random equipment";
 	eqType = static_cast<enum equipment::eqType>(rand()%gameChar::wearingNum);
 	owner = ownedChar;
 	lv = lvCap;
-	int randNum = rand()%100;
+	int randNum = rand()%100;		// rand a number and distribute percentage
 	if(randNum < 20) rank = 1;
 	else if(randNum < 60) rank = 2;
 	else if(randNum < 90) rank = 3;
@@ -83,7 +83,7 @@ void equipment::randomEquipment(int lvCap, gameChar ownedChar){
 	}
 }
 
-bool equipment::setOwner(gameChar ch){
+bool equipment::setOwner(gameChar ch){	//change owner
 	owner = ch;
 	return true;
 }
@@ -101,9 +101,8 @@ void equipment::printEq(){
 }
 
 bool equipment::equipChar(gameChar &equiped){
-  for(int i=0;i<rank;i++){
+  for(int i=0;i<rank;i++){		//for each rank, set the owner's attribute
     float effectingVal = attributePair[i].second;
-	  cout << "+" << effectingVal << gameChar::attrStr[attributePair[i].first] << endl;
     switch (attributePair[i].first) {
 	case 0:{
 		equiped.setMaxHP(equiped.getMaxHP()+effectingVal);
@@ -138,7 +137,7 @@ bool equipment::equipChar(gameChar &equiped){
 }
 
 bool equipment::unEquipChar(gameChar &equiped){
-  for(int i=0;i< rank;i++){
+  for(int i=0;i< rank;i++){		//for each rank, unset owner's attribute
     float effectingVal = attributePair[i].second;
     switch (attributePair[i].first) {
 		case 0:{
@@ -173,7 +172,7 @@ bool equipment::unEquipChar(gameChar &equiped){
 	return true;
 }
 
-bool equipment::isNull(){
+bool equipment::isNull(){		//function to check if the equipment is empty
 	if(eqName=="" && description == "" && lv == 1 && rank == 1) return true;
 	return false;
 }

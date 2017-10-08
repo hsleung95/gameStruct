@@ -11,6 +11,8 @@
 #pragma once
 
 #include <stdio.h>
+#include <string>
+#include <iostream>
 #include <list>
 #include "gameChar.hpp"
 #include "equipment.hpp"
@@ -33,6 +35,7 @@ public:
     
     virtual bool addExp(float expAmount);
     virtual bool lvUp();
+	virtual bool lvUp(int lv);
 	float setExpCap(int lv);
 
 	virtual string getType();

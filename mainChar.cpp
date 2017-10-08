@@ -7,9 +7,6 @@
 //
 
 #include "mainChar.hpp"
-#include "equipment.hpp"
-#include <string>
-#include <iostream>
 
 float mainChar::setExpCap(int lv){
 	return (lv * lv)/2 + (125 * lv);
@@ -26,8 +23,7 @@ bool mainChar::changeEquipment(equipment eq){
 		return false;
 	}
 	for(int i=0;i<wearingNum;i++){
-		if(wearing[i].isNull() || eq.getEqType() == wearing[i].getEqType()){	//check if the slot is empty or same type in the slot
-		//if(eq.getEqType() == wearing[i].getEqType()){
+		if(wearing[i].isNull() || eq.getEqType() == wearing[i].getEqType()){	//check if the slot is empty(constructor) or same type in the slot
 			equipment temp = wearing[i];
 			wearing[i].unEquipChar(*this);
 			eq.equipChar(*this);
@@ -62,6 +58,10 @@ bool mainChar::addExp(float expAmount){
 }
 
 bool mainChar::lvUp(){
+	return true;
+}
+
+bool mainChar::lvUp(int lv){
 	return true;
 }
 

@@ -7,44 +7,50 @@
 //
 
 #include "equipmentScene.hpp"
-void equipmentScene::equipmentFunction(career &myChar){
-	//char userInput = 'x';		//get userInput
-	string userInput = "";
-	int userInputNum = -1;	//input integer for equipment id
+
+void equipmentScene::printAllEquipment(career &myChar){
+	equipment* ownedArr = myChar.getOwnedArr();		//get owned and wearing list from character
+	equipment* wearing = myChar.getWearingArr();
 	
-	while(userInput.compare("exit")!=0){	//main loop
-		myChar.printStat();
+	myChar.printStat();
+	cout << endl;
+	cout << "wearing: " << endl;
+	for(int i=0;i<myChar.wearingNum;i++){			// print equipments from wearing and then owned list
+		cout << i << ": ";
+		cout << "type:" << equipment::eqTypeStr[i];	// type of the slot
+		if(!wearing[i].isNull()){					// if have equipment, print the eq details
+			cout << ", name:" << wearing[i].getEqName() << ", rank:" << wearing[i].getRank() << endl;
+		}
 		cout << endl;
-		equipment* ownedArr = myChar.getOwnedArr();		//get owned and wearing list from character
-		equipment* wearing = myChar.getWearingArr();
-		cout << "wearing: " << endl;
-		for(int i=0;i<myChar.wearingNum;i++){			// print equipments from wearing and then owned list
-			cout << i << ": ";
-			cout << "type:" << equipment::eqTypeStr[i];	// type of the slot
-			if(!wearing[i].isNull()){					// if have equipment, print the eq details
-				cout << ", name:" << wearing[i].getEqName() << ", rank:" << wearing[i].getRank() << endl;
-			}
-			cout << endl;
+	}
+	cout << "owned: " << endl;
+	for(int i=0;i<myChar.ownedNum;i++){
+		cout << i+myChar.wearingNum << ": ";
+		if(!ownedArr[i].isNull()){
+			cout << "type:" << equipment::eqTypeStr[ownedArr[i].getEqType()];
+			cout << ", name:" << wearing[i].getEqName() << ", rank:" << ownedArr[i].getRank() << endl;
 		}
-		cout << "owned: " << endl;
-		for(int i=0;i<myChar.ownedNum;i++){
-			cout << i+myChar.wearingNum << ": ";
-			if(!ownedArr[i].isNull()){
-				cout << "type:" << equipment::eqTypeStr[ownedArr[i].getEqType()];
-				cout << ", name:" << wearing[i].getEqName() << ", rank:" << ownedArr[i].getRank() << endl;
-			}
-			cout << endl;
-		}
+		cout << endl;
+	}
+}
+void equipmentScene::equipmentFunction(career &myChar){
+	char userInput = 'x';		//get userInput
+	int userInputNum = -1;	//input integer for equipment id
+	equipment* ownedArr = myChar.getOwnedArr();		//get owned and wearing list from character
+	equipment* wearing = myChar.getWearingArr();
+	
+	while(userInput!='e'){	//main loop
+		printAllEquipment(myChar);
 		
 		do{			//do while loop of checking userInput, break the loop if user inputed 'exit' or number between 0 and wearingNum+ownedNum
-			cout << "Enter the equipment number for detail or enter 'exit' and back to menu: ";
+			cout << "Enter the equipment number for detail or enter 'e' and back to menu: ";
 			cin >> userInput;
-			if(userInput.compare("exit")!=0)
-				userInputNum = stoi(userInput);
+			if(userInput!='e')
+				userInputNum = userInput-'0';
 		}
-		while(userInput.compare("exit")!=0 && (userInputNum < 0 || userInputNum > (myChar.wearingNum+myChar.ownedNum)) );
+		while(userInput!='e' && (userInputNum < 0 || userInputNum > (myChar.wearingNum+myChar.ownedNum)) );
 		
-		if(userInput.compare("exit")==0){		//user entered "exit"
+		if(userInput=='e'){		//user entered "exit"
 			break;
 		}
 		
@@ -91,7 +97,7 @@ void equipmentScene::equipmentFunction(career &myChar){
 					ownedArr[index] = equipment();
 				}
 				else if(eqInput == 'b'){
-					ownedArr[userInputNum] = equipment();
+					ownedArr[index] = equipment();
 				}
 				else if(eqInput == 'c'){
 					

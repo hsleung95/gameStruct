@@ -47,7 +47,7 @@ string gameChar::getName(){return charName;}
 string gameChar::getType(){return "gameChar";}
 int gameChar::getLV(){ return lv; }
 
-int gameChar::getRandCount(){
+int gameChar::getRandCount(){		//counter for monster generated
     static int randCount;
     return (randCount++);
 }
@@ -100,13 +100,13 @@ void gameChar::setChar(string name, float charHP, float charMP, float charAtt,fl
 	 cout << " Intelligence: " << intVal + intMod;
 }
 
-float randValWithLV(int min, int max,int lv){
+float randValWithLV(int min, int max,int lv){	//function to rand stat
     srand((int)time(NULL) * (int)time(NULL));
 	for(int i=0;i<10;i++) rand();
     return (min * lv) + rand() %  (max * lv);
 }
 
-void gameChar::randChar(int charLv){
+void gameChar::randChar(int charLv){	//set char stat with random value
     if(charLv <= 0) charLv = 1;
 	lv = charLv;
     maxHP= randValWithLV(10, 20, lv);   //val = min + rand  % max
@@ -124,7 +124,7 @@ void gameChar::randChar(int charLv){
     currentMP = maxMP;
 }
 
-float gameChar::attackChar(gameChar target){
+float gameChar::attackChar(gameChar target){	//attack function
     float ownAttack = getAttVal() + attMod;
     float targetDefense = target.getDefVal() + target.getDefMod();
     float damage = (ownAttack  - targetDefense) * 1.5 ;
@@ -145,6 +145,7 @@ bool gameChar::stopDefense(){
 	return true;
 }
 
+//function that set char's modifier, used by other char
 void gameChar::decreaseAttr(int attribute, float effectVal, int currentRound){
 switch (attribute) {
 	case 2:{
@@ -170,7 +171,7 @@ switch (attribute) {
 	}
 }
 
-void gameChar::checkRoundStat(int currentRound){
+void gameChar::checkRoundStat(int currentRound){	//reset all modifier after 7 moves(including enemy and myself)
 	if(decreasedAtt){
 		if(decreasedAttRound + 7 == currentRound){
 			attMod = 0;

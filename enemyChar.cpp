@@ -7,8 +7,6 @@
 //
 
 #include "enemyChar.hpp"
-#include <string>
-#include <iostream>
 
 enemyChar::enemyChar(){
 	expContain = maxHP * 0.5 + maxMP * 0.1 + attack * 4 + defense * 4;

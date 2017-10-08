@@ -11,9 +11,12 @@
 #pragma once
 
 #include <stdio.h>
+#include <string>
+#include <iostream>
 #include "gameChar.hpp"
 #include "equipment.hpp"
 #include "skill.hpp"
+
 
 class enemyChar: public gameChar{
 protected:

@@ -61,18 +61,6 @@ public:
 	bool operator==(equipment &eq);
 };
 
-// 7 type of equipments
-
-/*
-class head : public equipment{};
-class shoulders : public equipment{};
-class arms : public equipment{};
-class body : public equipment{};
-class legs : public equipment{};
-class boots : public equipment{};
-class hand : public equipment{};
-*/
-
 
 #endif /* equipment_hpp */
 

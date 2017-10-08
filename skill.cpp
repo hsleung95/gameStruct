@@ -26,7 +26,6 @@ float skill::getCost(){return cost;}
 string skill::getSkillClass(){return "skill";}
 
 float skill::cast(gameChar &source, gameChar &target, int currentRound){
-	cout << "skill casted" << endl;
 	return 0;
 }
 
@@ -42,7 +41,7 @@ void skill::setTargetParam(gameChar &target, int field, int effectVal){
 
 void skill::printEffect(gameChar &source, gameChar &target, float value){cout << "skill::printEffect" << endl;}
 
-/**************** magic class code ****************/
+/**************** magic class : consume MP, skill effect based on intelligence difference of source and target ****************/
 magic::magic(){}
 magic::magic(string name, float skillCost, float skillVal, char skillKey, string skillDes) : skill(name,skillCost,skillVal,skillKey,skillDes){}
 float magic::cast(gameChar &source, gameChar &target, int currentRound){
@@ -51,9 +50,11 @@ float magic::cast(gameChar &source, gameChar &target, int currentRound){
 	source.setCurrentMP(sourceMP - cost);
 	
 	float effectingVal = 0;
-	float magicDef = target.getIntelligence();
-	effectingVal = -(effectVal * source.getIntVal()* 1 + magicDef);
+	float magicDef = target.getIntVal() + target.getIntMod();
+	effectingVal = effectVal * (source.getIntVal() + source.getIntMod())* 1 + magicDef;
 	//value = -(spellAmount * intelligence * amplifier - targetIntelligence)
+	if(effectingVal <= 0 ) effectingVal = 1;	//if no damage, set damage to 1
+	effectingVal = -(effectingVal);
 	if(fabsf(effectingVal) >= target.getCurrentHP()) effectingVal = -(target.getCurrentHP());
 	//if damage > current health, set difference = currentHP (currentHP - currentHP = 0)
 	setTargetParam(target, 0, effectingVal);
@@ -64,7 +65,7 @@ void magic::printEffect(gameChar &source, gameChar &target, float value){
 }
 string magic::getSkillClass(){return "magic";}
 
-/**************** physical skill class code ****************/
+/**************** physical skill class : need no cost, but the skill may miss ****************/
 
 physical_skill::physical_skill(){}
 physical_skill::physical_skill(string name, float skillCost, float skillVal, char skillKey, string skillDes) : skill(name,skillCost,skillVal,skillKey,skillDes){}
@@ -72,17 +73,15 @@ float physical_skill::cast(gameChar &source, gameChar &target, int currentRound)
 	float effectingVal = 0;
 	srand((int)time(NULL));
 	int chance = rand() % 100;
-	if(chance < 20) return 0;
+	if(chance < 40) return 0;
 
-	cout << "physical_skill casted" << endl;
-	effectingVal = source.getAttVal() + source.getAttMod() - (target.getDefVal() + target.getDefMod() );
+	effectingVal = effectVal * (source.getAttVal() + source.getAttMod()) - (target.getDefVal() + target.getDefMod() );
+	//damage = val * att - def
+	if(effectingVal <= 0) effectingVal = 1;	//if no damage, set damage to 1
 	effectingVal = -(effectingVal);
-	//value = -(spellAmount * intelligence * amplifier - targetIntelligence)
 	if(fabsf(effectingVal) >= target.getCurrentHP()) effectingVal = -(target.getCurrentHP());
-	cout << "target health: " << target.getCurrentHP();
 	//if damage > current health, set difference = currentHP (currentHP - currentHP = 0)
 	setTargetParam(target, 0, effectingVal);
-	cout << "target health: " << target.getCurrentHP() << endl;
 	return -(effectingVal);		//effectingVal must be <0 and negate it
 }
 void physical_skill::printEffect(gameChar &source, gameChar &target, float value){
@@ -91,7 +90,7 @@ void physical_skill::printEffect(gameChar &source, gameChar &target, float value
 }
 string physical_skill::getSkillClass(){return "physical_skill";}
 
-/**************** restoration skill class code ****************/
+/**************** restoration skill class : cost mp, restore health based on source intelligence ****************/
 
 restore_health::restore_health(){}
 restore_health::restore_health(string name, float skillCost, float skillVal, char skillKey, string skillDes) : skill(name,skillCost,skillVal,skillKey,skillDes){}
@@ -101,7 +100,7 @@ float restore_health::cast(gameChar &source, gameChar &target, int currentRound)
 	source.setCurrentMP(sourceMP - cost);
 	
 	float effectingVal = 0;
-	effectingVal = effectVal * source.getIntVal() * 1;
+	effectingVal = effectVal * (source.getIntVal() + source.getIntMod()) * 1;
 	//value = spellAmount * intelligence * amplifier
 	if((target.getCurrentHP() + effectingVal) >= target.getMaxHP()) effectingVal = target.getMaxHP() - target.getCurrentHP();
 	//if amount + current health > max health, set difference = max hp - current hp
@@ -115,7 +114,7 @@ void restore_health::printEffect(gameChar &source, gameChar &target, float value
 }
 string restore_health::getSkillClass(){return "restore_health";}
 
-/**************** attribute modifier class code ****************/
+/**************** attribute modifier class : cost mp, set target's stat with small effect on source's intelligence ****************/
 
 attribute_modifier::attribute_modifier(){}
 attribute_modifier::attribute_modifier(string name, float skillCost, float skillVal, char skillKey, string skillDes, int skillField) : skill(name,skillCost,skillVal,skillKey,skillDes){

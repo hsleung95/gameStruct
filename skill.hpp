@@ -14,7 +14,6 @@
 #include <math.h>
 #include <string>
 #include "gameChar.hpp"
-#include "equipment.hpp"
 #include <iostream>
 
 class skill{
@@ -83,7 +82,7 @@ public:
 /************************ code for skillNode(skill tree node) *****************/
 
 class skillNode{
-	skill* containSkill;
+	skill* containSkill;		// use pointer for derived skill classes
 	int unlockLv;
 	
 public:

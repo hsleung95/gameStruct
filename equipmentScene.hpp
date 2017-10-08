@@ -20,6 +20,7 @@
 
 class equipmentScene{
 public:
+	static void printAllEquipment(career &myChar);
 	static void equipmentFunction(career &myChar);
 };
 

@@ -23,6 +23,7 @@ skill* piercing_ball = new magic("piercing ball",10,2,'m',"Damaging enemy using 
 skill* heavyAttack = new physical_skill("heavy attack", 5, 4, 'h', "heavy attack dealing a lot of damage");
 
 skill* decreaseDef = new attribute_modifier("decrease defense", 10, -10,'d', "decrease enemy defense",3);
+
 /* ------   career function -------- */
 
 career::career(){}

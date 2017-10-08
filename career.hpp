@@ -32,6 +32,7 @@ public:
 	string getCareer() override;
 	bool addExp(float expAmount) override;
 	bool lvUp() override;
+	//bool lvUp(int lv) override;
 	void generateEq() override;
 };
 
@@ -41,6 +42,7 @@ public:
 	string getCareer() override;
 	bool addExp(float expAmount) override;
 	bool lvUp() override;
+	//bool lvUp(int lv) override;
 	void generateEq() override;
 };
 
@@ -50,6 +52,7 @@ public:
 	string getCareer() override;
 	bool addExp(float expAmount)override;
 	bool lvUp() override;
+	//bool lvUp(int lv) override;
 	void generateEq() override;
 	//void learnSkill() override;
 };
